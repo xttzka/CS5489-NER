@@ -164,6 +164,4 @@ CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。�
 | [score_familiarity.py](eval/score_familiarity.py) | `python -m eval.score_familiarity`。输入 CoNLL-2003 或 CoNLL++ 的完整四类答卷，计算总体及两组熟悉度分数。 | 终端 JSON |
 | [analyze_ner_errors.py](eval/analyze_ner_errors.py) | `python -m eval.analyze_ner_errors`。按样本 ID 对照同标签体系的答卷，列出漏圈、误圈、范围错、类别错和两者皆错。从类别错和误圈中固定种子抽样。每次指定一个新的 `--output-dir`。 | 指定目录下的 `errors.jsonl`、`review.csv`、`summary.json`。示例为 [M2 错误汇总](results/error_analysis/conll2003_m2/summary.json) |
 
-人工检查时，两人各复制一份 `review.csv`，按相同的 `error_id` 独立填写。M2 示例在 769 条候选错误里用种子 42 抽了 60 条。C 可分别运行两版提示词的答卷。若每版需要把多套数据汇成一个抽样池，可在 `--gold`、`--pred` 和 `--subset-ids` 后各传多个对应文件，保证样本 ID 唯一。LLM 生成的句外实体需要从 C 保留的原始输出单独核查，BIO 答卷只标原句中的词。
-
 
