@@ -1,0 +1,846 @@
+{
+  "method": "M2 CRF",
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false,
+    "context_window": 1
+  },
+  "metric": "Mean exact entity-level micro F1 across held-out training folds, native labels.",
+  "selection_rule": "Highest unrounded mean F1; exact ties keep the first grid setting.",
+  "datasets": {
+    "wnut17": {
+      "training_input": "data/processed_pos/wnut17/train.jsonl",
+      "training_sha256": "12b558a6c7e17ad5529446530fd2da6fd2b8b8a789c52c08b55518d84839aa57",
+      "training_records": 3394,
+      "selection_split": "wnut17:train",
+      "fold_strategy": "Five contiguous, nearly equal held-out blocks in original training order.",
+      "fold_sizes": [
+        {
+          "fold": 1,
+          "train_sentences": 2715,
+          "heldout_sentences": 679,
+          "first_heldout_id": "wnut17:train:0",
+          "last_heldout_id": "wnut17:train:678"
+        },
+        {
+          "fold": 2,
+          "train_sentences": 2715,
+          "heldout_sentences": 679,
+          "first_heldout_id": "wnut17:train:679",
+          "last_heldout_id": "wnut17:train:1357"
+        },
+        {
+          "fold": 3,
+          "train_sentences": 2715,
+          "heldout_sentences": 679,
+          "first_heldout_id": "wnut17:train:1358",
+          "last_heldout_id": "wnut17:train:2036"
+        },
+        {
+          "fold": 4,
+          "train_sentences": 2715,
+          "heldout_sentences": 679,
+          "first_heldout_id": "wnut17:train:2037",
+          "last_heldout_id": "wnut17:train:2715"
+        },
+        {
+          "fold": 5,
+          "train_sentences": 2716,
+          "heldout_sentences": 678,
+          "first_heldout_id": "wnut17:train:2716",
+          "last_heldout_id": "wnut17:train:3393"
+        }
+      ],
+      "candidates": [
+        {
+          "c1": 0.0001,
+          "c2": 0.1,
+          "mean_f1": 0.4633436773731051,
+          "std_f1": 0.06194007319259779,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 161,
+              "fp": 53,
+              "fn": 225,
+              "precision": 0.7523364485981309,
+              "recall": 0.4170984455958549,
+              "f1": 0.5366666666666666,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 160,
+              "fp": 58,
+              "fn": 236,
+              "precision": 0.7339449541284404,
+              "recall": 0.40404040404040403,
+              "f1": 0.5211726384364821,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 3,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 132,
+              "fp": 54,
+              "fn": 252,
+              "precision": 0.7096774193548387,
+              "recall": 0.34375,
+              "f1": 0.4631578947368421,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 4,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 132,
+              "fp": 82,
+              "fn": 270,
+              "precision": 0.616822429906542,
+              "recall": 0.3283582089552239,
+              "f1": 0.42857142857142855,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 678,
+              "scored_records": 678,
+              "tp": 114,
+              "fp": 100,
+              "fn": 293,
+              "precision": 0.5327102803738317,
+              "recall": 0.2800982800982801,
+              "f1": 0.3671497584541063,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.001,
+          "c2": 0.1,
+          "mean_f1": 0.46113091481117274,
+          "std_f1": 0.06281016862516374,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 162,
+              "fp": 52,
+              "fn": 224,
+              "precision": 0.7570093457943925,
+              "recall": 0.41968911917098445,
+              "f1": 0.54,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 159,
+              "fp": 59,
+              "fn": 237,
+              "precision": 0.7293577981651376,
+              "recall": 0.4015151515151515,
+              "f1": 0.5179153094462541,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 3,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 130,
+              "fp": 54,
+              "fn": 254,
+              "precision": 0.7065217391304348,
+              "recall": 0.3385416666666667,
+              "f1": 0.45774647887323944,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 4,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 131,
+              "fp": 87,
+              "fn": 271,
+              "precision": 0.6009174311926605,
+              "recall": 0.32587064676616917,
+              "f1": 0.42258064516129035,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 678,
+              "scored_records": 678,
+              "tp": 115,
+              "fp": 104,
+              "fn": 292,
+              "precision": 0.5251141552511416,
+              "recall": 0.28255528255528256,
+              "f1": 0.36741214057507987,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.01,
+          "c2": 0.1,
+          "mean_f1": 0.4622356122176894,
+          "std_f1": 0.06134752322708692,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 162,
+              "fp": 53,
+              "fn": 224,
+              "precision": 0.7534883720930232,
+              "recall": 0.41968911917098445,
+              "f1": 0.5391014975041597,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 159,
+              "fp": 60,
+              "fn": 237,
+              "precision": 0.726027397260274,
+              "recall": 0.4015151515151515,
+              "f1": 0.5170731707317073,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 3,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 130,
+              "fp": 55,
+              "fn": 254,
+              "precision": 0.7027027027027027,
+              "recall": 0.3385416666666667,
+              "f1": 0.45694200351493847,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 4,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 133,
+              "fp": 84,
+              "fn": 269,
+              "precision": 0.6129032258064516,
+              "recall": 0.3308457711442786,
+              "f1": 0.4297253634894992,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 678,
+              "scored_records": 678,
+              "tp": 114,
+              "fp": 98,
+              "fn": 293,
+              "precision": 0.5377358490566038,
+              "recall": 0.2800982800982801,
+              "f1": 0.3683360258481422,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.1,
+          "c2": 0.1,
+          "mean_f1": 0.4572596446630391,
+          "std_f1": 0.06484020613183374,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 156,
+              "fp": 54,
+              "fn": 230,
+              "precision": 0.7428571428571429,
+              "recall": 0.40414507772020725,
+              "f1": 0.5234899328859061,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 163,
+              "fp": 59,
+              "fn": 233,
+              "precision": 0.7342342342342343,
+              "recall": 0.4116161616161616,
+              "f1": 0.5275080906148867,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 3,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 130,
+              "fp": 58,
+              "fn": 254,
+              "precision": 0.6914893617021277,
+              "recall": 0.3385416666666667,
+              "f1": 0.45454545454545453,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 4,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 134,
+              "fp": 91,
+              "fn": 268,
+              "precision": 0.5955555555555555,
+              "recall": 0.3333333333333333,
+              "f1": 0.4274322169059011,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 678,
+              "scored_records": 678,
+              "tp": 109,
+              "fp": 101,
+              "fn": 298,
+              "precision": 0.5190476190476191,
+              "recall": 0.2678132678132678,
+              "f1": 0.353322528363047,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.01,
+          "c2": 0.5,
+          "mean_f1": 0.44275956224687274,
+          "std_f1": 0.06401621209547455,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 147,
+              "fp": 39,
+              "fn": 239,
+              "precision": 0.7903225806451613,
+              "recall": 0.38082901554404147,
+              "f1": 0.513986013986014,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 150,
+              "fp": 49,
+              "fn": 246,
+              "precision": 0.7537688442211056,
+              "recall": 0.3787878787878788,
+              "f1": 0.5042016806722689,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 3,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 124,
+              "fp": 43,
+              "fn": 260,
+              "precision": 0.7425149700598802,
+              "recall": 0.3229166666666667,
+              "f1": 0.4500907441016334,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 4,
+              "gold_records": 679,
+              "scored_records": 679,
+              "tp": 121,
+              "fp": 78,
+              "fn": 281,
+              "precision": 0.6080402010050251,
+              "recall": 0.3009950248756219,
+              "f1": 0.40266222961730447,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 678,
+              "scored_records": 678,
+              "tp": 102,
+              "fp": 86,
+              "fn": 305,
+              "precision": 0.5425531914893617,
+              "recall": 0.25061425061425063,
+              "f1": 0.34285714285714286,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        }
+      ],
+      "best_parameters": {
+        "c1": 0.0001,
+        "c2": 0.1
+      },
+      "best_mean_f1": 0.4633436773731051,
+      "best_std_f1": 0.06194007319259779
+    },
+    "mit_restaurant": {
+      "training_input": "data/processed_pos/mit_restaurant/train.jsonl",
+      "training_sha256": "2251979379db7a1af3ad5080ccfa9e40076272f28d082b519d6224d51bfc80c6",
+      "training_records": 6894,
+      "selection_split": "mit_restaurant:train",
+      "fold_strategy": "Five contiguous, nearly equal held-out blocks in original training order.",
+      "fold_sizes": [
+        {
+          "fold": 1,
+          "train_sentences": 5515,
+          "heldout_sentences": 1379,
+          "first_heldout_id": "mit_restaurant:train:0",
+          "last_heldout_id": "mit_restaurant:train:1378"
+        },
+        {
+          "fold": 2,
+          "train_sentences": 5515,
+          "heldout_sentences": 1379,
+          "first_heldout_id": "mit_restaurant:train:1379",
+          "last_heldout_id": "mit_restaurant:train:2757"
+        },
+        {
+          "fold": 3,
+          "train_sentences": 5515,
+          "heldout_sentences": 1379,
+          "first_heldout_id": "mit_restaurant:train:2758",
+          "last_heldout_id": "mit_restaurant:train:4136"
+        },
+        {
+          "fold": 4,
+          "train_sentences": 5515,
+          "heldout_sentences": 1379,
+          "first_heldout_id": "mit_restaurant:train:4137",
+          "last_heldout_id": "mit_restaurant:train:5515"
+        },
+        {
+          "fold": 5,
+          "train_sentences": 5516,
+          "heldout_sentences": 1378,
+          "first_heldout_id": "mit_restaurant:train:5516",
+          "last_heldout_id": "mit_restaurant:train:6893"
+        }
+      ],
+      "candidates": [
+        {
+          "c1": 0.0001,
+          "c2": 0.1,
+          "mean_f1": 0.7520322672230124,
+          "std_f1": 0.008812029097604776,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2110,
+              "fp": 624,
+              "fn": 707,
+              "precision": 0.7717629846378932,
+              "recall": 0.7490237841675541,
+              "f1": 0.7602233831742028,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1992,
+              "fp": 618,
+              "fn": 667,
+              "precision": 0.7632183908045977,
+              "recall": 0.7491538172245205,
+              "f1": 0.7561207060163219,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 3,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1997,
+              "fp": 674,
+              "fn": 748,
+              "precision": 0.7476600524148259,
+              "recall": 0.727504553734062,
+              "f1": 0.7374446085672083,
+              "raw_bio_error_tokens": 2,
+              "raw_bio_error_sentences": 2
+            },
+            {
+              "fold": 4,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2120,
+              "fp": 642,
+              "fn": 698,
+              "precision": 0.7675597393193339,
+              "recall": 0.752306600425834,
+              "f1": 0.7598566308243727,
+              "raw_bio_error_tokens": 3,
+              "raw_bio_error_sentences": 3
+            },
+            {
+              "fold": 5,
+              "gold_records": 1378,
+              "scored_records": 1378,
+              "tp": 1982,
+              "fp": 659,
+              "fn": 687,
+              "precision": 0.7504733055660735,
+              "recall": 0.7426002248032971,
+              "f1": 0.7465160075329567,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.001,
+          "c2": 0.1,
+          "mean_f1": 0.7509138008345794,
+          "std_f1": 0.008973037995095322,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2106,
+              "fp": 622,
+              "fn": 711,
+              "precision": 0.7719941348973607,
+              "recall": 0.7476038338658147,
+              "f1": 0.7596032461677187,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1991,
+              "fp": 619,
+              "fn": 668,
+              "precision": 0.7628352490421456,
+              "recall": 0.7487777359909741,
+              "f1": 0.755741127348643,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 3,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1991,
+              "fp": 683,
+              "fn": 754,
+              "precision": 0.7445774121166792,
+              "recall": 0.7253187613843352,
+              "f1": 0.7348219228639971,
+              "raw_bio_error_tokens": 2,
+              "raw_bio_error_sentences": 2
+            },
+            {
+              "fold": 4,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2114,
+              "fp": 655,
+              "fn": 704,
+              "precision": 0.7634525099313831,
+              "recall": 0.7501774308019872,
+              "f1": 0.7567567567567568,
+              "raw_bio_error_tokens": 2,
+              "raw_bio_error_sentences": 2
+            },
+            {
+              "fold": 5,
+              "gold_records": 1378,
+              "scored_records": 1378,
+              "tp": 1985,
+              "fp": 656,
+              "fn": 684,
+              "precision": 0.7516092389246497,
+              "recall": 0.7437242412888723,
+              "f1": 0.7476459510357816,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.01,
+          "c2": 0.1,
+          "mean_f1": 0.7507344175853844,
+          "std_f1": 0.01087639331411779,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2112,
+              "fp": 616,
+              "fn": 705,
+              "precision": 0.7741935483870968,
+              "recall": 0.7497337593184239,
+              "f1": 0.7617673579801623,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1988,
+              "fp": 618,
+              "fn": 671,
+              "precision": 0.762854950115119,
+              "recall": 0.7476494922903347,
+              "f1": 0.7551756885090218,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 3,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1985,
+              "fp": 693,
+              "fn": 760,
+              "precision": 0.7412247946228528,
+              "recall": 0.7231329690346083,
+              "f1": 0.7320671215194542,
+              "raw_bio_error_tokens": 2,
+              "raw_bio_error_sentences": 2
+            },
+            {
+              "fold": 4,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2118,
+              "fp": 643,
+              "fn": 700,
+              "precision": 0.7671133647229265,
+              "recall": 0.751596877217885,
+              "f1": 0.759275855888152,
+              "raw_bio_error_tokens": 4,
+              "raw_bio_error_sentences": 4
+            },
+            {
+              "fold": 5,
+              "gold_records": 1378,
+              "scored_records": 1378,
+              "tp": 1979,
+              "fp": 662,
+              "fn": 690,
+              "precision": 0.7493373722074972,
+              "recall": 0.741476208317722,
+              "f1": 0.7453860640301319,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.1,
+          "c2": 0.1,
+          "mean_f1": 0.753887141702762,
+          "std_f1": 0.012212010651744579,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2120,
+              "fp": 597,
+              "fn": 697,
+              "precision": 0.7802723592197276,
+              "recall": 0.7525736599219027,
+              "f1": 0.7661727502710517,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1999,
+              "fp": 602,
+              "fn": 660,
+              "precision": 0.7685505574778931,
+              "recall": 0.7517863858593457,
+              "f1": 0.7600760456273764,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 3,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1980,
+              "fp": 688,
+              "fn": 765,
+              "precision": 0.7421289355322339,
+              "recall": 0.7213114754098361,
+              "f1": 0.7315721411416959,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 4,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2119,
+              "fp": 633,
+              "fn": 699,
+              "precision": 0.7699854651162791,
+              "recall": 0.7519517388218595,
+              "f1": 0.7608617594254937,
+              "raw_bio_error_tokens": 3,
+              "raw_bio_error_sentences": 3
+            },
+            {
+              "fold": 5,
+              "gold_records": 1378,
+              "scored_records": 1378,
+              "tp": 1994,
+              "fp": 649,
+              "fn": 675,
+              "precision": 0.7544457056375331,
+              "recall": 0.7470962907455976,
+              "f1": 0.7507530120481928,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        },
+        {
+          "c1": 0.01,
+          "c2": 0.5,
+          "mean_f1": 0.7598957467422078,
+          "std_f1": 0.012739568313304575,
+          "fold_scores": [
+            {
+              "fold": 1,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2125,
+              "fp": 564,
+              "fn": 692,
+              "precision": 0.7902566009669022,
+              "recall": 0.754348597799077,
+              "f1": 0.7718852161278605,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 2,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2011,
+              "fp": 563,
+              "fn": 648,
+              "precision": 0.7812742812742812,
+              "recall": 0.756299360661903,
+              "f1": 0.7685839862411619,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 3,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 1981,
+              "fp": 658,
+              "fn": 764,
+              "precision": 0.7506631299734748,
+              "recall": 0.7216757741347906,
+              "f1": 0.7358841010401189,
+              "raw_bio_error_tokens": 1,
+              "raw_bio_error_sentences": 1
+            },
+            {
+              "fold": 4,
+              "gold_records": 1379,
+              "scored_records": 1379,
+              "tp": 2115,
+              "fp": 605,
+              "fn": 703,
+              "precision": 0.7775735294117647,
+              "recall": 0.7505322924059616,
+              "f1": 0.7638136511375948,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            },
+            {
+              "fold": 5,
+              "gold_records": 1378,
+              "scored_records": 1378,
+              "tp": 2008,
+              "fp": 612,
+              "fn": 661,
+              "precision": 0.766412213740458,
+              "recall": 0.7523417010116148,
+              "f1": 0.7593117791643033,
+              "raw_bio_error_tokens": 0,
+              "raw_bio_error_sentences": 0
+            }
+          ]
+        }
+      ],
+      "best_parameters": {
+        "c1": 0.01,
+        "c2": 0.5
+      },
+      "best_mean_f1": 0.7598957467422078,
+      "best_std_f1": 0.012739568313304575
+    }
+  }
+}

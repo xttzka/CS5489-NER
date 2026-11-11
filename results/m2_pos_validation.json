@@ -1,0 +1,113 @@
+{
+  "method": "M2 CRF",
+  "parameters": {
+    "c1": 0.0001,
+    "c2": 0.1
+  },
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false
+  },
+  "training_input": "data/processed_pos/conll2003/train.jsonl",
+  "training_records": 14041,
+  "validation_input": "data/processed_pos/conll2003/validation.jsonl",
+  "gold": "data/processed/conll2003/validation.jsonl",
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG"
+  ],
+  "old_m2": {
+    "predictions": "preds/conll2003/m2_cv_grid/0.jsonl",
+    "scores": {
+      "gold_records": 3250,
+      "scored_records": 3250,
+      "tp": 4445,
+      "fp": 519,
+      "fn": 575,
+      "precision": 0.895447219983884,
+      "recall": 0.8854581673306773,
+      "f1": 0.8904246794871795,
+      "per_type": {
+        "PER": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1663,
+          "fp": 174,
+          "fn": 179,
+          "precision": 0.9052803483941209,
+          "recall": 0.9028230184581976,
+          "f1": 0.9040500135906496
+        },
+        "LOC": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1691,
+          "fp": 126,
+          "fn": 146,
+          "precision": 0.9306549257017062,
+          "recall": 0.9205225911812738,
+          "f1": 0.9255610290093049
+        },
+        "ORG": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1091,
+          "fp": 219,
+          "fn": 250,
+          "precision": 0.832824427480916,
+          "recall": 0.8135719612229679,
+          "f1": 0.8230856280648812
+        }
+      }
+    }
+  },
+  "uniform_pos_m2": {
+    "predictions": "preds/conll2003/m2_pos/0.jsonl",
+    "scores": {
+      "gold_records": 3250,
+      "scored_records": 3250,
+      "tp": 4448,
+      "fp": 529,
+      "fn": 572,
+      "precision": 0.8937110709262608,
+      "recall": 0.8860557768924303,
+      "f1": 0.8898669600880265,
+      "per_type": {
+        "PER": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1661,
+          "fp": 172,
+          "fn": 181,
+          "precision": 0.906164757228587,
+          "recall": 0.9017372421281216,
+          "f1": 0.9039455782312925
+        },
+        "LOC": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1701,
+          "fp": 129,
+          "fn": 136,
+          "precision": 0.9295081967213115,
+          "recall": 0.9259662493195427,
+          "f1": 0.9277338423779656
+        },
+        "ORG": {
+          "gold_records": 3250,
+          "scored_records": 3250,
+          "tp": 1086,
+          "fp": 228,
+          "fn": 255,
+          "precision": 0.8264840182648402,
+          "recall": 0.8098434004474273,
+          "f1": 0.8180790960451978
+        }
+      }
+    },
+    "raw_bio_error_tokens": 0,
+    "raw_bio_error_sentences": 0
+  },
+  "f1_delta_percentage_points": -0.0557719399153056
+}

@@ -1,0 +1,44 @@
+# Python environments and local caches
+/.venv*/
+/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Local credentials and editor state
+.env
+.env.*
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Downloaded data, generated text and local model artifacts
+/data/raw/
+/data/external/
+/data/processed/
+/data/processed_pos/
+/data/derived/
+*.crfsuite
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+*.onnx
+*.joblib
+/checkpoints/
+
+# Keep the small scoring demo and numeric reports
+/preds/*
+!/preds/conll2003/
+/preds/conll2003/*
+!/preds/conll2003/demo/
+/preds/conll2003/demo/*
+!/preds/conll2003/demo/0.jsonl
+/results/m2_pos_replacement_v2.json
+/results/error_analysis/**/errors.jsonl
+/results/error_analysis/**/review*.csv
+/output/
+/*.pdf

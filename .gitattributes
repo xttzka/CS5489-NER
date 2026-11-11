@@ -1,0 +1,6 @@
+# Grid and ablation cache keys use source bytes and specific report bytes.
+*.py text eol=lf
+/data/subsets/**/*.txt text eol=lf
+/results/m2_cv.json -text
+/results/m2_cv_extra.json -text
+/results/m2_cv_grid.json -text

@@ -1,0 +1,272 @@
+{
+  "method": "M2 CRF",
+  "source_dataset": "conll2003",
+  "parameters": {
+    "c1": 0.0001,
+    "c2": 0.1
+  },
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false
+  },
+  "training_input": "data/processed_pos/conll2003/train.jsonl",
+  "training_records": 14041,
+  "evaluation": "full test splits",
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG"
+  ],
+  "targets": {
+    "conll2003": {
+      "input": "data/processed_pos/conll2003/test.jsonl",
+      "gold": "data/processed/conll2003/test.jsonl",
+      "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+      "scores": {
+        "gold_records": 3453,
+        "scored_records": 3453,
+        "tp": 4023,
+        "fp": 840,
+        "fn": 923,
+        "precision": 0.8272671190623072,
+        "recall": 0.8133845531742823,
+        "f1": 0.8202671016413497,
+        "per_type": {
+          "PER": {
+            "gold_records": 3453,
+            "scored_records": 3453,
+            "tp": 1390,
+            "fp": 221,
+            "fn": 227,
+            "precision": 0.8628181253879578,
+            "recall": 0.8596165739022882,
+            "f1": 0.8612143742255266
+          },
+          "LOC": {
+            "gold_records": 3453,
+            "scored_records": 3453,
+            "tp": 1452,
+            "fp": 282,
+            "fn": 216,
+            "precision": 0.8373702422145328,
+            "recall": 0.8705035971223022,
+            "f1": 0.8536155202821869
+          },
+          "ORG": {
+            "gold_records": 3453,
+            "scored_records": 3453,
+            "tp": 1181,
+            "fp": 337,
+            "fn": 480,
+            "precision": 0.7779973649538867,
+            "recall": 0.7110174593618303,
+            "f1": 0.7430009436929852
+          }
+        }
+      },
+      "raw_bio_error_tokens": 0,
+      "raw_bio_error_sentences": 0,
+      "f1_delta_vs_conll2003_pp": 0.0
+    },
+    "conllpp": {
+      "input": "data/processed_pos/conllpp/test.jsonl",
+      "gold": "data/processed/conllpp/test.jsonl",
+      "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl",
+      "scores": {
+        "gold_records": 1840,
+        "scored_records": 1840,
+        "tp": 2348,
+        "fp": 903,
+        "fn": 962,
+        "precision": 0.7222393109812365,
+        "recall": 0.7093655589123867,
+        "f1": 0.7157445511354976,
+        "per_type": {
+          "PER": {
+            "gold_records": 1840,
+            "scored_records": 1840,
+            "tp": 689,
+            "fp": 287,
+            "fn": 292,
+            "precision": 0.7059426229508197,
+            "recall": 0.7023445463812437,
+            "f1": 0.7041389882473174
+          },
+          "LOC": {
+            "gold_records": 1840,
+            "scored_records": 1840,
+            "tp": 994,
+            "fp": 266,
+            "fn": 134,
+            "precision": 0.7888888888888889,
+            "recall": 0.8812056737588653,
+            "f1": 0.8324958123953099
+          },
+          "ORG": {
+            "gold_records": 1840,
+            "scored_records": 1840,
+            "tp": 665,
+            "fp": 350,
+            "fn": 536,
+            "precision": 0.6551724137931034,
+            "recall": 0.5537052456286428,
+            "f1": 0.6001805054151624
+          }
+        }
+      },
+      "raw_bio_error_tokens": 0,
+      "raw_bio_error_sentences": 0,
+      "f1_delta_vs_conll2003_pp": -10.452255050585213
+    },
+    "wikigold": {
+      "input": "data/processed_pos/wikigold/test.jsonl",
+      "gold": "data/processed/wikigold/test.jsonl",
+      "predictions": "preds/wikigold/m2_pos_transfer/0.jsonl",
+      "scores": {
+        "gold_records": 1696,
+        "scored_records": 1696,
+        "tp": 1647,
+        "fp": 1407,
+        "fn": 1199,
+        "precision": 0.5392927308447937,
+        "recall": 0.578706957132818,
+        "f1": 0.5583050847457627,
+        "per_type": {
+          "PER": {
+            "gold_records": 1696,
+            "scored_records": 1696,
+            "tp": 682,
+            "fp": 503,
+            "fn": 252,
+            "precision": 0.5755274261603376,
+            "recall": 0.7301927194860813,
+            "f1": 0.6436998584237849
+          },
+          "LOC": {
+            "gold_records": 1696,
+            "scored_records": 1696,
+            "tp": 644,
+            "fp": 376,
+            "fn": 370,
+            "precision": 0.6313725490196078,
+            "recall": 0.6351084812623274,
+            "f1": 0.6332350049164208
+          },
+          "ORG": {
+            "gold_records": 1696,
+            "scored_records": 1696,
+            "tp": 321,
+            "fp": 528,
+            "fn": 577,
+            "precision": 0.37809187279151946,
+            "recall": 0.3574610244988864,
+            "f1": 0.3674871207784774
+          }
+        }
+      },
+      "raw_bio_error_tokens": 1,
+      "raw_bio_error_sentences": 1,
+      "f1_delta_vs_conll2003_pp": -26.196201689558706
+    },
+    "btc": {
+      "input": "data/processed_pos/btc/test.jsonl",
+      "gold": "data/processed/btc/test.jsonl",
+      "predictions": "preds/btc/m2_pos_transfer/0.jsonl",
+      "scores": {
+        "gold_records": 2000,
+        "scored_records": 2000,
+        "tp": 804,
+        "fp": 1058,
+        "fn": 3572,
+        "precision": 0.4317937701396348,
+        "recall": 0.18372943327239488,
+        "f1": 0.2577749278614941,
+        "per_type": {
+          "PER": {
+            "gold_records": 2000,
+            "scored_records": 2000,
+            "tp": 374,
+            "fp": 364,
+            "fn": 2276,
+            "precision": 0.5067750677506775,
+            "recall": 0.14113207547169812,
+            "f1": 0.22077922077922077
+          },
+          "LOC": {
+            "gold_records": 2000,
+            "scored_records": 2000,
+            "tp": 254,
+            "fp": 173,
+            "fn": 382,
+            "precision": 0.594847775175644,
+            "recall": 0.39937106918238996,
+            "f1": 0.477892756349953
+          },
+          "ORG": {
+            "gold_records": 2000,
+            "scored_records": 2000,
+            "tp": 176,
+            "fp": 521,
+            "fn": 914,
+            "precision": 0.25251076040172166,
+            "recall": 0.1614678899082569,
+            "f1": 0.1969781757134863
+          }
+        }
+      },
+      "raw_bio_error_tokens": 0,
+      "raw_bio_error_sentences": 0,
+      "f1_delta_vs_conll2003_pp": -56.24921737798556
+    },
+    "wnut17": {
+      "input": "data/processed_pos/wnut17/test.jsonl",
+      "gold": "data/processed/wnut17/test.jsonl",
+      "predictions": "preds/wnut17/m2_pos_transfer/0.jsonl",
+      "scores": {
+        "gold_records": 1287,
+        "scored_records": 1287,
+        "tp": 269,
+        "fp": 659,
+        "fn": 541,
+        "precision": 0.28987068965517243,
+        "recall": 0.33209876543209876,
+        "f1": 0.3095512082853855,
+        "per_type": {
+          "PER": {
+            "gold_records": 1287,
+            "scored_records": 1287,
+            "tp": 159,
+            "fp": 190,
+            "fn": 270,
+            "precision": 0.45558739255014324,
+            "recall": 0.3706293706293706,
+            "f1": 0.4087403598971722
+          },
+          "LOC": {
+            "gold_records": 1287,
+            "scored_records": 1287,
+            "tp": 57,
+            "fp": 136,
+            "fn": 93,
+            "precision": 0.29533678756476683,
+            "recall": 0.38,
+            "f1": 0.3323615160349854
+          },
+          "ORG": {
+            "gold_records": 1287,
+            "scored_records": 1287,
+            "tp": 53,
+            "fp": 333,
+            "fn": 178,
+            "precision": 0.13730569948186527,
+            "recall": 0.22943722943722944,
+            "f1": 0.17179902755267423
+          }
+        }
+      },
+      "raw_bio_error_tokens": 0,
+      "raw_bio_error_sentences": 0,
+      "f1_delta_vs_conll2003_pp": -51.07158933559642
+    }
+  }
+}

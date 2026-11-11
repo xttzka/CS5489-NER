@@ -1,0 +1,218 @@
+{
+  "training_reference": "data/processed_pos/conll2003/train.jsonl",
+  "prediction_report": "results/m2_pos_transfer.json",
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG"
+  ],
+  "seen_definition": "Same complete case-folded token sequence as any gold training entity, regardless of type.",
+  "btc_partition": "Standalone @ spans; spans starting with a handle or its name, checked against raw offsets and excluding email addresses from the handle group; all other spans.",
+  "recall_definition": "Exact boundary and mapped type matches divided by gold entities. Null means no gold entities.",
+  "datasets": {
+    "conll2003": {
+      "gold": "data/processed/conll2003/test.jsonl",
+      "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+      "total": {
+        "gold_entities": 4946,
+        "correct": 4023,
+        "recall": 0.8133845531742823
+      },
+      "groups": {
+        "ordinary": {
+          "total": {
+            "gold_entities": 4946,
+            "correct": 4023,
+            "recall": 0.8133845531742823
+          },
+          "by_familiarity_and_case": [
+            {
+              "seen_in_training": true,
+              "casing": "all_lowercase",
+              "gold_entities": 0,
+              "correct": 0,
+              "recall": null
+            },
+            {
+              "seen_in_training": true,
+              "casing": "has_uppercase",
+              "gold_entities": 2666,
+              "correct": 2387,
+              "recall": 0.8953488372093024
+            },
+            {
+              "seen_in_training": false,
+              "casing": "all_lowercase",
+              "gold_entities": 0,
+              "correct": 0,
+              "recall": null
+            },
+            {
+              "seen_in_training": false,
+              "casing": "has_uppercase",
+              "gold_entities": 2280,
+              "correct": 1636,
+              "recall": 0.7175438596491228
+            }
+          ]
+        }
+      }
+    },
+    "btc": {
+      "gold": "data/processed/btc/test.jsonl",
+      "predictions": "preds/btc/m2_pos_transfer/0.jsonl",
+      "total": {
+        "gold_entities": 4376,
+        "correct": 804,
+        "recall": 0.18372943327239488
+      },
+      "groups": {
+        "ordinary": {
+          "total": {
+            "gold_entities": 1622,
+            "correct": 703,
+            "recall": 0.43341553637484587
+          },
+          "by_familiarity_and_case": [
+            {
+              "seen_in_training": true,
+              "casing": "all_lowercase",
+              "gold_entities": 14,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": true,
+              "casing": "has_uppercase",
+              "gold_entities": 342,
+              "correct": 241,
+              "recall": 0.7046783625730995
+            },
+            {
+              "seen_in_training": false,
+              "casing": "all_lowercase",
+              "gold_entities": 92,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": false,
+              "casing": "has_uppercase",
+              "gold_entities": 1173,
+              "correct": 462,
+              "recall": 0.3938618925831202
+            },
+            {
+              "seen_in_training": false,
+              "casing": "no_cased_letters",
+              "gold_entities": 1,
+              "correct": 0,
+              "recall": 0.0
+            }
+          ]
+        },
+        "account": {
+          "total": {
+            "gold_entities": 1374,
+            "correct": 101,
+            "recall": 0.0735080058224163
+          },
+          "by_familiarity_and_case": [
+            {
+              "seen_in_training": true,
+              "casing": "all_lowercase",
+              "gold_entities": 3,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": true,
+              "casing": "has_uppercase",
+              "gold_entities": 5,
+              "correct": 4,
+              "recall": 0.8
+            },
+            {
+              "seen_in_training": false,
+              "casing": "all_lowercase",
+              "gold_entities": 623,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": false,
+              "casing": "has_uppercase",
+              "gold_entities": 743,
+              "correct": 97,
+              "recall": 0.13055181695827725
+            }
+          ]
+        },
+        "standalone_at": {
+          "total": {
+            "gold_entities": 1380,
+            "correct": 0,
+            "recall": 0.0
+          },
+          "by_familiarity_and_case": [
+            {
+              "seen_in_training": false,
+              "casing": "no_cased_letters",
+              "gold_entities": 1380,
+              "correct": 0,
+              "recall": 0.0
+            }
+          ]
+        }
+      }
+    },
+    "wnut17": {
+      "gold": "data/processed/wnut17/test.jsonl",
+      "predictions": "preds/wnut17/m2_pos_transfer/0.jsonl",
+      "total": {
+        "gold_entities": 810,
+        "correct": 269,
+        "recall": 0.33209876543209876
+      },
+      "groups": {
+        "ordinary": {
+          "total": {
+            "gold_entities": 810,
+            "correct": 269,
+            "recall": 0.33209876543209876
+          },
+          "by_familiarity_and_case": [
+            {
+              "seen_in_training": true,
+              "casing": "all_lowercase",
+              "gold_entities": 17,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": true,
+              "casing": "has_uppercase",
+              "gold_entities": 95,
+              "correct": 66,
+              "recall": 0.6947368421052632
+            },
+            {
+              "seen_in_training": false,
+              "casing": "all_lowercase",
+              "gold_entities": 140,
+              "correct": 0,
+              "recall": 0.0
+            },
+            {
+              "seen_in_training": false,
+              "casing": "has_uppercase",
+              "gold_entities": 558,
+              "correct": 203,
+              "recall": 0.36379928315412186
+            }
+          ]
+        }
+      }
+    }
+  }
+}

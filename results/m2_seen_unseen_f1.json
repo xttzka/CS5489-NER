@@ -1,0 +1,277 @@
+{
+  "model_report": "results/m2_pos_transfer.json",
+  "training_name_reference": "data/processed/conll2003/train.jsonl",
+  "matching": "Exact sample ID, token boundaries, and evaluated entity type.",
+  "familiarity": "Gold uses v1 indices. Predictions use their own complete case-folded token sequence matched against any gold entity type in the training reference.",
+  "news_four_types": {
+    "entity_types": [
+      "PER",
+      "LOC",
+      "ORG",
+      "MISC"
+    ],
+    "datasets": {
+      "conll2003": {
+        "test_records": 3453,
+        "gold": "data/processed/conll2003/test.jsonl",
+        "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5558,
+          "tp": 4561,
+          "fp": 997,
+          "fn": 1087,
+          "precision": 0.8206189276718244,
+          "recall": 0.8075424929178471,
+          "f1": 0.8140281991790113
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3098,
+          "tp": 2842,
+          "fp": 256,
+          "fn": 306,
+          "precision": 0.9173660426081343,
+          "recall": 0.9027954256670903,
+          "f1": 0.9100224143451809
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2460,
+          "tp": 1719,
+          "fp": 741,
+          "fn": 781,
+          "precision": 0.698780487804878,
+          "recall": 0.6876,
+          "f1": 0.6931451612903226
+        }
+      },
+      "conllpp": {
+        "test_records": 1840,
+        "gold": "data/processed/conllpp/test.jsonl",
+        "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3678,
+          "tp": 2677,
+          "fp": 1001,
+          "fn": 1330,
+          "precision": 0.7278412180532898,
+          "recall": 0.6680808584976291,
+          "f1": 0.6966818477553676
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1678,
+          "tp": 1523,
+          "fp": 155,
+          "fn": 170,
+          "precision": 0.9076281287246722,
+          "recall": 0.8995865327820437,
+          "f1": 0.9035894393355087
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 2000,
+          "tp": 1154,
+          "fp": 846,
+          "fn": 1160,
+          "precision": 0.577,
+          "recall": 0.49870354364736386,
+          "f1": 0.5350023180343069
+        }
+      }
+    }
+  },
+  "transfer_three_types": {
+    "entity_types": [
+      "PER",
+      "LOC",
+      "ORG"
+    ],
+    "datasets": {
+      "conll2003": {
+        "test_records": 3453,
+        "gold": "data/processed/conll2003/test.jsonl",
+        "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4946,
+          "predicted_entities": 4863,
+          "tp": 4023,
+          "fp": 840,
+          "fn": 923,
+          "precision": 0.8272671190623072,
+          "recall": 0.8133845531742823,
+          "f1": 0.8202671016413497
+        },
+        "seen": {
+          "gold_entities": 2666,
+          "predicted_entities": 2581,
+          "tp": 2387,
+          "fp": 194,
+          "fn": 279,
+          "precision": 0.924835335141418,
+          "recall": 0.8953488372093024,
+          "f1": 0.909853249475891
+        },
+        "unseen": {
+          "gold_entities": 2280,
+          "predicted_entities": 2282,
+          "tp": 1636,
+          "fp": 646,
+          "fn": 644,
+          "precision": 0.7169149868536372,
+          "recall": 0.7175438596491228,
+          "f1": 0.7172292854011398
+        }
+      },
+      "conllpp": {
+        "test_records": 1840,
+        "gold": "data/processed/conllpp/test.jsonl",
+        "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 3310,
+          "predicted_entities": 3251,
+          "tp": 2348,
+          "fp": 903,
+          "fn": 962,
+          "precision": 0.7222393109812365,
+          "recall": 0.7093655589123867,
+          "f1": 0.7157445511354976
+        },
+        "seen": {
+          "gold_entities": 1420,
+          "predicted_entities": 1386,
+          "tp": 1272,
+          "fp": 114,
+          "fn": 148,
+          "precision": 0.9177489177489178,
+          "recall": 0.895774647887324,
+          "f1": 0.9066286528866714
+        },
+        "unseen": {
+          "gold_entities": 1890,
+          "predicted_entities": 1865,
+          "tp": 1076,
+          "fp": 789,
+          "fn": 814,
+          "precision": 0.5769436997319035,
+          "recall": 0.5693121693121693,
+          "f1": 0.5731025299600533
+        }
+      },
+      "wikigold": {
+        "test_records": 1696,
+        "gold": "data/processed/wikigold/test.jsonl",
+        "predictions": "preds/wikigold/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/wikigold/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 2846,
+          "predicted_entities": 3054,
+          "tp": 1647,
+          "fp": 1407,
+          "fn": 1199,
+          "precision": 0.5392927308447937,
+          "recall": 0.578706957132818,
+          "f1": 0.5583050847457627
+        },
+        "seen": {
+          "gold_entities": 495,
+          "predicted_entities": 550,
+          "tp": 436,
+          "fp": 114,
+          "fn": 59,
+          "precision": 0.7927272727272727,
+          "recall": 0.8808080808080808,
+          "f1": 0.8344497607655502
+        },
+        "unseen": {
+          "gold_entities": 2351,
+          "predicted_entities": 2504,
+          "tp": 1211,
+          "fp": 1293,
+          "fn": 1140,
+          "precision": 0.4836261980830671,
+          "recall": 0.5150999574649086,
+          "f1": 0.4988671472708548
+        }
+      },
+      "btc": {
+        "test_records": 2000,
+        "gold": "data/processed/btc/test.jsonl",
+        "predictions": "preds/btc/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/btc/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4376,
+          "predicted_entities": 1862,
+          "tp": 804,
+          "fp": 1058,
+          "fn": 3572,
+          "precision": 0.4317937701396348,
+          "recall": 0.18372943327239488,
+          "f1": 0.2577749278614941
+        },
+        "seen": {
+          "gold_entities": 364,
+          "predicted_entities": 331,
+          "tp": 245,
+          "fp": 86,
+          "fn": 119,
+          "precision": 0.7401812688821753,
+          "recall": 0.6730769230769231,
+          "f1": 0.7050359712230215
+        },
+        "unseen": {
+          "gold_entities": 4012,
+          "predicted_entities": 1531,
+          "tp": 559,
+          "fp": 972,
+          "fn": 3453,
+          "precision": 0.3651208360548661,
+          "recall": 0.13933200398803589,
+          "f1": 0.20169583258163448
+        }
+      },
+      "wnut17": {
+        "test_records": 1287,
+        "gold": "data/processed/wnut17/test.jsonl",
+        "predictions": "preds/wnut17/m2_pos_transfer/0.jsonl",
+        "entity_index": "data/derived/entity_index/wnut17/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 810,
+          "predicted_entities": 928,
+          "tp": 269,
+          "fp": 659,
+          "fn": 541,
+          "precision": 0.28987068965517243,
+          "recall": 0.33209876543209876,
+          "f1": 0.3095512082853855
+        },
+        "seen": {
+          "gold_entities": 112,
+          "predicted_entities": 105,
+          "tp": 66,
+          "fp": 39,
+          "fn": 46,
+          "precision": 0.6285714285714286,
+          "recall": 0.5892857142857143,
+          "f1": 0.6082949308755761
+        },
+        "unseen": {
+          "gold_entities": 698,
+          "predicted_entities": 823,
+          "tp": 203,
+          "fp": 620,
+          "fn": 495,
+          "precision": 0.24665856622114216,
+          "recall": 0.29083094555873923,
+          "f1": 0.2669296515450362
+        }
+      }
+    }
+  }
+}

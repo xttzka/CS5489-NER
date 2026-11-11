@@ -1,0 +1,48 @@
+{
+  "gold": [
+    "data/processed/conll2003/test.jsonl"
+  ],
+  "predictions": [
+    "preds/conll2003/m2_baseline/0.jsonl"
+  ],
+  "subset_ids": [],
+  "exact_match": {
+    "gold_records": 3453,
+    "scored_records": 3453,
+    "tp": 4576,
+    "fp": 995,
+    "fn": 1072,
+    "precision": 0.8213965176808472,
+    "recall": 0.8101983002832861,
+    "f1": 0.8157589803012746
+  },
+  "error_events": 1279,
+  "categories": {
+    "missed": 284,
+    "spurious": 207,
+    "boundary": 144,
+    "type": 562,
+    "boundary_and_type": 82
+  },
+  "pairing": "Remove exact matches, then maximize one-to-one overlaps within each sentence. Prefer more same-type pairs, then more shared tokens.",
+  "offsets": "Zero-based token offsets; end excluded.",
+  "review_sample": {
+    "categories": [
+      "type",
+      "spurious"
+    ],
+    "seed": 42,
+    "requested": 60,
+    "eligible": 769,
+    "sampled": 60,
+    "sampled_by_category": {
+      "spurious": 16,
+      "type": 44
+    },
+    "judgment_options": [
+      "guideline_difference",
+      "gold_error",
+      "other"
+    ]
+  }
+}

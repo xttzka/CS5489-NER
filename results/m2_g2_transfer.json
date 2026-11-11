@@ -1,0 +1,606 @@
+{
+  "parameters": {
+    "c1": 0.0001,
+    "c2": 0.1
+  },
+  "pos_model": "en_core_web_sm 3.8.0",
+  "use_chunk_tags": false,
+  "comparison": "Keep all existing features except G2: capitalization, shape, digit and hyphen flags. G1 still includes the original word.",
+  "domain_tuning": "Fixed parameters from CoNLL-2003 training CV for both variants and all sources.",
+  "rows": {
+    "conll2003": {
+      "training_input": "data/processed_pos/conll2003/train.jsonl",
+      "training_records": 14041,
+      "targets": {
+        "conll2003": {
+          "full": {
+            "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+            "reused": true,
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4561,
+              "fp": 997,
+              "fn": 1087,
+              "precision": 0.8206189276718244,
+              "recall": 0.8075424929178471,
+              "f1": 0.8140281991790113,
+              "per_type": {
+                "LOC": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1452,
+                  "fp": 282,
+                  "fn": 216,
+                  "precision": 0.8373702422145328,
+                  "recall": 0.8705035971223022,
+                  "f1": 0.8536155202821869
+                },
+                "MISC": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 538,
+                  "fp": 157,
+                  "fn": 164,
+                  "precision": 0.7741007194244605,
+                  "recall": 0.7663817663817664,
+                  "f1": 0.7702219040801718
+                },
+                "ORG": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1181,
+                  "fp": 337,
+                  "fn": 480,
+                  "precision": 0.7779973649538867,
+                  "recall": 0.7110174593618303,
+                  "f1": 0.7430009436929852
+                },
+                "PER": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1390,
+                  "fp": 221,
+                  "fn": 227,
+                  "precision": 0.8628181253879578,
+                  "recall": 0.8596165739022882,
+                  "f1": 0.8612143742255266
+                }
+              }
+            },
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0
+          },
+          "without_G2": {
+            "predictions": "preds/conll2003/m2_g2_conll2003_without_G2/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4363,
+              "fp": 1016,
+              "fn": 1285,
+              "precision": 0.8111173080498234,
+              "recall": 0.7724858356940509,
+              "f1": 0.7913303709077718,
+              "per_type": {
+                "LOC": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1428,
+                  "fp": 280,
+                  "fn": 240,
+                  "precision": 0.8360655737704918,
+                  "recall": 0.8561151079136691,
+                  "f1": 0.8459715639810427
+                },
+                "MISC": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 518,
+                  "fp": 137,
+                  "fn": 184,
+                  "precision": 0.7908396946564885,
+                  "recall": 0.7378917378917379,
+                  "f1": 0.763448784082535
+                },
+                "ORG": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1101,
+                  "fp": 364,
+                  "fn": 560,
+                  "precision": 0.7515358361774744,
+                  "recall": 0.6628537025888019,
+                  "f1": 0.7044145873320538
+                },
+                "PER": {
+                  "gold_records": 3453,
+                  "scored_records": 3453,
+                  "tp": 1316,
+                  "fp": 235,
+                  "fn": 301,
+                  "precision": 0.8484848484848485,
+                  "recall": 0.8138528138528138,
+                  "f1": 0.8308080808080808
+                }
+              }
+            },
+            "raw_bio_error_tokens": 1,
+            "raw_bio_error_sentences": 1
+          },
+          "without_G2_minus_full_f1_pp": -2.269782827123945
+        },
+        "btc": {
+          "full": {
+            "predictions": "preds/btc/m2_pos_transfer/0.jsonl",
+            "reused": true,
+            "scores": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 804,
+              "fp": 1058,
+              "fn": 3572,
+              "precision": 0.4317937701396348,
+              "recall": 0.18372943327239488,
+              "f1": 0.2577749278614941,
+              "per_type": {
+                "PER": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 374,
+                  "fp": 364,
+                  "fn": 2276,
+                  "precision": 0.5067750677506775,
+                  "recall": 0.14113207547169812,
+                  "f1": 0.22077922077922077
+                },
+                "LOC": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 254,
+                  "fp": 173,
+                  "fn": 382,
+                  "precision": 0.594847775175644,
+                  "recall": 0.39937106918238996,
+                  "f1": 0.477892756349953
+                },
+                "ORG": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 176,
+                  "fp": 521,
+                  "fn": 914,
+                  "precision": 0.25251076040172166,
+                  "recall": 0.1614678899082569,
+                  "f1": 0.1969781757134863
+                }
+              }
+            },
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0
+          },
+          "without_G2": {
+            "predictions": "preds/btc/m2_g2_conll2003_without_G2/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 788,
+              "fp": 1196,
+              "fn": 3588,
+              "precision": 0.3971774193548387,
+              "recall": 0.180073126142596,
+              "f1": 0.24779874213836478,
+              "per_type": {
+                "PER": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 383,
+                  "fp": 446,
+                  "fn": 2267,
+                  "precision": 0.4620024125452352,
+                  "recall": 0.14452830188679244,
+                  "f1": 0.2201782121299224
+                },
+                "LOC": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 243,
+                  "fp": 215,
+                  "fn": 393,
+                  "precision": 0.5305676855895196,
+                  "recall": 0.38207547169811323,
+                  "f1": 0.44424131627056673
+                },
+                "ORG": {
+                  "gold_records": 2000,
+                  "scored_records": 2000,
+                  "tp": 162,
+                  "fp": 535,
+                  "fn": 928,
+                  "precision": 0.23242467718794835,
+                  "recall": 0.14862385321100918,
+                  "f1": 0.18130945719082261
+                }
+              }
+            },
+            "raw_bio_error_tokens": 1,
+            "raw_bio_error_sentences": 1
+          },
+          "without_G2_minus_full_f1_pp": -0.9976185723129305
+        }
+      }
+    },
+    "wnut17": {
+      "training_input": "data/processed_pos/wnut17/train.jsonl",
+      "training_records": 3394,
+      "targets": {
+        "wnut17": {
+          "full": {
+            "predictions": "preds/wnut17/m2_g2_wnut17_full/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 1287,
+              "scored_records": 1287,
+              "tp": 107,
+              "fp": 141,
+              "fn": 972,
+              "precision": 0.4314516129032258,
+              "recall": 0.09916589434661724,
+              "f1": 0.16126601356443104,
+              "per_type": {
+                "corporation": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 0,
+                  "fp": 2,
+                  "fn": 66,
+                  "precision": 0.0,
+                  "recall": 0.0,
+                  "f1": 0.0
+                },
+                "creative-work": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 3,
+                  "fp": 6,
+                  "fn": 139,
+                  "precision": 0.3333333333333333,
+                  "recall": 0.02112676056338028,
+                  "f1": 0.039735099337748346
+                },
+                "group": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 6,
+                  "fp": 15,
+                  "fn": 159,
+                  "precision": 0.2857142857142857,
+                  "recall": 0.03636363636363636,
+                  "f1": 0.06451612903225806
+                },
+                "location": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 42,
+                  "fp": 65,
+                  "fn": 108,
+                  "precision": 0.3925233644859813,
+                  "recall": 0.28,
+                  "f1": 0.32684824902723736
+                },
+                "person": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 55,
+                  "fp": 46,
+                  "fn": 374,
+                  "precision": 0.5445544554455446,
+                  "recall": 0.1282051282051282,
+                  "f1": 0.20754716981132076
+                },
+                "product": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 1,
+                  "fp": 7,
+                  "fn": 126,
+                  "precision": 0.125,
+                  "recall": 0.007874015748031496,
+                  "f1": 0.014814814814814815
+                }
+              }
+            },
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0
+          },
+          "without_G2": {
+            "predictions": "preds/wnut17/m2_g2_wnut17_without_G2/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 1287,
+              "scored_records": 1287,
+              "tp": 85,
+              "fp": 102,
+              "fn": 994,
+              "precision": 0.45454545454545453,
+              "recall": 0.07877664504170528,
+              "f1": 0.13428120063191154,
+              "per_type": {
+                "corporation": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 0,
+                  "fp": 3,
+                  "fn": 66,
+                  "precision": 0.0,
+                  "recall": 0.0,
+                  "f1": 0.0
+                },
+                "creative-work": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 2,
+                  "fp": 6,
+                  "fn": 140,
+                  "precision": 0.25,
+                  "recall": 0.014084507042253521,
+                  "f1": 0.02666666666666667
+                },
+                "group": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 2,
+                  "fp": 7,
+                  "fn": 163,
+                  "precision": 0.2222222222222222,
+                  "recall": 0.012121212121212121,
+                  "f1": 0.022988505747126436
+                },
+                "location": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 27,
+                  "fp": 57,
+                  "fn": 123,
+                  "precision": 0.32142857142857145,
+                  "recall": 0.18,
+                  "f1": 0.23076923076923078
+                },
+                "person": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 53,
+                  "fp": 25,
+                  "fn": 376,
+                  "precision": 0.6794871794871795,
+                  "recall": 0.12354312354312354,
+                  "f1": 0.20907297830374755
+                },
+                "product": {
+                  "gold_records": 1287,
+                  "scored_records": 1287,
+                  "tp": 1,
+                  "fp": 4,
+                  "fn": 126,
+                  "precision": 0.2,
+                  "recall": 0.007874015748031496,
+                  "f1": 0.015151515151515152
+                }
+              }
+            },
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0
+          },
+          "without_G2_minus_full_f1_pp": -2.6984812932519504
+        }
+      }
+    },
+    "mit_restaurant": {
+      "training_input": "data/processed_pos/mit_restaurant/train.jsonl",
+      "training_records": 6894,
+      "targets": {
+        "mit_restaurant": {
+          "full": {
+            "predictions": "preds/mit_restaurant/m2_g2_mit_restaurant_full/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 1521,
+              "scored_records": 1521,
+              "tp": 2390,
+              "fp": 695,
+              "fn": 761,
+              "precision": 0.7747163695299838,
+              "recall": 0.7584893684544589,
+              "f1": 0.7665169980756895,
+              "per_type": {
+                "Amenity": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 355,
+                  "fp": 159,
+                  "fn": 178,
+                  "precision": 0.6906614785992218,
+                  "recall": 0.6660412757973734,
+                  "f1": 0.6781279847182426
+                },
+                "Cuisine": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 443,
+                  "fp": 93,
+                  "fn": 89,
+                  "precision": 0.8264925373134329,
+                  "recall": 0.8327067669172933,
+                  "f1": 0.8295880149812734
+                },
+                "Dish": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 221,
+                  "fp": 77,
+                  "fn": 67,
+                  "precision": 0.7416107382550335,
+                  "recall": 0.7673611111111112,
+                  "f1": 0.7542662116040956
+                },
+                "Hours": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 133,
+                  "fp": 63,
+                  "fn": 79,
+                  "precision": 0.6785714285714286,
+                  "recall": 0.6273584905660378,
+                  "f1": 0.6519607843137255
+                },
+                "Location": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 644,
+                  "fp": 155,
+                  "fn": 168,
+                  "precision": 0.8060075093867334,
+                  "recall": 0.7931034482758621,
+                  "f1": 0.7995034140285537
+                },
+                "Price": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 136,
+                  "fp": 31,
+                  "fn": 35,
+                  "precision": 0.8143712574850299,
+                  "recall": 0.7953216374269005,
+                  "f1": 0.8047337278106509
+                },
+                "Rating": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 158,
+                  "fp": 52,
+                  "fn": 43,
+                  "precision": 0.7523809523809524,
+                  "recall": 0.7860696517412935,
+                  "f1": 0.7688564476885644
+                },
+                "Restaurant_Name": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 300,
+                  "fp": 65,
+                  "fn": 102,
+                  "precision": 0.821917808219178,
+                  "recall": 0.746268656716418,
+                  "f1": 0.7822685788787483
+                }
+              }
+            },
+            "raw_bio_error_tokens": 2,
+            "raw_bio_error_sentences": 2
+          },
+          "without_G2": {
+            "predictions": "preds/mit_restaurant/m2_g2_mit_restaurant_without_G2/0.jsonl",
+            "reused": false,
+            "scores": {
+              "gold_records": 1521,
+              "scored_records": 1521,
+              "tp": 2394,
+              "fp": 696,
+              "fn": 757,
+              "precision": 0.7747572815533981,
+              "recall": 0.7597588067280229,
+              "f1": 0.7671847460342893,
+              "per_type": {
+                "Amenity": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 355,
+                  "fp": 164,
+                  "fn": 178,
+                  "precision": 0.6840077071290944,
+                  "recall": 0.6660412757973734,
+                  "f1": 0.6749049429657795
+                },
+                "Cuisine": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 439,
+                  "fp": 89,
+                  "fn": 93,
+                  "precision": 0.8314393939393939,
+                  "recall": 0.825187969924812,
+                  "f1": 0.8283018867924529
+                },
+                "Dish": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 221,
+                  "fp": 77,
+                  "fn": 67,
+                  "precision": 0.7416107382550335,
+                  "recall": 0.7673611111111112,
+                  "f1": 0.7542662116040956
+                },
+                "Hours": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 135,
+                  "fp": 64,
+                  "fn": 77,
+                  "precision": 0.678391959798995,
+                  "recall": 0.6367924528301887,
+                  "f1": 0.656934306569343
+                },
+                "Location": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 649,
+                  "fp": 147,
+                  "fn": 163,
+                  "precision": 0.8153266331658291,
+                  "recall": 0.7992610837438424,
+                  "f1": 0.8072139303482587
+                },
+                "Price": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 137,
+                  "fp": 31,
+                  "fn": 34,
+                  "precision": 0.8154761904761905,
+                  "recall": 0.8011695906432749,
+                  "f1": 0.8082595870206489
+                },
+                "Rating": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 156,
+                  "fp": 53,
+                  "fn": 45,
+                  "precision": 0.7464114832535885,
+                  "recall": 0.7761194029850746,
+                  "f1": 0.7609756097560976
+                },
+                "Restaurant_Name": {
+                  "gold_records": 1521,
+                  "scored_records": 1521,
+                  "tp": 302,
+                  "fp": 71,
+                  "fn": 100,
+                  "precision": 0.8096514745308311,
+                  "recall": 0.7512437810945274,
+                  "f1": 0.7793548387096774
+                }
+              }
+            },
+            "raw_bio_error_tokens": 1,
+            "raw_bio_error_sentences": 1
+          },
+          "without_G2_minus_full_f1_pp": 0.0667747958599807
+        }
+      }
+    }
+  }
+}

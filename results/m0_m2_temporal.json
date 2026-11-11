@@ -1,0 +1,283 @@
+{
+  "source_dataset": "conll2003",
+  "training_input": "data/processed_pos/conll2003/train.jsonl",
+  "training_records": 14041,
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG",
+    "MISC"
+  ],
+  "evaluation": "Full test splits; exact match on sample ID, token boundaries and entity type.",
+  "training_name_reference": "data/processed/conll2003/train.jsonl",
+  "familiarity": "Gold uses the v1 entity index. Predictions use their own full case-folded token sequence matched against training gold names, irrespective of entity type.",
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false,
+    "context_window": 1
+  },
+  "models": {
+    "m0": {
+      "dictionary_entries": 7950,
+      "ambiguous_names_excluded": 132
+    },
+    "m1": {
+      "c": 1.0,
+      "iterations": 36
+    },
+    "m2": {
+      "parameters": {
+        "c1": 0.0001,
+        "c2": 0.1
+      },
+      "reused_report": "results/m2_pos_transfer.json"
+    }
+  },
+  "datasets": {
+    "conll2003": {
+      "m0": {
+        "test_records": 3453,
+        "gold": "data/processed/conll2003/test.jsonl",
+        "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 3663,
+          "tp": 2641,
+          "fp": 1022,
+          "fn": 3007,
+          "precision": 0.7209937209937209,
+          "recall": 0.46759915014164305,
+          "f1": 0.5672860057995919
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3663,
+          "tp": 2641,
+          "fp": 1022,
+          "fn": 507,
+          "precision": 0.7209937209937209,
+          "recall": 0.8389453621346887,
+          "f1": 0.7755102040816326
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2500,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "predictions": "preds/conll2003/m0_temporal/0.jsonl"
+      },
+      "m1": {
+        "test_records": 3453,
+        "gold": "data/processed/conll2003/test.jsonl",
+        "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 6350,
+          "tp": 4000,
+          "fp": 2350,
+          "fn": 1648,
+          "precision": 0.6299212598425197,
+          "recall": 0.7082152974504249,
+          "f1": 0.6667777962993833
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3295,
+          "tp": 2631,
+          "fp": 664,
+          "fn": 517,
+          "precision": 0.7984825493171472,
+          "recall": 0.8357687420584498,
+          "f1": 0.8167002948936831
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 3055,
+          "tp": 1369,
+          "fp": 1686,
+          "fn": 1131,
+          "precision": 0.4481178396072013,
+          "recall": 0.5476,
+          "f1": 0.4928892889288929
+        },
+        "predictions": "preds/conll2003/m1_temporal/0.jsonl",
+        "raw_bio_repairs": {
+          "tokens": 893,
+          "sentences": 686
+        }
+      },
+      "m2": {
+        "test_records": 3453,
+        "gold": "data/processed/conll2003/test.jsonl",
+        "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5558,
+          "tp": 4561,
+          "fp": 997,
+          "fn": 1087,
+          "precision": 0.8206189276718244,
+          "recall": 0.8075424929178471,
+          "f1": 0.8140281991790113
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3098,
+          "tp": 2842,
+          "fp": 256,
+          "fn": 306,
+          "precision": 0.9173660426081343,
+          "recall": 0.9027954256670903,
+          "f1": 0.9100224143451809
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2460,
+          "tp": 1719,
+          "fp": 741,
+          "fn": 781,
+          "precision": 0.698780487804878,
+          "recall": 0.6876,
+          "f1": 0.6931451612903226
+        },
+        "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl"
+      }
+    },
+    "conllpp": {
+      "m0": {
+        "test_records": 1840,
+        "gold": "data/processed/conllpp/test.jsonl",
+        "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 2202,
+          "tp": 1402,
+          "fp": 800,
+          "fn": 2605,
+          "precision": 0.6366939146230699,
+          "recall": 0.3498876965310706,
+          "f1": 0.45160251248188116
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 2202,
+          "tp": 1402,
+          "fp": 800,
+          "fn": 291,
+          "precision": 0.6366939146230699,
+          "recall": 0.8281157708210277,
+          "f1": 0.7198973042362002
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2314,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "predictions": "preds/conllpp/m0_temporal/0.jsonl"
+      },
+      "m1": {
+        "test_records": 1840,
+        "gold": "data/processed/conllpp/test.jsonl",
+        "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 4605,
+          "tp": 2406,
+          "fp": 2199,
+          "fn": 1601,
+          "precision": 0.5224755700325733,
+          "recall": 0.6004492138757175,
+          "f1": 0.5587552252670692
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1896,
+          "tp": 1445,
+          "fp": 451,
+          "fn": 248,
+          "precision": 0.7621308016877637,
+          "recall": 0.8535144713526285,
+          "f1": 0.8052382279186403
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 2709,
+          "tp": 961,
+          "fp": 1748,
+          "fn": 1353,
+          "precision": 0.3547434477667036,
+          "recall": 0.4152981849611063,
+          "f1": 0.3826398566593669
+        },
+        "predictions": "preds/conllpp/m1_temporal/0.jsonl",
+        "raw_bio_repairs": {
+          "tokens": 926,
+          "sentences": 619
+        }
+      },
+      "m2": {
+        "test_records": 1840,
+        "gold": "data/processed/conllpp/test.jsonl",
+        "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3678,
+          "tp": 2677,
+          "fp": 1001,
+          "fn": 1330,
+          "precision": 0.7278412180532898,
+          "recall": 0.6680808584976291,
+          "f1": 0.6966818477553676
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1678,
+          "tp": 1523,
+          "fp": 155,
+          "fn": 170,
+          "precision": 0.9076281287246722,
+          "recall": 0.8995865327820437,
+          "f1": 0.9035894393355087
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 2000,
+          "tp": 1154,
+          "fp": 846,
+          "fn": 1160,
+          "precision": 0.577,
+          "recall": 0.49870354364736386,
+          "f1": 0.5350023180343069
+        },
+        "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl"
+      }
+    }
+  },
+  "conllpp_minus_conll2003_f1_pp": {
+    "m0": {
+      "overall": -11.568349331771072,
+      "seen": -5.561289984543238,
+      "unseen": 0.0
+    },
+    "m1": {
+      "overall": -10.802257103231405,
+      "seen": -1.1462066975042817,
+      "unseen": -11.0249432269526
+    },
+    "m2": {
+      "overall": -11.734635142364368,
+      "seen": -0.6432975009672215,
+      "unseen": -15.81428432560157
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "transfer_three_types": {
+    "types": ["PER", "LOC", "ORG"],
+    "maps": {
+      "conll2003": {"PER": "PER", "LOC": "LOC", "ORG": "ORG", "MISC": null},
+      "wnut17": {
+        "person": "PER",
+        "location": "LOC",
+        "corporation": "ORG",
+        "group": "ORG",
+        "product": null,
+        "creative-work": null
+      },
+      "conllpp": {"PER": "PER", "LOC": "LOC", "ORG": "ORG", "MISC": null},
+      "wikigold": {"PER": "PER", "LOC": "LOC", "ORG": "ORG", "MISC": null},
+      "btc": {"PER": "PER", "LOC": "LOC", "ORG": "ORG"},
+      "mit_restaurant": null
+    }
+  },
+  "conll_temporal_four_types": {
+    "datasets": ["conll2003", "conllpp"],
+    "types": ["PER", "LOC", "ORG", "MISC"]
+  }
+}

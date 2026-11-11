@@ -1,0 +1,474 @@
+{
+  "status": "complete",
+  "parameters": {
+    "c1": 0.0001,
+    "c2": 0.1
+  },
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false
+  },
+  "training": "data/processed_pos/conll2003/train.jsonl",
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG",
+    "MISC"
+  ],
+  "baseline_report": "results/m2_seen_unseen_f1.json",
+  "baseline": {
+    "conll2003": {
+      "records": 3453,
+      "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl",
+      "overall": {
+        "gold_entities": 5648,
+        "predicted_entities": 5558,
+        "tp": 4561,
+        "fp": 997,
+        "fn": 1087,
+        "precision": 0.8206189276718244,
+        "recall": 0.8075424929178471,
+        "f1": 0.8140281991790113
+      },
+      "seen": {
+        "gold_entities": 3148,
+        "predicted_entities": 3098,
+        "tp": 2842,
+        "fp": 256,
+        "fn": 306,
+        "precision": 0.9173660426081343,
+        "recall": 0.9027954256670903,
+        "f1": 0.9100224143451809
+      },
+      "unseen": {
+        "gold_entities": 2500,
+        "predicted_entities": 2460,
+        "tp": 1719,
+        "fp": 741,
+        "fn": 781,
+        "precision": 0.698780487804878,
+        "recall": 0.6876,
+        "f1": 0.6931451612903226
+      }
+    },
+    "conllpp": {
+      "records": 1840,
+      "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl",
+      "overall": {
+        "gold_entities": 4007,
+        "predicted_entities": 3678,
+        "tp": 2677,
+        "fp": 1001,
+        "fn": 1330,
+        "precision": 0.7278412180532898,
+        "recall": 0.6680808584976291,
+        "f1": 0.6966818477553676
+      },
+      "seen": {
+        "gold_entities": 1693,
+        "predicted_entities": 1678,
+        "tp": 1523,
+        "fp": 155,
+        "fn": 170,
+        "precision": 0.9076281287246722,
+        "recall": 0.8995865327820437,
+        "f1": 0.9035894393355087
+      },
+      "unseen": {
+        "gold_entities": 2314,
+        "predicted_entities": 2000,
+        "tp": 1154,
+        "fp": 846,
+        "fn": 1160,
+        "precision": 0.577,
+        "recall": 0.49870354364736386,
+        "f1": 0.5350023180343069
+      }
+    }
+  },
+  "resources": {
+    "data/external/gazetteers/cities15000.zip": {
+      "url": "https://download.geonames.org/export/dump/cities15000.zip",
+      "sha256": "0df068fe1eb445f18655559b9d80fdd45ac88535d8c27b7b4f5ce5e66b1107b3",
+      "license": "CC BY 4.0"
+    },
+    "data/external/gazetteers/countryInfo.txt": {
+      "url": "https://download.geonames.org/export/dump/countryInfo.txt",
+      "sha256": "79f8f59ea01cbb40438bf1856dd6c2ff201f03f8fc72d0530b2646aaf603ef04",
+      "license": "CC BY 4.0"
+    },
+    "data/external/glove/glove.6B.100d.txt": {
+      "url": "https://huggingface.co/stanfordnlp/glove/resolve/main/glove.6B.zip",
+      "sha256": "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6",
+      "license": "ODC PDDL 1.0"
+    }
+  },
+  "gazetteer_snapshot_retrieved": "2026-11-10",
+  "gazetteer_matching": "Casefolded city, ASCII city and country names; longest match at each token start.",
+  "cluster_config": {
+    "algorithm": "KMeans (Lloyd)",
+    "random_state": 42,
+    "n_init": 1,
+    "max_iter": 100,
+    "k": [
+      100,
+      500,
+      1000
+    ],
+    "fit_vocabulary": "CoNLL-2003 training tokens only",
+    "dimensions": 100
+  },
+  "conditions": {
+    "gazetteer": {
+      "conll2003": {
+        "records": 3453,
+        "predictions": "preds/conll2003/m2_extra_gazetteer/0.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5582,
+          "tp": 4604,
+          "fp": 978,
+          "fn": 1044,
+          "precision": 0.824793980652096,
+          "recall": 0.8151558073654391,
+          "f1": 0.819946571682992
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3124,
+          "tp": 2864,
+          "fp": 260,
+          "fn": 284,
+          "precision": 0.9167733674775929,
+          "recall": 0.9097839898348158,
+          "f1": 0.9132653061224489
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2458,
+          "tp": 1740,
+          "fp": 718,
+          "fn": 760,
+          "precision": 0.7078925956061839,
+          "recall": 0.696,
+          "f1": 0.7018959257765228
+        },
+        "raw_bio_error_tokens": 1,
+        "raw_bio_error_sentences": 1,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 0.5918372503980751,
+          "seen": 0.32428917772679977,
+          "unseen": 0.8750764486200269
+        }
+      },
+      "conllpp": {
+        "records": 1840,
+        "predictions": "preds/conllpp/m2_extra_gazetteer/0.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3649,
+          "tp": 2692,
+          "fp": 957,
+          "fn": 1315,
+          "precision": 0.7377363661277062,
+          "recall": 0.6718243074619416,
+          "f1": 0.703239289446186
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1687,
+          "tp": 1540,
+          "fp": 147,
+          "fn": 153,
+          "precision": 0.9128630705394191,
+          "recall": 0.9096278795038394,
+          "f1": 0.9112426035502958
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 1962,
+          "tp": 1152,
+          "fp": 810,
+          "fn": 1162,
+          "precision": 0.5871559633027523,
+          "recall": 0.4978392394122731,
+          "f1": 0.538821328344247
+        },
+        "raw_bio_error_tokens": 1,
+        "raw_bio_error_sentences": 1,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 0.65574416908184,
+          "seen": 0.7653164214787123,
+          "unseen": 0.38190103099401407
+        }
+      }
+    },
+    "glove_100": {
+      "conll2003": {
+        "records": 3453,
+        "predictions": "preds/conll2003/m2_extra_glove_100/0.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5569,
+          "tp": 4797,
+          "fp": 772,
+          "fn": 851,
+          "precision": 0.8613754713593105,
+          "recall": 0.8493271954674221,
+          "f1": 0.8553089061246323
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3146,
+          "tp": 2913,
+          "fp": 233,
+          "fn": 235,
+          "precision": 0.9259376986649714,
+          "recall": 0.9253494282083863,
+          "f1": 0.9256434699714013
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2423,
+          "tp": 1884,
+          "fp": 539,
+          "fn": 616,
+          "precision": 0.7775484936029715,
+          "recall": 0.7536,
+          "f1": 0.765386959171237
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 4.128070694562103,
+          "seen": 1.5621055626220404,
+          "unseen": 7.224179788091445
+        }
+      },
+      "conllpp": {
+        "records": 1840,
+        "predictions": "preds/conllpp/m2_extra_glove_100/0.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3670,
+          "tp": 2816,
+          "fp": 854,
+          "fn": 1191,
+          "precision": 0.7673024523160763,
+          "recall": 0.7027701522335912,
+          "f1": 0.7336199036081803
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1688,
+          "tp": 1536,
+          "fp": 152,
+          "fn": 157,
+          "precision": 0.909952606635071,
+          "recall": 0.9072652096869462,
+          "f1": 0.9086069210292813
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 1982,
+          "tp": 1280,
+          "fp": 702,
+          "fn": 1034,
+          "precision": 0.6458123107971746,
+          "recall": 0.5531547104580813,
+          "f1": 0.595903165735568
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 3.6938055852812735,
+          "seen": 0.5017481693772585,
+          "unseen": 6.090084770126114
+        }
+      }
+    },
+    "glove_500": {
+      "conll2003": {
+        "records": 3453,
+        "predictions": "preds/conll2003/m2_extra_glove_500/0.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5592,
+          "tp": 4801,
+          "fp": 791,
+          "fn": 847,
+          "precision": 0.8585479256080114,
+          "recall": 0.8500354107648725,
+          "f1": 0.854270462633452
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3136,
+          "tp": 2897,
+          "fp": 239,
+          "fn": 251,
+          "precision": 0.9237882653061225,
+          "recall": 0.920266836086404,
+          "f1": 0.9220241884150223
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2456,
+          "tp": 1904,
+          "fp": 552,
+          "fn": 596,
+          "precision": 0.7752442996742671,
+          "recall": 0.7616,
+          "f1": 0.768361581920904
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 4.02422634544407,
+          "seen": 1.2001774069841376,
+          "unseen": 7.521642063058143
+        }
+      },
+      "conllpp": {
+        "records": 1840,
+        "predictions": "preds/conllpp/m2_extra_glove_500/0.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3639,
+          "tp": 2841,
+          "fp": 798,
+          "fn": 1166,
+          "precision": 0.7807089859851608,
+          "recall": 0.7090092338407786,
+          "f1": 0.7431336646612607
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1674,
+          "tp": 1529,
+          "fp": 145,
+          "fn": 164,
+          "precision": 0.9133811230585425,
+          "recall": 0.9031305375073834,
+          "f1": 0.9082269082269082
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 1965,
+          "tp": 1312,
+          "fp": 653,
+          "fn": 1002,
+          "precision": 0.6676844783715012,
+          "recall": 0.5669835782195333,
+          "f1": 0.613227389577004
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 4.645181690589317,
+          "seen": 0.46374688913994877,
+          "unseen": 7.822507154269709
+        }
+      }
+    },
+    "glove_1000": {
+      "conll2003": {
+        "records": 3453,
+        "predictions": "preds/conll2003/m2_extra_glove_1000/0.jsonl",
+        "overall": {
+          "gold_entities": 5648,
+          "predicted_entities": 5585,
+          "tp": 4762,
+          "fp": 823,
+          "fn": 886,
+          "precision": 0.8526410026857655,
+          "recall": 0.8431303116147308,
+          "f1": 0.8478589869135583
+        },
+        "seen": {
+          "gold_entities": 3148,
+          "predicted_entities": 3129,
+          "tp": 2900,
+          "fp": 229,
+          "fn": 248,
+          "precision": 0.9268136784915308,
+          "recall": 0.9212198221092758,
+          "f1": 0.9240082842122033
+        },
+        "unseen": {
+          "gold_entities": 2500,
+          "predicted_entities": 2456,
+          "tp": 1862,
+          "fp": 594,
+          "fn": 638,
+          "precision": 0.75814332247557,
+          "recall": 0.7448,
+          "f1": 0.751412429378531
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 3.3830787734547063,
+          "seen": 1.3985869867022327,
+          "unseen": 5.8267268088208475
+        }
+      },
+      "conllpp": {
+        "records": 1840,
+        "predictions": "preds/conllpp/m2_extra_glove_1000/0.jsonl",
+        "overall": {
+          "gold_entities": 4007,
+          "predicted_entities": 3677,
+          "tp": 2746,
+          "fp": 931,
+          "fn": 1261,
+          "precision": 0.7468044601577373,
+          "recall": 0.6853007237334664,
+          "f1": 0.7147319104633003
+        },
+        "seen": {
+          "gold_entities": 1693,
+          "predicted_entities": 1663,
+          "tp": 1517,
+          "fp": 146,
+          "fn": 176,
+          "precision": 0.9122068550811786,
+          "recall": 0.896042528056704,
+          "f1": 0.9040524433849821
+        },
+        "unseen": {
+          "gold_entities": 2314,
+          "predicted_entities": 2014,
+          "tp": 1229,
+          "fp": 785,
+          "fn": 1085,
+          "precision": 0.6102284011916584,
+          "recall": 0.5311149524632671,
+          "f1": 0.5679297597042514
+        },
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "f1_delta_vs_baseline_pp": {
+          "overall": 1.8050062707932746,
+          "seen": 0.046300404947341445,
+          "unseen": 3.2927441669944546
+        }
+      }
+    }
+  },
+  "gazetteer_names": 39342,
+  "glove_type_coverage": {
+    "train": {
+      "covered": 18415,
+      "total": 21009
+    },
+    "conll2003": {
+      "covered": 7707,
+      "total": 8548
+    },
+    "conllpp": {
+      "covered": 6970,
+      "total": 7406
+    }
+  }
+}
