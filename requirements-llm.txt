@@ -1,0 +1,13 @@
+# Python 3.11. GLiNER, LLM prompting and LoRA on a CUDA GPU (models/llm).
+accelerate==1.15.0
+gliner==0.2.30
+numpy==2.4.6
+peft==0.21.2
+protobuf==7.36.2
+safetensors==0.8.0
+sentence-transformers==6.3.0
+sentencepiece==0.2.3
+tiktoken==0.14.0
+tokenizers==0.23.3
+torch==2.15.0
+transformers==5.22.2

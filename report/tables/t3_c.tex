@@ -1,0 +1,13 @@
+% T3, member C. Entity F1 (%) on the fixed 300-sentence test subsets, native labels. Retrieved examples come from the training split of the label scheme. Load booktabs.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Method & Examples & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
+\midrule
+GLiNER & None & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
+Qwen2.5-1.5B & None & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
+Qwen2.5-7B & None & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
+Qwen2.5-7B & 10 retrieved & 84.5 & 81.2 & 76.3 & 55.9 & 54.8 & 71.0 \\
+\bottomrule
+\end{tabular}
+\endgroup

@@ -1,0 +1,11 @@
+% T4, member C. Entity F1 (%) on the fixed 300-sentence test subsets. BTC and WNUT-17 are scored on the shared PER, LOC and ORG types with CoNLL-03 output labels. Load booktabs.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Qwen2.5-1.5B & Trained & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 \\
+\midrule
+Prompt, no examples & 0 & 43.7 & 46.7 & 50.4 & 42.6 & 40.7 \\
+LoRA, 10\% CoNLL-03 & 4.4M & 85.7 & 83.7 & 73.4 & 35.5 & 48.5 \\
+\bottomrule
+\end{tabular}
+\endgroup

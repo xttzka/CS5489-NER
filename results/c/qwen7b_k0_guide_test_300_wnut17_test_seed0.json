@@ -1,0 +1,137 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "wnut17",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "wnut17",
+  "input": null,
+  "subset_ids": "data/subsets/wnut17/test_300.txt",
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "guideline": true,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "person": "person",
+    "location": "location",
+    "corporation": "company",
+    "group": "group such as a band, sports team or organization",
+    "product": "product",
+    "creative-work": "creative work such as a film, song, book or show"
+  },
+  "annotation_rules": [
+    "Tag only names of specific things. Common nouns, pronouns, hashtags used as topics and user mentions starting with @ are not entities.",
+    "corporation is a company name. group covers bands, sports teams and other named groups of people.",
+    "product is a named commercial product or device. A company name alone is corporation.",
+    "creative-work is the title of a film, show, song, book or game.",
+    "An entity is the full name with no article or other surrounding word."
+  ],
+  "predictions": "preds/wnut17/qwen7b_k0_guide_test_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 105,
+    "fp": 89,
+    "fn": 138,
+    "precision": 0.5412371134020618,
+    "recall": 0.43209876543209874,
+    "f1": 0.4805491990846682
+  },
+  "per_type": {
+    "corporation": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 8,
+      "fp": 15,
+      "fn": 15,
+      "precision": 0.34782608695652173,
+      "recall": 0.34782608695652173,
+      "f1": 0.34782608695652173
+    },
+    "creative-work": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 17,
+      "fp": 27,
+      "fn": 18,
+      "precision": 0.38636363636363635,
+      "recall": 0.4857142857142857,
+      "f1": 0.43037974683544306
+    },
+    "group": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 10,
+      "fp": 12,
+      "fn": 27,
+      "precision": 0.45454545454545453,
+      "recall": 0.2702702702702703,
+      "f1": 0.3389830508474576
+    },
+    "location": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 29,
+      "fp": 14,
+      "fn": 17,
+      "precision": 0.6744186046511628,
+      "recall": 0.6304347826086957,
+      "f1": 0.651685393258427
+    },
+    "person": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 38,
+      "fp": 14,
+      "fn": 47,
+      "precision": 0.7307692307692307,
+      "recall": 0.4470588235294118,
+      "f1": 0.5547445255474452
+    },
+    "product": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 3,
+      "fp": 7,
+      "fn": 14,
+      "precision": 0.3,
+      "recall": 0.17647058823529413,
+      "f1": 0.2222222222222222
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 299,
+    "scored_records": 299,
+    "tp": 105,
+    "fp": 89,
+    "fn": 138,
+    "precision": 0.5412371134020618,
+    "recall": 0.43209876543209874,
+    "f1": 0.4805491990846682
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 1,
+    "parse_failures_after_retry": 1,
+    "parse_failure_rate": 0.0033333333333333335,
+    "entities": 216,
+    "unknown_type": 1,
+    "absent_from_sentence": 26,
+    "absent_from_sentence_rate": 0.12037037037037036
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 23.711937286891043,
+    "inference_sentences_per_second": 12.651855323767773,
+    "gpu_vram_mb": 16491.298828125,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

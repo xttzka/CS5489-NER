@@ -1,0 +1,53 @@
+{
+  "gold": [
+    "/data/lyf/cs5489_ner/CS5489-NER/data/processed/conll2003/test.jsonl",
+    "/data/lyf/cs5489_ner/CS5489-NER/data/processed/wnut17/test.jsonl"
+  ],
+  "predictions": [
+    "/data/lyf/cs5489_ner/CS5489-NER/preds/conll2003/qwen7b_k0_guide_test_300/0.jsonl",
+    "/data/lyf/cs5489_ner/CS5489-NER/preds/wnut17/qwen7b_k0_guide_test_300/0.jsonl"
+  ],
+  "subset_ids": [
+    "/data/lyf/cs5489_ner/CS5489-NER/data/subsets/conll2003/test_300.txt",
+    "/data/lyf/cs5489_ner/CS5489-NER/data/subsets/wnut17/test_300.txt"
+  ],
+  "exact_match": {
+    "gold_records": 600,
+    "scored_records": 600,
+    "tp": 409,
+    "fp": 217,
+    "fn": 318,
+    "precision": 0.6533546325878594,
+    "recall": 0.562585969738652,
+    "f1": 0.6045824094604583
+  },
+  "error_events": 436,
+  "categories": {
+    "missed": 219,
+    "spurious": 118,
+    "boundary": 23,
+    "type": 57,
+    "boundary_and_type": 19
+  },
+  "pairing": "Remove exact matches, then maximize one-to-one overlaps within each sentence. Prefer more same-type pairs, then more shared tokens.",
+  "offsets": "Zero-based token offsets; end excluded.",
+  "review_sample": {
+    "categories": [
+      "type",
+      "spurious"
+    ],
+    "seed": 42,
+    "requested": 60,
+    "eligible": 175,
+    "sampled": 60,
+    "sampled_by_category": {
+      "spurious": 34,
+      "type": 26
+    },
+    "judgment_options": [
+      "guideline_difference",
+      "gold_error",
+      "other"
+    ]
+  }
+}

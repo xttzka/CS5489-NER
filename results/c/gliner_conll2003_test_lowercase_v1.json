@@ -1,0 +1,76 @@
+{
+  "method": "GLiNER",
+  "model": "urchade/gliner_medium-v2.1",
+  "dataset": "conll2003",
+  "split": "test",
+  "scope": "lowercase_v1",
+  "input": "data/derived/perturbations/conll2003/lowercase_v1.jsonl",
+  "subset_ids": null,
+  "threshold": 0.5,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "predictions": "preds/conll2003/gliner_lowercase_v1/0.jsonl",
+  "scores": {
+    "gold_records": 3453,
+    "scored_records": 3453,
+    "tp": 2967,
+    "fp": 2290,
+    "fn": 2681,
+    "precision": 0.5643903366939319,
+    "recall": 0.5253186968838527,
+    "f1": 0.5441540577716644
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 1254,
+      "fp": 934,
+      "fn": 414,
+      "precision": 0.573126142595978,
+      "recall": 0.7517985611510791,
+      "f1": 0.6504149377593361
+    },
+    "MISC": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 0,
+      "fp": 0,
+      "fn": 702,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "ORG": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 521,
+      "fp": 787,
+      "fn": 1140,
+      "precision": 0.3983180428134557,
+      "recall": 0.3136664659843468,
+      "f1": 0.35095991916470193
+    },
+    "PER": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 1192,
+      "fp": 569,
+      "fn": 425,
+      "precision": 0.6768881317433276,
+      "recall": 0.7371675943104514,
+      "f1": 0.7057430432208407
+    }
+  },
+  "timing": {
+    "device": "cuda",
+    "batch_size": 32,
+    "inference_seconds": 6.435083013027906,
+    "inference_sentences_per_second": 536.5898144607238,
+    "includes": "tokenization and span decoding"
+  }
+}

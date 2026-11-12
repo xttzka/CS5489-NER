@@ -1,0 +1,50 @@
+{
+  "gold": [
+    "/data/lyf/cs5489_ner/CS5489-NER/data/processed/conll2003/test.jsonl"
+  ],
+  "predictions": [
+    "/data/lyf/cs5489_ner/CS5489-NER/preds/conll2003/qwen7b_k0_plain_test_300/0.jsonl"
+  ],
+  "subset_ids": [
+    "/data/lyf/cs5489_ner/CS5489-NER/data/subsets/conll2003/test_300.txt"
+  ],
+  "exact_match": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 314,
+    "fp": 184,
+    "fn": 170,
+    "precision": 0.6305220883534136,
+    "recall": 0.6487603305785123,
+    "f1": 0.639511201629328
+  },
+  "error_events": 260,
+  "categories": {
+    "missed": 76,
+    "spurious": 90,
+    "boundary": 19,
+    "type": 66,
+    "boundary_and_type": 9
+  },
+  "pairing": "Remove exact matches, then maximize one-to-one overlaps within each sentence. Prefer more same-type pairs, then more shared tokens.",
+  "offsets": "Zero-based token offsets; end excluded.",
+  "review_sample": {
+    "categories": [
+      "type",
+      "spurious"
+    ],
+    "seed": 42,
+    "requested": 60,
+    "eligible": 156,
+    "sampled": 60,
+    "sampled_by_category": {
+      "type": 23,
+      "spurious": 37
+    },
+    "judgment_options": [
+      "guideline_difference",
+      "gold_error",
+      "other"
+    ]
+  }
+}

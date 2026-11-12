@@ -1,0 +1,70 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "dataset": "conll2003",
+  "split": "validation",
+  "scope": "validation_300",
+  "subset_ids": "data/subsets/conll2003/validation_300.txt",
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "guideline": true,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [
+    "Nationalities, languages and adjectives made from place names, like German or British, are MISC.",
+    "Countries, cities, regions and other geographic or political places are LOC.",
+    "Sports teams, companies, political parties, government bodies and news agencies are ORG, also when the team is named by its city or country.",
+    "Events, competitions, wars, product names and titles of works are MISC.",
+    "A person entity is the name alone. Titles and roles like President or Mr are left out.",
+    "Dates, times, amounts of money, percentages and other numbers are not entities.",
+    "An entity is the full name with no article or other surrounding word."
+  ],
+  "predictions": "preds/conll2003/qwen7b_k0_guide_validation_300/0.jsonl",
+  "scores": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 366,
+    "fp": 111,
+    "fn": 164,
+    "precision": 0.7672955974842768,
+    "recall": 0.690566037735849,
+    "f1": 0.7269116186693148
+  },
+  "scores_on_parsed_sentences": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 366,
+    "fp": 111,
+    "fn": 164,
+    "precision": 0.7672955974842768,
+    "recall": 0.690566037735849,
+    "f1": 0.7269116186693148
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 0,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 478,
+    "unknown_type": 0,
+    "absent_from_sentence": 4,
+    "absent_from_sentence_rate": 0.008368200836820083
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 44.960163733921945,
+    "inference_sentences_per_second": 6.67257356479895,
+    "gpu_vram_mb": 16457.650390625,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

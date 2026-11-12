@@ -1,0 +1,98 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "btc",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "btc",
+  "input": null,
+  "subset_ids": "data/subsets/btc/test_300.txt",
+  "shots": 10,
+  "selection": "similar",
+  "example_source": "conll2003:train",
+  "guideline": false,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/btc/qwen7b_k10_similar_plain_test_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 282,
+    "fp": 116,
+    "fn": 329,
+    "precision": 0.7085427135678392,
+    "recall": 0.46153846153846156,
+    "f1": 0.5589692765113974
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 52,
+      "fp": 21,
+      "fn": 41,
+      "precision": 0.7123287671232876,
+      "recall": 0.5591397849462365,
+      "f1": 0.6265060240963856
+    },
+    "ORG": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 66,
+      "fp": 48,
+      "fn": 71,
+      "precision": 0.5789473684210527,
+      "recall": 0.48175182481751827,
+      "f1": 0.5258964143426295
+    },
+    "PER": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 164,
+      "fp": 47,
+      "fn": 217,
+      "precision": 0.7772511848341233,
+      "recall": 0.4304461942257218,
+      "f1": 0.5540540540540541
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 282,
+    "fp": 116,
+    "fn": 329,
+    "precision": 0.7085427135678392,
+    "recall": 0.46153846153846156,
+    "f1": 0.5589692765113974
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 0,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 429,
+    "unknown_type": 3,
+    "absent_from_sentence": 31,
+    "absent_from_sentence_rate": 0.07226107226107226
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 66.50746916048229,
+    "inference_sentences_per_second": 4.5107715537348305,
+    "gpu_vram_mb": 21244.748046875,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

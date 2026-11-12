@@ -1,0 +1,62 @@
+{
+  "conll2003": {
+    "plain": {
+      "method": "qwen7b_k0_plain_test_300",
+      "f1": 0.639511201629328,
+      "error_events": 260,
+      "categories": {
+        "missed": 76,
+        "spurious": 90,
+        "boundary": 19,
+        "type": 66,
+        "boundary_and_type": 9
+      },
+      "absent_from_sentence": 10,
+      "summary": "results/error_analysis/c/conll2003_plain/summary.json"
+    },
+    "rules": {
+      "method": "qwen7b_k0_guide_test_300",
+      "f1": 0.6637554585152838,
+      "error_events": 242,
+      "categories": {
+        "missed": 114,
+        "spurious": 62,
+        "boundary": 17,
+        "type": 37,
+        "boundary_and_type": 12
+      },
+      "absent_from_sentence": 12,
+      "summary": "results/error_analysis/c/conll2003_rules/summary.json"
+    }
+  },
+  "wnut17": {
+    "plain": {
+      "method": "qwen7b_k0_plain_test_300",
+      "f1": 0.5147058823529411,
+      "error_events": 213,
+      "categories": {
+        "missed": 52,
+        "spurious": 110,
+        "boundary": 12,
+        "type": 33,
+        "boundary_and_type": 6
+      },
+      "absent_from_sentence": 26,
+      "summary": "results/error_analysis/c/wnut17_plain/summary.json"
+    },
+    "rules": {
+      "method": "qwen7b_k0_guide_test_300",
+      "f1": 0.4805491990846682,
+      "error_events": 194,
+      "categories": {
+        "missed": 105,
+        "spurious": 56,
+        "boundary": 6,
+        "type": 20,
+        "boundary_and_type": 7
+      },
+      "absent_from_sentence": 26,
+      "summary": "results/error_analysis/c/wnut17_rules/summary.json"
+    }
+  }
+}

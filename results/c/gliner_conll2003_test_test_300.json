@@ -1,0 +1,33 @@
+{
+  "method": "GLiNER",
+  "model": "urchade/gliner_medium-v2.1",
+  "dataset": "conll2003",
+  "split": "test",
+  "scope": "test_300",
+  "subset_ids": "data/subsets/conll2003/test_300.txt",
+  "threshold": 0.5,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "predictions": "preds/conll2003/gliner_test_300/0.jsonl",
+  "scores": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 290,
+    "fp": 205,
+    "fn": 194,
+    "precision": 0.5858585858585859,
+    "recall": 0.5991735537190083,
+    "f1": 0.59244126659857
+  },
+  "timing": {
+    "device": "cuda",
+    "batch_size": 32,
+    "inference_seconds": 1.512448599562049,
+    "inference_sentences_per_second": 198.35384824771518,
+    "includes": "tokenization and span decoding"
+  }
+}

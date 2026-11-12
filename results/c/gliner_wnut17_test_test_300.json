@@ -1,0 +1,35 @@
+{
+  "method": "GLiNER",
+  "model": "urchade/gliner_medium-v2.1",
+  "dataset": "wnut17",
+  "split": "test",
+  "scope": "test_300",
+  "subset_ids": "data/subsets/wnut17/test_300.txt",
+  "threshold": 0.5,
+  "type_descriptions": {
+    "person": "person",
+    "location": "location",
+    "corporation": "company",
+    "group": "group such as a band, sports team or organization",
+    "product": "product",
+    "creative-work": "creative work such as a film, song, book or show"
+  },
+  "predictions": "preds/wnut17/gliner_test_300/0.jsonl",
+  "scores": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 115,
+    "fp": 149,
+    "fn": 128,
+    "precision": 0.4356060606060606,
+    "recall": 0.4732510288065844,
+    "f1": 0.4536489151873767
+  },
+  "timing": {
+    "device": "cuda",
+    "batch_size": 32,
+    "inference_seconds": 1.0115066086873412,
+    "inference_sentences_per_second": 296.587286156556,
+    "includes": "tokenization and span decoding"
+  }
+}

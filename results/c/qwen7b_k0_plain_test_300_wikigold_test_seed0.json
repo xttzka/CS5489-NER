@@ -1,0 +1,109 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "wikigold",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "wikigold",
+  "input": null,
+  "subset_ids": "data/subsets/wikigold/test_300.txt",
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "guideline": false,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/wikigold/qwen7b_k0_plain_test_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 461,
+    "fp": 182,
+    "fn": 186,
+    "precision": 0.7169517884914464,
+    "recall": 0.7125193199381762,
+    "f1": 0.7147286821705426
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 138,
+      "fp": 29,
+      "fn": 40,
+      "precision": 0.8263473053892215,
+      "recall": 0.7752808988764045,
+      "f1": 0.8
+    },
+    "MISC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 43,
+      "fp": 68,
+      "fn": 87,
+      "precision": 0.38738738738738737,
+      "recall": 0.33076923076923076,
+      "f1": 0.35684647302904565
+    },
+    "ORG": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 110,
+      "fp": 54,
+      "fn": 28,
+      "precision": 0.6707317073170732,
+      "recall": 0.7971014492753623,
+      "f1": 0.7284768211920529
+    },
+    "PER": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 170,
+      "fp": 31,
+      "fn": 31,
+      "precision": 0.845771144278607,
+      "recall": 0.845771144278607,
+      "f1": 0.845771144278607
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 461,
+    "fp": 182,
+    "fn": 186,
+    "precision": 0.7169517884914464,
+    "recall": 0.7125193199381762,
+    "f1": 0.7147286821705426
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 1,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 639,
+    "unknown_type": 0,
+    "absent_from_sentence": 5,
+    "absent_from_sentence_rate": 0.00782472613458529
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 26.838189158588648,
+    "inference_sentences_per_second": 11.178101407188093,
+    "gpu_vram_mb": 15727.75927734375,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

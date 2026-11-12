@@ -1,0 +1,62 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset": "conll2003",
+  "split": "validation",
+  "scope": "validation_300",
+  "subset_ids": "data/subsets/conll2003/validation_300.txt",
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "guideline": false,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/conll2003/qwen1.5b_k0_plain_validation_300/0.jsonl",
+  "scores": {
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 308,
+    "fp": 329,
+    "fn": 222,
+    "precision": 0.4835164835164835,
+    "recall": 0.5811320754716981,
+    "f1": 0.5278491859468724
+  },
+  "scores_on_parsed_sentences": {
+    "gold_records": 296,
+    "scored_records": 296,
+    "tp": 308,
+    "fp": 329,
+    "fn": 215,
+    "precision": 0.4835164835164835,
+    "recall": 0.5889101338432122,
+    "f1": 0.5310344827586206
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 4,
+    "parse_failures_after_retry": 4,
+    "parse_failure_rate": 0.013333333333333334,
+    "entities": 674,
+    "unknown_type": 6,
+    "absent_from_sentence": 24,
+    "absent_from_sentence_rate": 0.03560830860534125
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 31.564065250568092,
+    "inference_sentences_per_second": 9.504479147995697,
+    "gpu_vram_mb": 3457.6259765625,
+    "parameter_count": 1543714304,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

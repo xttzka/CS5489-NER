@@ -1,0 +1,109 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "conll2003",
+  "split": "validation",
+  "scope": "replacement_replaced_v2",
+  "label_scheme": "conll2003",
+  "input": "data/derived/entity_replacement/conll2003/replaced_v2.jsonl",
+  "subset_ids": null,
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "guideline": false,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/conll2003/qwen7b_k0_plain_replacement_replaced_v2/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 500,
+    "scored_records": 500,
+    "tp": 996,
+    "fp": 364,
+    "fn": 446,
+    "precision": 0.7323529411764705,
+    "recall": 0.6907073509015257,
+    "f1": 0.7109207708779444
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 500,
+      "scored_records": 500,
+      "tp": 348,
+      "fp": 127,
+      "fn": 75,
+      "precision": 0.7326315789473684,
+      "recall": 0.8226950354609929,
+      "f1": 0.7750556792873051
+    },
+    "MISC": {
+      "gold_records": 500,
+      "scored_records": 500,
+      "tp": 35,
+      "fp": 104,
+      "fn": 126,
+      "precision": 0.2517985611510791,
+      "recall": 0.21739130434782608,
+      "f1": 0.23333333333333334
+    },
+    "ORG": {
+      "gold_records": 500,
+      "scored_records": 500,
+      "tp": 243,
+      "fp": 77,
+      "fn": 151,
+      "precision": 0.759375,
+      "recall": 0.616751269035533,
+      "f1": 0.680672268907563
+    },
+    "PER": {
+      "gold_records": 500,
+      "scored_records": 500,
+      "tp": 370,
+      "fp": 56,
+      "fn": 94,
+      "precision": 0.8685446009389671,
+      "recall": 0.7974137931034483,
+      "f1": 0.8314606741573034
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 498,
+    "scored_records": 498,
+    "tp": 996,
+    "fp": 364,
+    "fn": 440,
+    "precision": 0.7323529411764705,
+    "recall": 0.6935933147632312,
+    "f1": 0.7124463519313304
+  },
+  "output": {
+    "sentences": 500,
+    "parse_failures_first_attempt": 4,
+    "parse_failures_after_retry": 2,
+    "parse_failure_rate": 0.004,
+    "entities": 1357,
+    "unknown_type": 0,
+    "absent_from_sentence": 8,
+    "absent_from_sentence_rate": 0.0058953574060427415
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 63.04614920448512,
+    "inference_sentences_per_second": 7.9306984852998745,
+    "gpu_vram_mb": 15884.7255859375,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

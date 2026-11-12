@@ -1,0 +1,117 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "conll2003",
+  "split": "validation",
+  "scope": "validation_300",
+  "label_scheme": "conll2003",
+  "input": null,
+  "subset_ids": "data/subsets/conll2003/validation_300.txt",
+  "shots": 1,
+  "selection": "random",
+  "example_source": "conll2003:train",
+  "guideline": true,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [
+    "Nationalities, languages and adjectives made from place names, like German or British, are MISC.",
+    "Countries, cities, regions and other geographic or political places are LOC.",
+    "Sports teams, companies, political parties, government bodies and news agencies are ORG, also when the team is named by its city or country.",
+    "Events, competitions, wars, product names and titles of works are MISC.",
+    "A person entity is the name alone. Titles and roles like President or Mr are left out.",
+    "Dates, times, amounts of money, percentages and other numbers are not entities.",
+    "An entity is the full name with no article or other surrounding word."
+  ],
+  "predictions": "preds/conll2003/qwen7b_k1_random_guide_validation_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 377,
+    "fp": 118,
+    "fn": 153,
+    "precision": 0.7616161616161616,
+    "recall": 0.7113207547169811,
+    "f1": 0.735609756097561
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 136,
+      "fp": 31,
+      "fn": 33,
+      "precision": 0.8143712574850299,
+      "recall": 0.8047337278106509,
+      "f1": 0.8095238095238095
+    },
+    "MISC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 45,
+      "fp": 54,
+      "fn": 40,
+      "precision": 0.45454545454545453,
+      "recall": 0.5294117647058824,
+      "f1": 0.4891304347826087
+    },
+    "ORG": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 76,
+      "fp": 26,
+      "fn": 53,
+      "precision": 0.7450980392156863,
+      "recall": 0.5891472868217055,
+      "f1": 0.658008658008658
+    },
+    "PER": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 120,
+      "fp": 7,
+      "fn": 27,
+      "precision": 0.9448818897637795,
+      "recall": 0.8163265306122449,
+      "f1": 0.8759124087591241
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 299,
+    "scored_records": 299,
+    "tp": 377,
+    "fp": 118,
+    "fn": 150,
+    "precision": 0.7616161616161616,
+    "recall": 0.715370018975332,
+    "f1": 0.7377690802348337
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 1,
+    "parse_failures_after_retry": 1,
+    "parse_failure_rate": 0.0033333333333333335,
+    "entities": 495,
+    "unknown_type": 0,
+    "absent_from_sentence": 5,
+    "absent_from_sentence_rate": 0.010101010101010102
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 45.3220079690218,
+    "inference_sentences_per_second": 6.6193007204149925,
+    "gpu_vram_mb": 16888.6669921875,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

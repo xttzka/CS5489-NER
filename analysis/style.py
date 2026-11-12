@@ -12,6 +12,10 @@ METHOD = {
     "LoRA-LLM": "#882255", "Distillation": "#AA4499", "Ensemble": "#222222",
 }
 ENTITY = {"PER": "#4477AA", "ORG": "#EE8866", "LOC": "#99DDFF", "MISC": "#663333"}
+ERROR = {
+    "boundary": "#6699CC", "type": "#EECC66", "boundary_and_type": "#889966",
+    "missed": "#BBCCEE", "spurious": "#775588",
+}
 DATASET = {
     "conll2003": "#77AADD", "wnut17": "#EEDD88", "btc": "#666633", "merged": "#222255",
     "mit_restaurant": "#CC6677", "conllpp": "#117733", "wikigold": "#AA4499",
