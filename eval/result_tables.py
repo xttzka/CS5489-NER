@@ -33,12 +33,6 @@ def numeric_leaves(node, path=()):
 def metric_unit(metric, path, value):
     if any(str(part).endswith(("_pp", "_percentage_points")) for part in path):
         return "percentage_point"
-    if metric.endswith(("sentences_per_second", "tokens_per_second")):
-        return "sentences_per_second" if metric.endswith("sentences_per_second") else "tokens_per_second"
-    if metric.endswith("_seconds") or "inference_seconds" in metric:
-        return "seconds"
-    if metric.endswith(("_mib", "_mb")):
-        return "MiB" if metric.endswith("_mib") else "MB"
     if ("f1" in metric or "_fraction_" in metric or metric.endswith("_fraction")
             or metric.rsplit(".", 1)[-1] in {"precision", "recall", "token_accuracy", "overlap", "jaccard", "ari", "nmi"}
             or metric.startswith(("bootstrap_ci95.", "ci95."))):
@@ -301,28 +295,6 @@ def additional_rows():
         native = {**conll, "train_source": dataset, "dataset": dataset, "config": result["parameters"]}
         yield from records(name, data, ("native_windows", "datasets", dataset),
                            condition="contiguous_windows", **native)
-
-    name = "m0_m2_timing.json"
-    data = report(name)
-    baseline = report("m0_m2_baselines.json")["groups"]
-    environment = data["environment"]
-    hardware = {key: environment[key] for key in (
-        "device", "processor", "logical_cpu_count", "platform",
-        "requested_native_thread_limit", "native_thread_pools",
-    )}
-    for dataset, rows in data["datasets"].items():
-        for method, timing in rows["models"].items():
-            parameters = rows.get(f"{method}_parameters", {})
-            config = {
-                "hardware": hardware, "protocol": data["protocol"],
-                "features": rows["features"] if method != "m0" else {},
-                "parameters": parameters,
-                "parameter_count_kind": timing["parameter_count_kind"],
-            }
-            yield from records(name, data, ("datasets", dataset, "models", method),
-                               experiment="timing", method=method.upper(), condition="standard",
-                               train_source=dataset, dataset=dataset, split="test", scope="full",
-                               label_space=label_space(baseline[dataset]["targets"][dataset]["types"]), config=config)
 
 
 def validate_rows(rows):

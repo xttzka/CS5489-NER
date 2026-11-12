@@ -65,12 +65,5 @@
       "recall": 0.8577612863327149,
       "f1": 0.7952981651376146
     }
-  },
-  "timing": {
-    "device": "cuda",
-    "batch_size": 32,
-    "inference_seconds": 5.751664143055677,
-    "inference_sentences_per_second": 600.3479887067137,
-    "includes": "tokenization and span decoding"
   }
 }

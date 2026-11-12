@@ -1,0 +1,300 @@
+{"sample_id": "wnut17:test:1", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "I-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1000", "tags": ["O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1002", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1009", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O"]}
+{"sample_id": "wnut17:test:101", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1011", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "I-person", "I-person", "O", "B-creative-work", "O", "B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1014", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1018", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-product", "I-product", "I-product", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1024", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1032", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O", "B-corporation", "O", "B-person", "O"]}
+{"sample_id": "wnut17:test:1036", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1043", "tags": ["O", "O", "B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O", "O", "B-person", "I-person", "O", "B-person", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1046", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "B-group", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1052", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O"]}
+{"sample_id": "wnut17:test:1055", "tags": ["B-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1056", "tags": ["B-person", "I-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1070", "tags": ["O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1077", "tags": ["O", "O", "B-person", "I-person", "I-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1081", "tags": ["O", "B-person", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1084", "tags": ["B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:109", "tags": ["O", "O", "O", "O", "O", "B-location", "I-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1090", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1097", "tags": ["O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:110", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1101", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1102", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1103", "tags": ["B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1104", "tags": ["O", "O", "B-corporation", "O", "O"]}
+{"sample_id": "wnut17:test:1105", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1109", "tags": ["O", "O", "B-corporation", "O", "O", "O", "B-group", "I-group", "I-group", "I-group", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "B-corporation", "O", "O"]}
+{"sample_id": "wnut17:test:1114", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1115", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "B-creative-work"]}
+{"sample_id": "wnut17:test:1119", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1121", "tags": ["O", "B-corporation", "I-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "I-person", "O"]}
+{"sample_id": "wnut17:test:1122", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1123", "tags": ["O", "O"]}
+{"sample_id": "wnut17:test:1124", "tags": ["B-person", "I-person", "O", "B-person", "I-person", "O", "O", "O", "B-location", "O", "O"]}
+{"sample_id": "wnut17:test:1125", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1128", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1129", "tags": ["O", "O", "O"]}
+{"sample_id": "wnut17:test:1130", "tags": ["B-corporation", "I-corporation", "I-corporation", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1132", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1136", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1142", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1144", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1145", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O"]}
+{"sample_id": "wnut17:test:1148", "tags": ["O", "O", "B-corporation", "I-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1155", "tags": ["O", "O", "O", "B-creative-work", "I-creative-work", "O", "B-person", "I-person", "O"]}
+{"sample_id": "wnut17:test:1158", "tags": ["O", "O", "O", "O", "O", "O", "B-person", "I-person", "I-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1165", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1168", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:117", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1171", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-person", "I-person"]}
+{"sample_id": "wnut17:test:1176", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1178", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1179", "tags": ["O"]}
+{"sample_id": "wnut17:test:1181", "tags": ["O", "O", "O", "O", "B-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1183", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1186", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1189", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "I-person", "O", "O"]}
+{"sample_id": "wnut17:test:1193", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "B-corporation", "O", "O"]}
+{"sample_id": "wnut17:test:1199", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O"]}
+{"sample_id": "wnut17:test:12", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1202", "tags": ["B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1203", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1208", "tags": ["B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "I-location", "I-location", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1218", "tags": ["O", "O", "O", "O", "O", "O", "B-group", "O", "O", "B-group", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:122", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1227", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "I-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1229", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-product", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1233", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1239", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1240", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1241", "tags": ["O"]}
+{"sample_id": "wnut17:test:1252", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1254", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O"]}
+{"sample_id": "wnut17:test:1256", "tags": ["O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1260", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:128", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1283", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:1284", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:13", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:130", "tags": ["O", "O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:133", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:134", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-location", "I-location", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:137", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:14", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:140", "tags": ["O", "O", "B-person", "O", "O", "O"]}
+{"sample_id": "wnut17:test:143", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:144", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:146", "tags": ["O"]}
+{"sample_id": "wnut17:test:155", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:169", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:178", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:182", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "B-person", "I-person"]}
+{"sample_id": "wnut17:test:19", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:190", "tags": ["O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:193", "tags": ["O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:194", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:206", "tags": ["O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:21", "tags": ["O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:216", "tags": ["O", "O", "O", "O", "B-person", "O", "O", "O", "B-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:226", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:229", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:23", "tags": ["O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:231", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:232", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O"]}
+{"sample_id": "wnut17:test:233", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-corporation", "O"]}
+{"sample_id": "wnut17:test:234", "tags": ["O", "O", "O", "O", "B-person", "I-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:236", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:240", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:242", "tags": ["O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:244", "tags": ["O", "O", "O", "B-location", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:246", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:251", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:254", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:26", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:261", "tags": ["O", "O"]}
+{"sample_id": "wnut17:test:262", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:264", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:269", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:273", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group"]}
+{"sample_id": "wnut17:test:276", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:279", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:28", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:281", "tags": ["O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:284", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:288", "tags": ["O", "O", "O", "O", "O", "B-corporation", "O", "O"]}
+{"sample_id": "wnut17:test:290", "tags": ["B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:291", "tags": ["B-person", "I-person", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:294", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:295", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:297", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:299", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "I-corporation", "O", "B-location", "I-location", "O", "B-location", "O", "O", "O"]}
+{"sample_id": "wnut17:test:30", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "I-group", "O", "O", "O"]}
+{"sample_id": "wnut17:test:302", "tags": ["O", "O"]}
+{"sample_id": "wnut17:test:320", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:324", "tags": ["O", "O", "O", "O", "B-person", "O", "O", "O", "B-creative-work", "I-creative-work", "I-creative-work", "O"]}
+{"sample_id": "wnut17:test:325", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:327", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:328", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O"]}
+{"sample_id": "wnut17:test:329", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:331", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:333", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:337", "tags": ["O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:347", "tags": ["O", "O", "B-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:352", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:353", "tags": ["O", "O", "O", "B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:365", "tags": ["O", "O", "O"]}
+{"sample_id": "wnut17:test:366", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "I-location", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:373", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "I-location", "O", "O", "B-person", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:380", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:381", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:387", "tags": ["O", "O", "O"]}
+{"sample_id": "wnut17:test:390", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:392", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-group", "I-group", "O", "O", "B-location", "I-location", "O"]}
+{"sample_id": "wnut17:test:393", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:398", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:406", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:414", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:418", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:419", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "I-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:42", "tags": ["O", "O"]}
+{"sample_id": "wnut17:test:421", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:422", "tags": ["O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:437", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-product", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:438", "tags": ["O", "O", "B-person", "O", "O", "B-person", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:449", "tags": ["O", "O", "O"]}
+{"sample_id": "wnut17:test:460", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:463", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-corporation", "I-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:465", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:467", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:474", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:483", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:493", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:495", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:501", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:506", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:507", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:509", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:512", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:520", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:522", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:528", "tags": ["O", "O", "O", "O", "O", "O", "B-creative-work", "I-creative-work", "O", "O"]}
+{"sample_id": "wnut17:test:529", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:538", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:539", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:54", "tags": ["B-location", "I-location", "I-location", "I-location", "I-location", "O", "B-location", "I-location", "O", "B-location", "I-location", "O", "B-location", "I-location", "O"]}
+{"sample_id": "wnut17:test:540", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:543", "tags": ["O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:55", "tags": ["O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:56", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:57", "tags": ["B-corporation", "O", "O", "O", "O", "O", "B-product", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:576", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O"]}
+{"sample_id": "wnut17:test:58", "tags": ["B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:582", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:584", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:59", "tags": ["O", "O", "O", "B-product", "O", "O"]}
+{"sample_id": "wnut17:test:590", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:598", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:612", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:613", "tags": ["O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:618", "tags": ["B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:619", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:62", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:620", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-group", "I-group", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:63", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:634", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:641", "tags": ["O", "B-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O"]}
+{"sample_id": "wnut17:test:648", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:657", "tags": ["O", "B-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:667", "tags": ["B-creative-work", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:668", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:672", "tags": ["O", "O", "B-creative-work", "I-creative-work"]}
+{"sample_id": "wnut17:test:676", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:677", "tags": ["B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:679", "tags": ["O", "B-person", "I-person", "O", "O", "O", "B-person", "O", "O", "O", "B-person", "I-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:683", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O"]}
+{"sample_id": "wnut17:test:685", "tags": ["O", "O", "O", "B-group", "O", "O", "O", "O", "O", "B-group", "O"]}
+{"sample_id": "wnut17:test:686", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:687", "tags": ["O", "B-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:692", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:693", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:700", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:702", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O"]}
+{"sample_id": "wnut17:test:711", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:716", "tags": ["O"]}
+{"sample_id": "wnut17:test:719", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O"]}
+{"sample_id": "wnut17:test:727", "tags": ["O"]}
+{"sample_id": "wnut17:test:735", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:736", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:737", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:740", "tags": ["O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "B-person", "O", "O", "O"]}
+{"sample_id": "wnut17:test:75", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:760", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:763", "tags": ["O", "O", "O", "O", "B-creative-work", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:767", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:771", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:773", "tags": ["O"]}
+{"sample_id": "wnut17:test:776", "tags": ["O"]}
+{"sample_id": "wnut17:test:777", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:78", "tags": ["O", "O", "B-person", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:788", "tags": ["B-location", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:794", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:803", "tags": ["O", "O", "O", "O", "O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:812", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:815", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:818", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:819", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:821", "tags": ["O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:824", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:829", "tags": ["O"]}
+{"sample_id": "wnut17:test:83", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:831", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:833", "tags": ["O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:834", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:837", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:84", "tags": ["O", "O", "O", "O", "O", "O", "B-person", "O"]}
+{"sample_id": "wnut17:test:841", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:845", "tags": ["O", "O", "B-creative-work", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:853", "tags": ["O", "O", "O", "B-location", "O", "O", "O", "B-group", "I-group", "O", "O"]}
+{"sample_id": "wnut17:test:855", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-creative-work", "O", "B-location"]}
+{"sample_id": "wnut17:test:858", "tags": ["B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O"]}
+{"sample_id": "wnut17:test:860", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:861", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:862", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:865", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:867", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:875", "tags": ["O", "B-creative-work", "I-creative-work", "I-creative-work", "I-creative-work", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:879", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:882", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:886", "tags": ["O", "B-location", "O", "B-location", "I-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:890", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:893", "tags": ["O", "O", "B-creative-work", "I-creative-work", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:902", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:904", "tags": ["O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:907", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:908", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:916", "tags": ["O", "O", "O", "O", "B-location", "O"]}
+{"sample_id": "wnut17:test:917", "tags": ["O", "O", "O", "O", "B-group", "I-group", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:918", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:924", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-group", "O"]}
+{"sample_id": "wnut17:test:925", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:926", "tags": ["O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O"]}
+{"sample_id": "wnut17:test:929", "tags": ["O", "B-corporation", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:936", "tags": ["O", "O", "O", "O", "O", "O", "B-location", "I-location", "I-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:937", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:939", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:94", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "B-location", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:944", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "B-corporation", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:95", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:953", "tags": ["O", "O", "O", "O", "B-group", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:959", "tags": ["O", "O", "O", "O", "O", "O", "B-product", "I-product", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:963", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-location", "O", "O", "O", "O", "B-location", "O", "O"]}
+{"sample_id": "wnut17:test:968", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:980", "tags": ["O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:982", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "I-person"]}
+{"sample_id": "wnut17:test:986", "tags": ["O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:993", "tags": ["O", "O", "O", "B-person", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "wnut17:test:998", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-person", "O", "O"]}

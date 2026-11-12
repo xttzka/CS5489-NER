@@ -155,7 +155,7 @@ C 可把同一提示条件下不同数据集的结果合成一个抽样池。按
 & $exp -B -m eval.analyze_ner_errors agreement --review-a output/review_a.csv --review-b output/review_b.csv --agreement-output output/agreement.json
 ```
 
-## 4. 共用结果表和计时交接
+## 4. 共用结果表
 
 A 的已测结果见 [results/A.csv](results/A.csv)。在项目根目录按成员选择一条命令创建自己的 CSV。脚本会在文件已存在时提示，已有结果可以继续追加。
 
@@ -166,16 +166,11 @@ A 的已测结果见 [results/A.csv](results/A.csv)。在项目根目录按成�
 
 每行写一个数值。例如固定 300 条上的 BERT F1 可以填 `member=B`、`experiment=baseline`、`method=BERT`、`condition=standard`、`dataset=conll2003`、`split=test`、`scope=test_300`、`label_space=LOC+MISC+ORG+PER`、`metric=f1`、`unit=ratio`。标签体系按类别名排序后用 `+` 连接。同时填训练来源、种子、实际分数和来源路径。总体用 `entity_type=all`、`entity_group=all`，类别或熟悉度分组填相应名称。常用范围是 `full`、`test_300`、`validation_300`、`cv_fold` 和 `cv_mean`。比例值写成 0 到 1 之间的小数，百分点评分差用 `percentage_point`。 `config_json` 使用 JSON 对象，`source_ref` 填产生该数值的结果文件或其中的具体位置。
 
-计时结果用 `experiment=timing`。分别记录 `fit_seconds`、`inference_sentences_per_second`、`gpu_vram_mb`（有 GPU 实测时）和 `parameter_count`。在 `config_json` 记录硬件、设备、批大小、精度、预热与重复次数，以及推理计时是否含分词、解析、文件写入等。把 F1 和速度放在一起比较时，对齐数据集、样本范围、标签体系和计时边界，并注明不同设备的影响。A 的 CPU 结果和测量范围可在 [计时报告](results/m0_m2_timing.json) 查到。
-
 三份结果到齐后，可统一核对表头、数值和重复项，并合成一份表。
 
 ```powershell
 & $exp -B -m eval.result_tables merge --input results/A.csv results/B.csv results/C.csv --output results/team_summary.csv
-& $exp -B -m analysis.make_figures --team-results results/team_summary.csv --scope full
 ```
-
-成本图按数据集、成员、方法、训练来源和标签体系匹配 `condition=standard` 的总体 `baseline/f1` 和 `timing/inference_sentences_per_second`。同一方法有多条种子记录时，图上使用平均 F1 和中位吞吐。固定 300 条的对照另传 `--scope test_300`，两项指标也都填 `test_300`。同一张图的数据使用一致的标签体系，记录设备和计时边界以便比较。
 
 ## 5. 交给组内的文件
 

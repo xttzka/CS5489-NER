@@ -59,13 +59,11 @@ def pool_table():
 
 def lora_table():
     targets = (("conll2003", ""), ("conllpp", ""), ("wikigold", ""), ("btc", "_as_conll2003"), ("wnut17", "_as_conll2003"))
-    training = json.loads((RESULTS / "lora_train_conll2003_n0.1_seed0.json").read_text(encoding="utf-8"))
     rows = [
-        ("Prompt, no examples", "0", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
-        ("LoRA, 10\\% CoNLL-03", f"{training['timing']['trainable_parameter_count'] / 1e6:.1f}M",
-         *(llm(f"lora1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("Prompt, no examples", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("LoRA, 10\\% CoNLL-03", *(llm(f"lora1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
     ]
-    return table("llrrrrr", ("Qwen2.5-1.5B", "Trained", *(DATASETS[dataset] for dataset, _ in targets)), rows,
+    return table("lrrrrr", ("Qwen2.5-1.5B", *(DATASETS[dataset] for dataset, _ in targets)), rows,
                  "T4, member C. Entity F1 (%) on the fixed 300-sentence test subsets. BTC and WNUT-17 are scored "
                  "on the shared PER, LOC and ORG types with CoNLL-03 output labels. Load booktabs.")
 
@@ -86,9 +84,26 @@ def robustness_table():
                  "sentence pairs before and after entity replacement. Load booktabs.")
 
 
+def wording_table():
+    """Mean and SD of F1 over three equivalent phrasings of the instructions."""
+    rows = []
+    for label, method in (("No examples", "qwen7b_k0_plain"), ("10 retrieved examples", BEST)):
+        cells = []
+        for dataset in ("conll2003", "wnut17", "mit_restaurant"):
+            values = []
+            for suffix in ("", "_w1", "_w2"):
+                path = RESULTS / f"{method}{suffix}_test_300_{dataset}_test_seed0.json"
+                values.append(100 * json.loads(path.read_text(encoding="utf-8"))["scores"]["f1"])
+            cells.append(f"{mean(values):.1f} $\\pm$ {pstdev(values):.1f}")
+        rows.append((label, *cells))
+    return table("lrrr", ("Qwen2.5-7B", DATASETS["conll2003"], DATASETS["wnut17"], DATASETS["mit_restaurant"]), rows,
+                 "Member C. Entity F1 (%) on the fixed 300-sentence test subsets, mean and SD over three "
+                 "equivalent phrasings of the instructions. Load booktabs.")
+
+
 def main():
     tables = {"t3_c": zero_shot_table(), "t4_c": lora_table(), "robustness_c": robustness_table(),
-              "pool_c": pool_table()}
+              "pool_c": pool_table(), "wording_c": wording_table()}
     for key, content in tables.items():
         (OUTPUT / f"{key}.tex").write_text(content, encoding="utf-8", newline="\n")
         print(OUTPUT / f"{key}.tex")

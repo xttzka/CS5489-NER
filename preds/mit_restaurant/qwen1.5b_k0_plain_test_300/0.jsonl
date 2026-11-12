@@ -1,0 +1,300 @@
+{"sample_id": "mit_restaurant:test:1", "tags": ["O", "B-Cuisine", "I-Cuisine", "O"]}
+{"sample_id": "mit_restaurant:test:1000", "tags": ["B-Cuisine", "B-Amenity", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:1002", "tags": ["O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1009", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Rating", "I-Rating", "O", "O"]}
+{"sample_id": "mit_restaurant:test:101", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1018", "tags": ["O", "O", "O", "B-Cuisine", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1024", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Cuisine", "O", "O", "O", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1032", "tags": ["O", "O", "B-Restaurant_Name", "O", "O", "B-Amenity", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1036", "tags": ["O", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "I-Amenity", "O", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1043", "tags": ["B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1046", "tags": ["B-Amenity", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1052", "tags": ["O", "O", "B-Cuisine", "I-Cuisine", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1055", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1056", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "B-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1077", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1081", "tags": ["B-Cuisine"]}
+{"sample_id": "mit_restaurant:test:1084", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:109", "tags": ["B-Dish"]}
+{"sample_id": "mit_restaurant:test:1090", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1097", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location", "I-Location", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:110", "tags": ["B-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1102", "tags": ["O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1103", "tags": ["O", "O", "O", "O", "B-Rating", "O", "B-Amenity", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1104", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1105", "tags": ["O", "B-Amenity", "I-Amenity", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1109", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1114", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1115", "tags": ["O", "O", "O", "B-Rating", "I-Rating", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1119", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1121", "tags": ["O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1124", "tags": ["O", "O", "O", "O", "B-Amenity", "O", "B-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:1125", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1128", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1129", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1136", "tags": ["O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1142", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1144", "tags": ["O", "O", "O", "B-Location", "I-Location", "O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:1155", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1158", "tags": ["O", "O", "O", "B-Amenity", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:1165", "tags": ["O", "O", "B-Restaurant_Name", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:1168", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Rating", "I-Rating", "O", "O", "B-Location", "I-Location", "I-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:117", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1171", "tags": ["O", "O", "O", "O", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1176", "tags": ["O", "B-Restaurant_Name", "O", "B-Price", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1178", "tags": ["O", "B-Restaurant_Name", "O", "B-Cuisine", "I-Cuisine", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:1179", "tags": ["O", "B-Restaurant_Name", "O", "B-Price", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1183", "tags": ["O", "B-Restaurant_Name", "O", "B-Dish", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1186", "tags": ["O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "B-Rating", "I-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:1193", "tags": ["O", "B-Amenity", "O", "B-Location", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1199", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:12", "tags": ["O", "B-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1202", "tags": ["O", "O", "O", "B-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:1203", "tags": ["O", "O", "O", "O", "O", "B-Hours"]}
+{"sample_id": "mit_restaurant:test:1208", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:122", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location", "I-Location", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1227", "tags": ["O", "O", "O", "B-Hours"]}
+{"sample_id": "mit_restaurant:test:1229", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1233", "tags": ["O", "O", "O", "B-Amenity", "O", "B-Location", "I-Location", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1240", "tags": ["O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1252", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1254", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Rating", "I-Rating", "I-Rating", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1256", "tags": ["O", "O", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:1260", "tags": ["O", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:128", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1283", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:1284", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1289", "tags": ["O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "B-Location", "I-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1291", "tags": ["O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:1292", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1295", "tags": ["O", "O", "O", "O", "B-Cuisine", "O", "O", "B-Price", "O", "O", "B-Price"]}
+{"sample_id": "mit_restaurant:test:1298", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1299", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1300", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:1301", "tags": ["O", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1303", "tags": ["O", "O", "O", "O", "O", "B-Rating", "I-Rating", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:1312", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1326", "tags": ["O", "O", "O", "O", "B-Dish", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1335", "tags": ["O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:1347", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:1348", "tags": ["O", "O", "O", "O", "O", "B-Dish", "I-Dish", "I-Dish", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1350", "tags": ["O", "O", "O", "O", "O", "B-Dish", "I-Dish", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:1351", "tags": ["O", "O", "O", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1364", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish", "I-Dish", "O", "O", "O", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:1368", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Amenity", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:1384", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1387", "tags": ["O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1388", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:139", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1391", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1392", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1394", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1399", "tags": ["O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:140", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Dish", "I-Dish", "O", "O", "B-Hours", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:1401", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1403", "tags": ["O", "O", "O", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:1409", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1411", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1417", "tags": ["O", "O", "O", "B-Location", "I-Location", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:1419", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:142", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1421", "tags": ["O", "O", "O", "O", "B-Amenity", "O", "B-Amenity", "I-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1426", "tags": ["O", "O", "O", "B-Location", "O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1433", "tags": ["O", "O", "O", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:1436", "tags": ["O", "O", "O", "B-Location", "B-Restaurant_Name", "I-Restaurant_Name", "B-Hours", "I-Hours", "O", "B-Cuisine"]}
+{"sample_id": "mit_restaurant:test:1439", "tags": ["O", "O", "O", "B-Location", "I-Location", "O", "B-Amenity", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:1441", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "B-Rating"]}
+{"sample_id": "mit_restaurant:test:1445", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1449", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1452", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1454", "tags": ["O", "O", "O", "B-Location", "O", "B-Amenity", "O", "B-Location", "B-Location", "B-Location"]}
+{"sample_id": "mit_restaurant:test:1456", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1458", "tags": ["O", "O", "O", "O", "O", "B-Price", "I-Price", "B-Amenity", "O", "B-Location", "I-Location", "I-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1460", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:1482", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1483", "tags": ["O", "O", "O", "B-Cuisine", "I-Cuisine", "O", "B-Location", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1485", "tags": ["O", "O", "B-Restaurant_Name", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:1486", "tags": ["O", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:1487", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Hours", "O", "O"]}
+{"sample_id": "mit_restaurant:test:149", "tags": ["O", "O", "O", "O", "B-Cuisine", "B-Restaurant_Name", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1491", "tags": ["O", "B-Restaurant_Name", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:1495", "tags": ["O", "B-Amenity", "O", "O", "B-Cuisine", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1504", "tags": ["O", "O", "O", "B-Dish", "O", "O"]}
+{"sample_id": "mit_restaurant:test:151", "tags": ["O", "O", "O", "B-Cuisine", "I-Cuisine", "I-Cuisine", "O", "O", "B-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:1510", "tags": ["O", "O", "O", "O", "B-Dish", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:155", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:162", "tags": ["O", "O", "O", "O", "O", "B-Location", "O", "O", "O", "O", "O", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:17", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:170", "tags": ["O", "O", "O", "O", "O", "B-Dish", "I-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:176", "tags": ["O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:18", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:196", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:203", "tags": ["O", "O", "O", "O", "O", "B-Rating", "I-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:207", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Cuisine", "B-Amenity", "O"]}
+{"sample_id": "mit_restaurant:test:209", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:210", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Location", "O"]}
+{"sample_id": "mit_restaurant:test:226", "tags": ["B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:227", "tags": ["B-Restaurant_Name", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:238", "tags": ["O", "O", "O", "O", "B-Cuisine", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:25", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:252", "tags": ["O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:254", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:256", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:263", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:282", "tags": ["O", "B-Restaurant_Name", "B-Dish", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:284", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location", "I-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:291", "tags": ["O", "O", "O", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:296", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:297", "tags": ["O", "B-Restaurant_Name", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:299", "tags": ["O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O"]}
+{"sample_id": "mit_restaurant:test:301", "tags": ["O", "B-Restaurant_Name", "O", "O", "B-Dish", "I-Dish", "O"]}
+{"sample_id": "mit_restaurant:test:311", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location", "I-Location", "I-Location", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:317", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:318", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Location", "I-Location", "O"]}
+{"sample_id": "mit_restaurant:test:327", "tags": ["O", "O", "B-Restaurant_Name", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:328", "tags": ["B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "B-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:329", "tags": ["B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:33", "tags": ["O", "O", "O", "B-Dish", "O", "B-Dish", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:332", "tags": ["O", "O", "B-Amenity", "O", "B-Dish", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:339", "tags": ["O", "O", "B-Amenity", "I-Amenity", "O", "O", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:349", "tags": ["O", "O", "B-Cuisine", "I-Cuisine", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:359", "tags": ["O", "O", "O", "B-Price", "I-Price", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:365", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:369", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:371", "tags": ["O", "O", "O", "O", "B-Amenity", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:379", "tags": ["O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:38", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:387", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Rating", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:402", "tags": ["O", "O", "O", "O", "B-Amenity", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:407", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:408", "tags": ["O", "O", "O", "B-Location", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:409", "tags": ["O", "O", "O", "B-Location", "B-Cuisine", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:41", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:419", "tags": ["O", "O", "O", "B-Price", "B-Cuisine", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:423", "tags": ["O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:430", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:437", "tags": ["O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:446", "tags": ["O", "B-Amenity", "O", "O", "B-Location", "O", "B-Dish", "O", "O"]}
+{"sample_id": "mit_restaurant:test:456", "tags": ["O", "O", "O", "B-Amenity", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:457", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:461", "tags": ["O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:465", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:466", "tags": ["O", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:468", "tags": ["O", "O", "O", "B-Location", "I-Location", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:475", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:476", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "B-Amenity", "I-Amenity", "O", "B-Price", "O", "O", "B-Rating", "O", "B-Rating", "I-Rating", "I-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:481", "tags": ["O", "O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:482", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "O", "B-Amenity", "O", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:490", "tags": ["O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:492", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "B-Price", "B-Cuisine", "O"]}
+{"sample_id": "mit_restaurant:test:500", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:505", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:508", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:516", "tags": ["O", "O", "O", "O", "B-Location", "I-Location", "O", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:524", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:525", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location", "I-Location", "O", "O"]}
+{"sample_id": "mit_restaurant:test:526", "tags": ["O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:53", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:539", "tags": ["B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Amenity", "O"]}
+{"sample_id": "mit_restaurant:test:55", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:552", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine", "O", "O", "O", "O", "O", "O", "B-Price", "I-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:560", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:565", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:569", "tags": ["O", "O", "O", "B-Rating", "I-Rating", "O", "B-Location", "B-Hours"]}
+{"sample_id": "mit_restaurant:test:577", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:583", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish", "O", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:601", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:604", "tags": ["O", "O", "O", "B-Rating", "O", "O", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:607", "tags": ["O", "O", "O", "B-Hours", "I-Hours", "I-Hours", "O", "B-Restaurant_Name", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:610", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:613", "tags": ["O", "O", "O", "O", "B-Cuisine", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:618", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:619", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:622", "tags": ["O", "O", "O", "B-Cuisine", "B-Dish", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:623", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:626", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:629", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "B-Dish", "I-Dish", "I-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:634", "tags": ["O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:642", "tags": ["O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:644", "tags": ["O", "O", "O", "B-Dish", "I-Dish", "I-Dish", "O", "B-Location", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:647", "tags": ["O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:65", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Amenity", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:650", "tags": ["O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:654", "tags": ["O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Dish", "O", "B-Dish", "O"]}
+{"sample_id": "mit_restaurant:test:656", "tags": ["O", "O", "O", "O", "O", "B-Rating", "B-Restaurant_Name", "O", "O", "O", "O", "O", "O", "B-Hours"]}
+{"sample_id": "mit_restaurant:test:664", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:675", "tags": ["O", "O", "O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:682", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:692", "tags": ["O", "O", "O", "O", "O", "O", "B-Cuisine", "B-Restaurant_Name", "O", "O", "O", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:694", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:698", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:705", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:706", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Cuisine", "O"]}
+{"sample_id": "mit_restaurant:test:707", "tags": ["O", "O", "O", "O", "O", "B-Cuisine", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:713", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:714", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Amenity", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:715", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:718", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:728", "tags": ["O", "O", "O", "O", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:729", "tags": ["O", "O", "O", "O", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:733", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "B-Price"]}
+{"sample_id": "mit_restaurant:test:739", "tags": ["O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:742", "tags": ["O", "O", "O", "O", "B-Cuisine", "I-Cuisine"]}
+{"sample_id": "mit_restaurant:test:748", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:752", "tags": ["O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:77", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "B-Dish", "O", "O", "B-Hours", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:782", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:787", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:789", "tags": ["O", "O", "O", "B-Amenity", "B-Hours", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:793", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "B-Location", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:80", "tags": ["O", "O", "O", "B-Amenity", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:800", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O"]}
+{"sample_id": "mit_restaurant:test:807", "tags": ["O", "O", "O", "B-Cuisine", "I-Cuisine", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:808", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:809", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "B-Location", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:810", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:814", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "O", "O", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:820", "tags": ["O", "O", "O", "B-Amenity", "B-Amenity", "B-Location", "O", "O", "O", "B-Dish", "O"]}
+{"sample_id": "mit_restaurant:test:824", "tags": ["O", "O", "O", "B-Cuisine", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:827", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location", "O", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:831", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:834", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "B-Rating", "I-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:838", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O"]}
+{"sample_id": "mit_restaurant:test:844", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location", "I-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:846", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "O", "B-Hours", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:849", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:85", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Amenity", "I-Amenity", "O", "O"]}
+{"sample_id": "mit_restaurant:test:863", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:865", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "B-Rating", "I-Rating", "I-Rating", "O", "O", "O", "B-Amenity", "O"]}
+{"sample_id": "mit_restaurant:test:868", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:871", "tags": ["O", "O", "O", "O", "O", "O", "B-Location", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:877", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:884", "tags": ["O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:887", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:89", "tags": ["O", "O", "O", "B-Cuisine", "O", "O", "O", "B-Price"]}
+{"sample_id": "mit_restaurant:test:892", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O"]}
+{"sample_id": "mit_restaurant:test:899", "tags": ["O", "O", "O", "B-Location", "I-Location", "I-Location", "I-Location", "I-Location", "O", "O", "O", "B-Rating", "I-Rating"]}
+{"sample_id": "mit_restaurant:test:900", "tags": ["O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "O", "O", "B-Location", "I-Location", "I-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:913", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:916", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Location", "I-Location"]}
+{"sample_id": "mit_restaurant:test:922", "tags": ["O", "O", "B-Cuisine", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:923", "tags": ["O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:928", "tags": ["O", "O", "B-Restaurant_Name", "O", "B-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:934", "tags": ["O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:944", "tags": ["B-Dish", "I-Dish", "I-Dish"]}
+{"sample_id": "mit_restaurant:test:95", "tags": ["O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Hours", "O", "O", "O", "B-Location"]}
+{"sample_id": "mit_restaurant:test:953", "tags": ["O", "O", "B-Amenity", "I-Amenity", "I-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:954", "tags": ["O", "B-Restaurant_Name", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:956", "tags": ["O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:959", "tags": ["O", "O", "O", "B-Rating", "I-Rating", "O", "O", "O", "O", "O", "B-Dish"]}
+{"sample_id": "mit_restaurant:test:960", "tags": ["O", "O", "O", "B-Restaurant_Name", "O", "O", "O", "O", "O", "B-Amenity", "O"]}
+{"sample_id": "mit_restaurant:test:963", "tags": ["O", "O", "O", "B-Price", "I-Price", "B-Amenity", "I-Amenity", "O", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:972", "tags": ["O", "O", "B-Amenity", "I-Amenity", "O", "B-Hours"]}
+{"sample_id": "mit_restaurant:test:974", "tags": ["O", "O", "O", "O", "B-Dish", "O", "O", "O"]}
+{"sample_id": "mit_restaurant:test:975", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "O", "O", "B-Amenity", "I-Amenity", "I-Amenity"]}
+{"sample_id": "mit_restaurant:test:977", "tags": ["O", "O", "B-Restaurant_Name", "I-Restaurant_Name", "I-Restaurant_Name", "O", "O", "B-Hours", "I-Hours"]}
+{"sample_id": "mit_restaurant:test:979", "tags": ["O", "O", "O", "B-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:986", "tags": ["O", "O", "O", "B-Location", "I-Location", "I-Location", "I-Location", "B-Price", "I-Price", "I-Price", "I-Price"]}
+{"sample_id": "mit_restaurant:test:988", "tags": ["O", "O", "B-Dish", "I-Dish", "O", "O", "B-Amenity"]}
+{"sample_id": "mit_restaurant:test:995", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}
+{"sample_id": "mit_restaurant:test:997", "tags": ["O", "O", "O", "O", "O", "O", "O", "B-Restaurant_Name", "I-Restaurant_Name"]}

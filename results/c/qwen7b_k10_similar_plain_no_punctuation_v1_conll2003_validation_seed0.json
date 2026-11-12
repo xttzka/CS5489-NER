@@ -95,15 +95,5 @@
     "unknown_type": 0,
     "absent_from_sentence": 79,
     "absent_from_sentence_rate": 0.013794307665444386
-  },
-  "timing": {
-    "device": "NVIDIA H20",
-    "dtype": "bfloat16",
-    "batch_size": 64,
-    "inference_seconds": 719.3235619487241,
-    "inference_sentences_per_second": 4.800343242817537,
-    "gpu_vram_mb": 44448.89404296875,
-    "parameter_count": 7615616512,
-    "includes": "tokenization, generation and JSON parsing of the first attempt"
   }
 }

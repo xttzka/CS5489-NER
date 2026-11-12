@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-import time
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -18,6 +17,25 @@ from models.llm.common import (
 MODELS = {"1.5b": "Qwen/Qwen2.5-1.5B-Instruct", "7b": "Qwen/Qwen2.5-7B-Instruct"}
 ENCODER = "sentence-transformers/all-MiniLM-L6-v2"
 SYSTEM = "You extract named entities from text and answer with JSON only."
+# Equivalent phrasings of the same task: opening line, type heading, rule heading and answer format.
+WORDINGS = (
+    (
+        "Extract the named entities from each sentence.", "Entity types:", "Annotation rules:",
+        'Answer with one JSON list in the form [{"text": "...", "type": "..."}]. "text" is copied exactly '
+        'from the sentence and "type" is one of the type names above. Answer [] when the sentence has no entity.',
+    ),
+    (
+        "Find all named entities in the sentence you are given.", "Possible entity types:", "Labelling rules:",
+        'Return a JSON list of objects such as [{"text": "...", "type": "..."}]. Copy "text" from the sentence '
+        'word for word and choose "type" from the names above. Return [] if there is no entity.',
+    ),
+    (
+        "You will be given a sentence. List every named entity it mentions.", "Use these entity types:",
+        "Follow these rules:",
+        'Output only a JSON list like [{"text": "...", "type": "..."}], where "text" is the exact span from '
+        'the sentence and "type" is one of the listed type names. Output [] for a sentence without entities.',
+    ),
+)
 
 
 def gold_entities(row, types):
@@ -26,18 +44,14 @@ def gold_entities(row, types):
     return [{"text": " ".join(row["tokens"][start:end]), "type": kind} for start, end, kind in spans if kind in types]
 
 
-def build_messages(text, descriptions, guidelines, examples):
+def build_messages(text, descriptions, guidelines, examples, wording=0):
     """Give the task once, then each example as a user sentence answered by its JSON list."""
-    lines = ["Extract the named entities from each sentence.", "", "Entity types:"]
+    task, type_heading, rule_heading, answer_format = WORDINGS[wording]
+    lines = [task, "", type_heading]
     lines += [f"- {kind}: {description}" for kind, description in descriptions.items()]
     if guidelines:
-        lines += ["", "Annotation rules:"] + [f"- {rule}" for rule in guidelines]
-    lines += [
-        "",
-        'Answer with one JSON list in the form [{"text": "...", "type": "..."}]. "text" is copied exactly '
-        'from the sentence and "type" is one of the type names above. Answer [] when the sentence has no entity.',
-        "",
-    ]
+        lines += ["", rule_heading] + [f"- {rule}" for rule in guidelines]
+    lines += ["", answer_format, ""]
     messages = [{"role": "system", "content": SYSTEM}]
     prefix = "\n".join(lines) + "\n"
     for sentence, entities in examples:
@@ -128,14 +142,11 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     guidelines = GUIDELINES.get(schema, ()) if args.guideline else ()
     if args.guideline and not guidelines:
         raise ValueError(f"{schema}: no annotation rules are written for this label scheme")
-    prompts = [build_messages(text, descriptions, guidelines, examples)
+    prompts = [build_messages(text, descriptions, guidelines, examples, args.wording)
                for text, examples in zip(texts, picker.pick(texts), strict=True)]
 
-    torch.cuda.reset_peak_memory_stats()
-    start = time.perf_counter()
     answers = generate(model, tokenizer, prompts, args.batch_size, args.max_new_tokens)
     parsed = [parse_entities(answer) for answer in answers]
-    seconds = time.perf_counter() - start
     first_failures = [index for index, entities in enumerate(parsed) if entities is None]
     if first_failures:
         # One retry with a longer answer budget recovers lists cut off before the closing bracket.
@@ -156,6 +167,7 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     method = (("lora" if args.adapter else "qwen") + f"{size}_k{args.shots}"
               + (f"_{args.selection}" if args.shots else "") + ("_guide" if args.guideline else "_plain")
               + (f"_pool{args.pool_size}" if args.shots and args.pool_size else "")
+              + (f"_w{args.wording}" if args.wording else "")
               + (f"_as_{schema}" if schema != dataset else "") + f"_{scope}")
     path = write_predictions(dataset, method, rows, tags, args.seed)
     raw_path = RAW_OUTPUT / dataset / method / f"{args.seed}.jsonl"
@@ -176,7 +188,8 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
         "example_source": f"{source}:train" if args.shots else None,
         "example_pool_size": args.pool_size if args.shots else None,
         "example_pool_sentences": len(pool), "example_pool_with_entities": len(picker.pool),
-        "guideline": args.guideline, "seed": args.seed, "max_new_tokens": args.max_new_tokens,
+        "guideline": args.guideline, "wording": args.wording, "seed": args.seed,
+        "max_new_tokens": args.max_new_tokens,
         "type_descriptions": descriptions, "annotation_rules": list(guidelines),
         "predictions": path.relative_to(PROJECT).as_posix(),
         "scores": score_any(rows, tags, dataset, schema),
@@ -195,19 +208,12 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
             "absent_from_sentence": totals["absent_from_sentence"],
             "absent_from_sentence_rate": totals["absent_from_sentence"] / totals["entities"] if totals["entities"] else 0.0,
         },
-        "timing": {
-            "device": torch.cuda.get_device_name(0), "dtype": "bfloat16", "batch_size": args.batch_size,
-            "inference_seconds": seconds, "inference_sentences_per_second": len(rows) / seconds,
-            "gpu_vram_mb": torch.cuda.max_memory_allocated() / 2**20,
-            "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
-            "includes": "tokenization, generation and JSON parsing of the first attempt",
-        },
     }
     save_json(RESULTS / f"{method}_{dataset}_{args.split}_seed{args.seed}.json", report)
     output = report["output"]
     print(f"{dataset} {method}: F1={report['scores']['f1']:.2%} P={report['scores']['precision']:.2%} "
           f"R={report['scores']['recall']:.2%} | parse failures {output['parse_failures_after_retry']} "
-          f"| absent {output['absent_from_sentence_rate']:.2%} | {report['timing']['inference_sentences_per_second']:.1f} sent/s",
+          f"| absent {output['absent_from_sentence_rate']:.2%}",
           flush=True)
 
 
@@ -225,6 +231,8 @@ def main():
     parser.add_argument("--selection", choices=("random", "similar"), default="random")
     parser.add_argument("--pool-size", help="Labelled sentences available as examples: a count such as 50 "
                                              "or a share such as 0.1; the full training split by default")
+    parser.add_argument("--wording", type=int, choices=range(len(WORDINGS)), default=0,
+                        help="Which equivalent phrasing of the instructions to use")
     parser.add_argument("--guideline", action="store_true", help="Add the annotation rules of the label scheme")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=32)

@@ -22,12 +22,5 @@
     "precision": 0.6086956521739131,
     "recall": 0.6339622641509434,
     "f1": 0.6210720887245841
-  },
-  "timing": {
-    "device": "cuda",
-    "batch_size": 32,
-    "inference_seconds": 1.4154558880254626,
-    "inference_sentences_per_second": 211.9458490638624,
-    "includes": "tokenization and span decoding"
   }
 }

@@ -1,0 +1,147 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "mit_restaurant",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "mit_restaurant",
+  "input": null,
+  "subset_ids": "data/subsets/mit_restaurant/test_300.txt",
+  "shots": 10,
+  "selection": "similar",
+  "example_source": "mit_restaurant:train",
+  "example_pool_size": null,
+  "example_pool_sentences": 6894,
+  "example_pool_with_entities": 6809,
+  "guideline": false,
+  "wording": 1,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "Amenity": "restaurant amenity or feature",
+    "Cuisine": "cuisine",
+    "Dish": "dish or food item",
+    "Hours": "opening hours or time",
+    "Location": "location or distance",
+    "Price": "price level",
+    "Rating": "rating or review quality",
+    "Restaurant_Name": "restaurant name"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/mit_restaurant/qwen7b_k10_similar_plain_w1_test_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 425,
+    "fp": 178,
+    "fn": 168,
+    "precision": 0.7048092868988391,
+    "recall": 0.7166947723440135,
+    "f1": 0.7107023411371237
+  },
+  "per_type": {
+    "Amenity": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 58,
+      "fp": 44,
+      "fn": 38,
+      "precision": 0.5686274509803921,
+      "recall": 0.6041666666666666,
+      "f1": 0.5858585858585859
+    },
+    "Cuisine": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 86,
+      "fp": 22,
+      "fn": 17,
+      "precision": 0.7962962962962963,
+      "recall": 0.8349514563106796,
+      "f1": 0.8151658767772512
+    },
+    "Dish": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 37,
+      "fp": 11,
+      "fn": 18,
+      "precision": 0.7708333333333334,
+      "recall": 0.6727272727272727,
+      "f1": 0.7184466019417476
+    },
+    "Hours": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 19,
+      "fp": 11,
+      "fn": 13,
+      "precision": 0.6333333333333333,
+      "recall": 0.59375,
+      "f1": 0.6129032258064516
+    },
+    "Location": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 113,
+      "fp": 39,
+      "fn": 40,
+      "precision": 0.743421052631579,
+      "recall": 0.738562091503268,
+      "f1": 0.740983606557377
+    },
+    "Price": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 23,
+      "fp": 17,
+      "fn": 12,
+      "precision": 0.575,
+      "recall": 0.6571428571428571,
+      "f1": 0.6133333333333333
+    },
+    "Rating": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 22,
+      "fp": 18,
+      "fn": 15,
+      "precision": 0.55,
+      "recall": 0.5945945945945946,
+      "f1": 0.5714285714285714
+    },
+    "Restaurant_Name": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 67,
+      "fp": 16,
+      "fn": 15,
+      "precision": 0.8072289156626506,
+      "recall": 0.8170731707317073,
+      "f1": 0.8121212121212121
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 425,
+    "fp": 178,
+    "fn": 168,
+    "precision": 0.7048092868988391,
+    "recall": 0.7166947723440135,
+    "f1": 0.7107023411371237
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 0,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 609,
+    "unknown_type": 2,
+    "absent_from_sentence": 3,
+    "absent_from_sentence_rate": 0.0049261083743842365
+  }
+}

@@ -31,11 +31,6 @@
       "mean_loss": 0.013905953957212412
     }
   ],
-  "timing": {
-    "device": "NVIDIA H20",
-    "fit_seconds": 165.74492038041353,
-    "gpu_vram_mb": 35857.69140625,
-    "trainable_parameter_count": 4358144,
-    "parameter_count": 1548072448
-  }
+  "trainable_parameter_count": 4358144,
+  "parameter_count": 1548072448
 }

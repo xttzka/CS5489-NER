@@ -1,10 +1,8 @@
-"""Generate F1, F3(a), F5, F6(b), F7 and speed–accuracy frontiers."""
+"""Generate F1, F3(a), F5, F6(b) and F7."""
 
 import argparse
-from collections import defaultdict
 import json
 from pathlib import Path
-from statistics import mean, median
 
 import matplotlib
 
@@ -13,11 +11,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
-from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter
 
 from analysis.data_exploration import DATASETS, ROOT
 from analysis.style import DATASET, ENTITY, METHOD, TEXT_WIDTH, setup
-from eval.result_tables import read_csv, validate_rows
 
 
 RESULTS = ROOT / "results"
@@ -240,103 +236,11 @@ def figure_7():
     save(fig, "f7")
 
 
-def figure_10_a():
-    timing = read("m0_m2_timing")["datasets"]
-    baseline = read("m0_m2_baselines")["groups"]
-    panels = {}
-    for dataset, record in timing.items():
-        panels[dataset] = {}
-        for method, data in record["models"].items():
-            ci = baseline[dataset]["targets"][dataset]["full"]["models"][method]["bootstrap_ci95"]["f1"]
-            panels[dataset][method.upper()] = data["inference_sentences_per_second"], data["full_test_f1"], ci
-    plot_frontiers(panels, "f10_a")
-
-
-def team_costs(path, scope):
-    """Join test F1 and timing only when member, model, training source and labels agree."""
-    metrics = defaultdict(dict)
-    for row in validate_rows(read_csv(path)):
-        if row["split"] != "test" or row["scope"] != scope or row["condition"] != "standard":
-            continue
-        if row["dataset"] not in {"conll2003", "wnut17", "mit_restaurant"}:
-            continue
-        if row["entity_type"] != "all" or row["entity_group"] != "all":
-            continue
-        pair = row["experiment"], row["metric"]
-        if pair not in {("baseline", "f1"), ("timing", "inference_sentences_per_second")}:
-            continue
-        key = tuple(row[field] for field in ("dataset", "member", "method", "train_source", "label_space"))
-        metric = row["metric"]
-        by_seed = metrics[key].setdefault(metric, {})
-        value = float(row["value"])
-        unit = "ratio" if metric == "f1" else "sentences_per_second"
-        if row["unit"] != unit or (not 0 <= value <= 1 if metric == "f1" else value <= 0):
-            raise ValueError(f"{key}: invalid {metric} or unit")
-        if row["seed"] in by_seed:
-            raise ValueError(f"{key}: several standard {metric} rows for seed {row['seed']!r}")
-        by_seed[row["seed"]] = value
-
-    panels = defaultdict(dict)
-    panel_labels = {}
-    for (dataset, member, method, source, labels), values in metrics.items():
-        if len(values) != 2:
-            print(f"Missing paired score or timing: {member}/{method}/{dataset}/{source or 'zero-shot'}")
-            continue
-        if not labels or panel_labels.setdefault(dataset, labels) != labels:
-            raise ValueError(f"{dataset}: frontier points must share the same label space")
-        if method in panels[dataset]:
-            raise ValueError(f"{dataset}/{method}: use distinct method names for separate training sources or members")
-        panels[dataset][method] = median(values["inference_sentences_per_second"].values()), mean(values["f1"].values()), None
-    if not panels:
-        raise ValueError(f"no matching standard F1 and throughput rows for {scope}")
-    return panels
-
-
-def plot_frontiers(panels, name):
-    fig, axes = plt.subplots(1, len(panels), figsize=(TEXT_WIDTH, 2.8), sharex=True, sharey=True, squeeze=False, layout="constrained")
-    speeds = [speed for methods in panels.values() for speed, _, _ in methods.values()]
-    tick_positions = (1, 2, 5) if max(speeds) / min(speeds) < 200 else (1,)
-    labels = {}
-    for ax, (dataset, methods) in zip(axes[0], panels.items(), strict=True):
-        points = []
-        for method, (speed, score, ci) in methods.items():
-            f1 = 100 * score
-            if ci is not None:
-                interval(ax, speed, *(100 * value for value in ci))
-            dot = ax.scatter(speed, f1, s=24, edgecolors="#444444", color=METHOD.get(method, "#777777"), zorder=3)
-            labels.setdefault(method, dot)
-            points.append((speed, f1))
-        frontier = [point for point in points if not any(
-            other[0] >= point[0] and other[1] >= point[1] and other != point for other in points
-        )]
-        if len(frontier) > 1:
-            ax.plot(*zip(*sorted(frontier)), color="#777777", linewidth=0.9)
-        ax.set_xscale("log")
-        ax.set_ylim(-4, 104)
-        ax.xaxis.set_major_locator(LogLocator(subs=tick_positions, numticks=5))
-        ax.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value / 1000:g}k" if value >= 1000 else f"{value:g}"))
-        ax.xaxis.set_minor_formatter(NullFormatter())
-        ax.set_xlabel(SHORT_DATASET[dataset])
-    axes[0][0].set_ylabel("F1 (%)")
-    fig.legend(labels.values(), labels.keys(), loc="outside upper center", ncols=min(len(labels), 6))
-    fig.supxlabel("Inference sentences/s (log scale)")
-    save(fig, name)
-
-
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--team-results", type=Path, help="Merged team CSV for F10")
-    parser.add_argument("--scope", choices=("full", "test_300"), default="full", help="Evaluation scope for team F10")
-    args = parser.parse_args()
+    argparse.ArgumentParser(description=__doc__).parse_args()
     setup()
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    if args.team_results:
-        try:
-            plot_frontiers(team_costs(args.team_results, args.scope), f"f10_team_{args.scope}")
-        except (OSError, ValueError) as error:
-            parser.exit(2, f"Error: {error}\n")
-        return
-    for plot in (figure_1, figure_3a, figure_5, figure_6b, figure_7, figure_10_a):
+    for plot in (figure_1, figure_3a, figure_5, figure_6b, figure_7):
         plot()
 
 

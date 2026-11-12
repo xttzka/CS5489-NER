@@ -1,8 +1,6 @@
 """Extract entities with GLiNER from natural-language type descriptions, with no training."""
 
 import argparse
-import time
-
 from gliner import GLiNER
 
 from models.llm.common import (
@@ -36,11 +34,9 @@ def main():
         descriptions = TYPE_DESCRIPTIONS[dataset]
         by_description = {text: kind for kind, text in descriptions.items()}
         texts = [" ".join(row["tokens"]) for row in rows]
-        start = time.perf_counter()
         outputs = model.batch_predict_entities(
             texts, list(by_description), threshold=args.threshold, batch_size=args.batch_size,
         )
-        seconds = time.perf_counter() - start
         tags = {
             row["sample_id"]: char_spans_to_tags(
                 row["tokens"], [(item["start"], item["end"], by_description[item["label"]]) for item in found],
@@ -58,9 +54,6 @@ def main():
             "predictions": path.relative_to(PROJECT).as_posix(),
             "scores": score_rows(rows, tags),
             "per_type": per_type_scores(rows, tags),
-            "timing": {"device": args.device, "batch_size": args.batch_size, "inference_seconds": seconds,
-                       "inference_sentences_per_second": len(rows) / seconds,
-                       "includes": "tokenization and span decoding"},
         }
         save_json(RESULTS / f"gliner_{dataset}_{args.split}_{scope}.json", report)
         print(f"{dataset} {scope}: F1={report['scores']['f1']:.2%} "

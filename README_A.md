@@ -112,12 +112,6 @@ CoNLL-2003 固定 300 条中，M0、M1、M2 以实体范围和类型做多数投
 & $exp -B -m eval.ensemble_ner --gold data/processed/conll2003/test.jsonl --subset-ids data/subsets/conll2003/test_300.txt --pred M0=preds/conll2003/m0_baseline/0.jsonl --pred M1=preds/conll2003/m1_baseline/0.jsonl --pred M2=preds/conll2003/m2_baseline/0.jsonl --group classical=M0,M1,M2 --output results/m0_m2_ensemble.json
 ```
 
-运行下列命令记录三套正式域内基线的 CPU 成本。计时报告保留三次完整测试推理耗时及其中位数，训练耗时为一次实测。复跑速度随机器负载和环境变化。[计时结果](results/m0_m2_timing.json)
-
-```powershell
-& $exp -B -m models.classic.benchmark_baselines --repetitions 3
-```
-
 ## 报告图表和原句预测
 
 从准备好的 JSONL 计算六套数据的探索统计。表格和图可从已提交的结果 JSON 单独生成。A 的 CSV 也由这些 JSON 汇总，`source_ref` 可以定位到每个指标的原位置。[探索统计](results/data_exploration.json) · [A 的结果表](results/A.csv)
@@ -135,10 +129,9 @@ CoNLL-2003 固定 300 条中，M0、M1、M2 以实体范围和类型做多数投
 | [F3a](report/figures/f3a.pdf) · [T2](report/tables/t2.tex) | M2 特征消融和 A 的调参记录 |
 | [F5](report/figures/f5.pdf) | 实体熟悉度、替换、年代迁移和额外特征 |
 | [F6b](report/figures/f6b.pdf) · [F7](report/figures/f7.pdf) | 实体重叠与迁移掉分、G2 消融及扰动对照 |
-| [F10-A](report/figures/f10_a.pdf) | M0–M2 的 CPU 吞吐与 F1 |
 | [T4-A](report/tables/t4_a.tex) | 固定 300 条上的三种单模型和经典方法投票 |
 
-收到 B、C 的答卷、计时及结果 CSV 后，可以使用同一投票脚本跑跨范式组合，并用 `analysis.make_figures --team-results <合并后的CSV>` 画全组成本图。C 的两版提示词各需一对人工复核表，再用 [双人一致性工具](README_BC.md#3-自动错误分类与人工复核)计算 κ。
+收到 B、C 的答卷及结果 CSV 后，可以使用同一投票脚本跑跨范式组合。C 的两版提示词各需一对人工复核表，再用 [双人一致性工具](README_BC.md#3-自动错误分类与人工复核)计算 κ。
 
 原句提取入口支持 `m0`、`m1`、`m2`。下面的命令会返回实体原文、类别和在输入文本中的字符范围，`start` 从 0 开始，`end` 指向实体结束后的第一个字符。[预测入口](scripts/predict.py)
 

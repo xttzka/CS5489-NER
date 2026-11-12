@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-import time
 
 import torch
 from peft import LoraConfig, get_peft_model
@@ -65,8 +64,6 @@ def main():
     steps = args.epochs * -(-len(training) // args.batch_size)
     schedule = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda step: max(0.0, 1 - step / steps))
 
-    torch.cuda.reset_peak_memory_stats()
-    start = time.perf_counter()
     history = []
     order = list(range(len(training)))
     for epoch in range(1, args.epochs + 1):
@@ -84,7 +81,6 @@ def main():
             losses.append(loss.item())
         history.append({"epoch": epoch, "mean_loss": sum(losses) / len(losses)})
         print(f"epoch {epoch}/{args.epochs}: loss={history[-1]['mean_loss']:.4f}", flush=True)
-    fit_seconds = time.perf_counter() - start
 
     adapter = OUTPUT / f"qwen1.5b_{args.dataset}_n{args.train_size}_seed{args.seed}"
     model.save_pretrained(adapter)
@@ -95,9 +91,7 @@ def main():
         "target_modules": config.target_modules if isinstance(config.target_modules, list) else sorted(config.target_modules),
         "prompt": "Zero-shot prompt with type descriptions and no annotation rules.",
         "adapter": adapter.relative_to(PROJECT).as_posix(), "history": history,
-        "timing": {"device": torch.cuda.get_device_name(0), "fit_seconds": fit_seconds,
-                   "gpu_vram_mb": torch.cuda.max_memory_allocated() / 2**20,
-                   "trainable_parameter_count": trainable, "parameter_count": total},
+        "trainable_parameter_count": trainable, "parameter_count": total,
     })
     print(f"Adapter: {adapter}")
 
