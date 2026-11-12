@@ -1,0 +1,15 @@
+% T1. Entity counts and mean lengths are measured on test splits. Load booktabs.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrlrrl@{}}
+\toprule
+Dataset / text & Train/Dev/Test & Entities & Native types & Tok./sent. & Tok./entity & Use \\
+\midrule
+\shortstack[l]{CoNLL-2003 \\ Newswire} & 14,041/3,250/3,453 & 5,648 & \shortstack[l]{LOC, MISC, ORG, PER} & 13.45 & 1.44 & \shortstack[l]{In-domain / transfer \\ source} \\
+\shortstack[l]{WNUT-17 \\ Social media} & 3,394/1,009/1,287 & 1,079 & \shortstack[l]{corporation, creative-work \\ group, location \\ person, product} & 18.18 & 1.61 & \shortstack[l]{In-domain / transfer \\ source} \\
+\shortstack[l]{MIT Restaurant \\ Restaurant queries} & 6,894/766/1,521 & 3,151 & \shortstack[l]{Amenity, Cuisine, Dish \\ Hours, Location, Price \\ Rating, Restaurant\_Name} & 9.37 & 1.78 & \shortstack[l]{In-domain / new \\ entity types} \\
+\shortstack[l]{CoNLL++ \\ Newswire} & --/--/1,840 & 4,007 & \shortstack[l]{LOC, MISC, ORG, PER} & 25.25 & 1.47 & \shortstack[l]{Temporal / transfer \\ test} \\
+\shortstack[l]{WikiGold \\ Wikipedia} & --/--/1,696 & 3,558 & \shortstack[l]{LOC, MISC, ORG, PER} & 23.00 & 1.81 & Transfer test \\
+\shortstack[l]{BTC \\ Tweets} & --/--/2,000 & 4,376 & \shortstack[l]{LOC, ORG, PER} & 17.75 & 1.17 & Transfer test \\
+\bottomrule
+\end{tabular}
+\endgroup

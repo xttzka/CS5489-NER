@@ -1,4 +1,4 @@
-"""Freeze a 300-sentence evaluation subset of each processed test split."""
+"""Freeze the 300-sentence test subsets and the CoNLL-2003 validation subset."""
 
 import json
 import random
@@ -11,9 +11,9 @@ SUBSET_SIZE = 300
 SEED = 42
 
 
-def select_test_ids(dataset, path):
+def select_ids(dataset, split, path):
     sample_ids = set()
-    prefix = f"{dataset}:test:"
+    prefix = f"{dataset}:{split}:"
     with path.open(encoding="utf-8") as source:
         for line_number, line in enumerate(source, start=1):
             location = f"{path}:{line_number}"
@@ -23,15 +23,15 @@ def select_test_ids(dataset, path):
                 raise ValueError(f"{location}: invalid JSON: {error.msg}") from error
             if not isinstance(record, dict):
                 raise ValueError(f"{location}: expected a JSON object")
-            if record.get("dataset") != dataset or record.get("split") != "test":
-                raise ValueError(f"{location}: expected the {dataset} test split")
+            if record.get("dataset") != dataset or record.get("split") != split:
+                raise ValueError(f"{location}: expected the {dataset} {split} split")
 
             sample_id = record.get("sample_id")
             if not isinstance(sample_id, str) or not sample_id.startswith(prefix):
-                raise ValueError(f"{location}: invalid test sample ID {sample_id!r}")
+                raise ValueError(f"{location}: invalid {split} sample ID {sample_id!r}")
             index = sample_id[len(prefix):]
             if not index.isascii() or not index.isdigit():
-                raise ValueError(f"{location}: invalid test sample ID {sample_id!r}")
+                raise ValueError(f"{location}: invalid {split} sample ID {sample_id!r}")
             if sample_id in sample_ids:
                 raise ValueError(f"{location}: duplicate sample ID {sample_id!r}")
             sample_ids.add(sample_id)
@@ -43,10 +43,12 @@ def select_test_ids(dataset, path):
 
 def main():
     new_lists = {}
-    for dataset in DATASETS:
-        source = DATA_DIR / "processed" / dataset / "test.jsonl"
-        target = DATA_DIR / "subsets" / dataset / f"test_{SUBSET_SIZE}.txt"
-        content = ("\n".join(select_test_ids(dataset, source)) + "\n").encode("utf-8")
+    splits = [(dataset, "test") for dataset in DATASETS]
+    splits.append(("conll2003", "validation"))
+    for dataset, split in splits:
+        source = DATA_DIR / "processed" / dataset / f"{split}.jsonl"
+        target = DATA_DIR / "subsets" / dataset / f"{split}_{SUBSET_SIZE}.txt"
+        content = ("\n".join(select_ids(dataset, split, source)) + "\n").encode("utf-8")
         if target.exists():
             if target.read_bytes() != content:
                 raise ValueError(f"{target}: existing IDs differ from the fixed selection")

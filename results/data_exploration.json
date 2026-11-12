@@ -1,0 +1,560 @@
+{
+  "definitions": {
+    "analysis_scope": "Native gold annotations. Test splits are used for all comparisons between datasets.",
+    "case": "Initial uppercase uses the first cased character. All-lowercase mentions require a cased letter. Both use all mentions as denominator.",
+    "overlap": "Jaccard similarity of the unique, complete, case-folded entity token sequences. Labels are ignored.",
+    "length": "Tokens in the original corpus tokenization.",
+    "examples": "Observed labels for matching surface forms in different local contexts. Offsets are zero-based and end exclusive."
+  },
+  "datasets": {
+    "conll2003": {
+      "name": "CoNLL-2003",
+      "genre": "Newswire",
+      "use": "In-domain and transfer source",
+      "splits": {
+        "train": {
+          "sentences": 14041,
+          "tokens": 203621,
+          "entities": 23499,
+          "entity_tokens": 34043,
+          "mean_sentence_tokens": 14.501887329962253,
+          "mean_entity_tokens": 1.448699944678497,
+          "type_counts": {
+            "LOC": 7140,
+            "MISC": 3438,
+            "ORG": 6321,
+            "PER": 6600
+          },
+          "unique_names": 7620,
+          "initial_uppercase_mentions": 23440,
+          "all_lowercase_mentions": 7,
+          "initial_uppercase_fraction": 0.997489254861909,
+          "all_lowercase_fraction": 0.0002978850163836759
+        },
+        "validation": {
+          "sentences": 3250,
+          "tokens": 51362,
+          "entities": 5942,
+          "entity_tokens": 8603,
+          "mean_sentence_tokens": 15.803692307692307,
+          "mean_entity_tokens": 1.4478290138000673,
+          "type_counts": {
+            "LOC": 1837,
+            "MISC": 922,
+            "ORG": 1341,
+            "PER": 1842
+          },
+          "unique_names": 2611,
+          "initial_uppercase_mentions": 5922,
+          "all_lowercase_mentions": 4,
+          "initial_uppercase_fraction": 0.996634129922585,
+          "all_lowercase_fraction": 0.0006731740154830024
+        },
+        "test": {
+          "sentences": 3453,
+          "tokens": 46435,
+          "entities": 5648,
+          "entity_tokens": 8112,
+          "mean_sentence_tokens": 13.447726614538082,
+          "mean_entity_tokens": 1.4362606232294617,
+          "type_counts": {
+            "LOC": 1668,
+            "MISC": 702,
+            "ORG": 1661,
+            "PER": 1617
+          },
+          "unique_names": 2471,
+          "initial_uppercase_mentions": 5631,
+          "all_lowercase_mentions": 1,
+          "initial_uppercase_fraction": 0.9969900849858357,
+          "all_lowercase_fraction": 0.00017705382436260624
+        }
+      }
+    },
+    "wnut17": {
+      "name": "WNUT-17",
+      "genre": "Social media",
+      "use": "In-domain and transfer source",
+      "splits": {
+        "train": {
+          "sentences": 3394,
+          "tokens": 62730,
+          "entities": 1975,
+          "entity_tokens": 3160,
+          "mean_sentence_tokens": 18.482616381850324,
+          "mean_entity_tokens": 1.6,
+          "type_counts": {
+            "corporation": 221,
+            "creative-work": 140,
+            "group": 264,
+            "location": 548,
+            "person": 660,
+            "product": 142
+          },
+          "unique_names": 1544,
+          "initial_uppercase_mentions": 1720,
+          "all_lowercase_mentions": 215,
+          "initial_uppercase_fraction": 0.8708860759493671,
+          "all_lowercase_fraction": 0.10886075949367088
+        },
+        "validation": {
+          "sentences": 1009,
+          "tokens": 15733,
+          "entities": 836,
+          "entity_tokens": 1250,
+          "mean_sentence_tokens": 15.592666005946482,
+          "mean_entity_tokens": 1.4952153110047848,
+          "type_counts": {
+            "corporation": 34,
+            "creative-work": 105,
+            "group": 39,
+            "location": 74,
+            "person": 470,
+            "product": 114
+          },
+          "unique_names": 714,
+          "initial_uppercase_mentions": 631,
+          "all_lowercase_mentions": 192,
+          "initial_uppercase_fraction": 0.7547846889952153,
+          "all_lowercase_fraction": 0.22966507177033493
+        },
+        "test": {
+          "sentences": 1287,
+          "tokens": 23394,
+          "entities": 1079,
+          "entity_tokens": 1740,
+          "mean_sentence_tokens": 18.177156177156178,
+          "mean_entity_tokens": 1.6126042632066728,
+          "type_counts": {
+            "corporation": 66,
+            "creative-work": 142,
+            "group": 165,
+            "location": 150,
+            "person": 429,
+            "product": 127
+          },
+          "unique_names": 935,
+          "initial_uppercase_mentions": 853,
+          "all_lowercase_mentions": 203,
+          "initial_uppercase_fraction": 0.7905468025949953,
+          "all_lowercase_fraction": 0.1881371640407785
+        }
+      }
+    },
+    "mit_restaurant": {
+      "name": "MIT Restaurant",
+      "genre": "Restaurant queries",
+      "use": "In-domain and new entity types",
+      "splits": {
+        "train": {
+          "sentences": 6894,
+          "tokens": 64465,
+          "entities": 13708,
+          "entity_tokens": 24253,
+          "mean_sentence_tokens": 9.350884827386134,
+          "mean_entity_tokens": 1.7692588269623577,
+          "type_counts": {
+            "Amenity": 2329,
+            "Cuisine": 2569,
+            "Dish": 1330,
+            "Hours": 917,
+            "Location": 3277,
+            "Price": 662,
+            "Rating": 914,
+            "Restaurant_Name": 1710
+          },
+          "unique_names": 4618,
+          "initial_uppercase_mentions": 0,
+          "all_lowercase_mentions": 13697,
+          "initial_uppercase_fraction": 0.0,
+          "all_lowercase_fraction": 0.9991975488765684
+        },
+        "validation": {
+          "sentences": 766,
+          "tokens": 6060,
+          "entities": 1655,
+          "entity_tokens": 2602,
+          "mean_sentence_tokens": 7.911227154046998,
+          "mean_entity_tokens": 1.5722054380664652,
+          "type_counts": {
+            "Amenity": 212,
+            "Cuisine": 270,
+            "Dish": 145,
+            "Hours": 73,
+            "Location": 540,
+            "Price": 68,
+            "Rating": 156,
+            "Restaurant_Name": 191
+          },
+          "unique_names": 736,
+          "initial_uppercase_mentions": 0,
+          "all_lowercase_mentions": 1653,
+          "initial_uppercase_fraction": 0.0,
+          "all_lowercase_fraction": 0.9987915407854985
+        },
+        "test": {
+          "sentences": 1521,
+          "tokens": 14256,
+          "entities": 3151,
+          "entity_tokens": 5597,
+          "mean_sentence_tokens": 9.372781065088757,
+          "mean_entity_tokens": 1.7762615042843541,
+          "type_counts": {
+            "Amenity": 533,
+            "Cuisine": 532,
+            "Dish": 288,
+            "Hours": 212,
+            "Location": 812,
+            "Price": 171,
+            "Rating": 201,
+            "Restaurant_Name": 402
+          },
+          "unique_names": 1526,
+          "initial_uppercase_mentions": 0,
+          "all_lowercase_mentions": 3150,
+          "initial_uppercase_fraction": 0.0,
+          "all_lowercase_fraction": 0.999682640431609
+        }
+      }
+    },
+    "conllpp": {
+      "name": "CoNLL++",
+      "genre": "Newswire",
+      "use": "Temporal and transfer test",
+      "splits": {
+        "test": {
+          "sentences": 1840,
+          "tokens": 46456,
+          "entities": 4007,
+          "entity_tokens": 5909,
+          "mean_sentence_tokens": 25.247826086956522,
+          "mean_entity_tokens": 1.4746693286748191,
+          "type_counts": {
+            "LOC": 1128,
+            "MISC": 697,
+            "ORG": 1201,
+            "PER": 981
+          },
+          "unique_names": 1655,
+          "initial_uppercase_mentions": 3977,
+          "all_lowercase_mentions": 10,
+          "initial_uppercase_fraction": 0.9925131020713751,
+          "all_lowercase_fraction": 0.0024956326428749688
+        }
+      }
+    },
+    "wikigold": {
+      "name": "WikiGold",
+      "genre": "Wikipedia",
+      "use": "Transfer test",
+      "splits": {
+        "test": {
+          "sentences": 1696,
+          "tokens": 39007,
+          "entities": 3558,
+          "entity_tokens": 6431,
+          "mean_sentence_tokens": 22.99941037735849,
+          "mean_entity_tokens": 1.8074761101742551,
+          "type_counts": {
+            "LOC": 1014,
+            "MISC": 712,
+            "ORG": 898,
+            "PER": 934
+          },
+          "unique_names": 2309,
+          "initial_uppercase_mentions": 3513,
+          "all_lowercase_mentions": 15,
+          "initial_uppercase_fraction": 0.9873524451939292,
+          "all_lowercase_fraction": 0.0042158516020236085
+        }
+      }
+    },
+    "btc": {
+      "name": "BTC",
+      "genre": "Tweets",
+      "use": "Transfer test",
+      "splits": {
+        "test": {
+          "sentences": 2000,
+          "tokens": 35500,
+          "entities": 4376,
+          "entity_tokens": 5099,
+          "mean_sentence_tokens": 17.75,
+          "mean_entity_tokens": 1.165219378427788,
+          "type_counts": {
+            "LOC": 636,
+            "ORG": 1090,
+            "PER": 2650
+          },
+          "unique_names": 2550,
+          "initial_uppercase_mentions": 2222,
+          "all_lowercase_mentions": 732,
+          "initial_uppercase_fraction": 0.5077696526508226,
+          "all_lowercase_fraction": 0.16727605118829983
+        }
+      }
+    }
+  },
+  "test_name_overlap": {
+    "conll2003": {
+      "conll2003": {
+        "intersection": 2471,
+        "union": 2471,
+        "jaccard": 1.0
+      },
+      "wnut17": {
+        "intersection": 51,
+        "union": 3355,
+        "jaccard": 0.015201192250372579
+      },
+      "mit_restaurant": {
+        "intersection": 37,
+        "union": 3960,
+        "jaccard": 0.009343434343434343
+      },
+      "conllpp": {
+        "intersection": 223,
+        "union": 3903,
+        "jaccard": 0.057135536766589806
+      },
+      "wikigold": {
+        "intersection": 179,
+        "union": 4601,
+        "jaccard": 0.03890458595957401
+      },
+      "btc": {
+        "intersection": 150,
+        "union": 4871,
+        "jaccard": 0.03079449804968179
+      }
+    },
+    "wnut17": {
+      "conll2003": {
+        "intersection": 51,
+        "union": 3355,
+        "jaccard": 0.015201192250372579
+      },
+      "wnut17": {
+        "intersection": 935,
+        "union": 935,
+        "jaccard": 1.0
+      },
+      "mit_restaurant": {
+        "intersection": 7,
+        "union": 2454,
+        "jaccard": 0.0028524857375713123
+      },
+      "conllpp": {
+        "intersection": 43,
+        "union": 2547,
+        "jaccard": 0.016882606988614057
+      },
+      "wikigold": {
+        "intersection": 34,
+        "union": 3210,
+        "jaccard": 0.01059190031152648
+      },
+      "btc": {
+        "intersection": 56,
+        "union": 3429,
+        "jaccard": 0.016331291921843103
+      }
+    },
+    "mit_restaurant": {
+      "conll2003": {
+        "intersection": 37,
+        "union": 3960,
+        "jaccard": 0.009343434343434343
+      },
+      "wnut17": {
+        "intersection": 7,
+        "union": 2454,
+        "jaccard": 0.0028524857375713123
+      },
+      "mit_restaurant": {
+        "intersection": 1526,
+        "union": 1526,
+        "jaccard": 1.0
+      },
+      "conllpp": {
+        "intersection": 29,
+        "union": 3152,
+        "jaccard": 0.009200507614213198
+      },
+      "wikigold": {
+        "intersection": 27,
+        "union": 3808,
+        "jaccard": 0.0070903361344537815
+      },
+      "btc": {
+        "intersection": 15,
+        "union": 4061,
+        "jaccard": 0.0036936715094804235
+      }
+    },
+    "conllpp": {
+      "conll2003": {
+        "intersection": 223,
+        "union": 3903,
+        "jaccard": 0.057135536766589806
+      },
+      "wnut17": {
+        "intersection": 43,
+        "union": 2547,
+        "jaccard": 0.016882606988614057
+      },
+      "mit_restaurant": {
+        "intersection": 29,
+        "union": 3152,
+        "jaccard": 0.009200507614213198
+      },
+      "conllpp": {
+        "intersection": 1655,
+        "union": 1655,
+        "jaccard": 1.0
+      },
+      "wikigold": {
+        "intersection": 137,
+        "union": 3827,
+        "jaccard": 0.035798275411549514
+      },
+      "btc": {
+        "intersection": 111,
+        "union": 4094,
+        "jaccard": 0.02711284807034685
+      }
+    },
+    "wikigold": {
+      "conll2003": {
+        "intersection": 179,
+        "union": 4601,
+        "jaccard": 0.03890458595957401
+      },
+      "wnut17": {
+        "intersection": 34,
+        "union": 3210,
+        "jaccard": 0.01059190031152648
+      },
+      "mit_restaurant": {
+        "intersection": 27,
+        "union": 3808,
+        "jaccard": 0.0070903361344537815
+      },
+      "conllpp": {
+        "intersection": 137,
+        "union": 3827,
+        "jaccard": 0.035798275411549514
+      },
+      "wikigold": {
+        "intersection": 2309,
+        "union": 2309,
+        "jaccard": 1.0
+      },
+      "btc": {
+        "intersection": 77,
+        "union": 4782,
+        "jaccard": 0.016102049351735676
+      }
+    },
+    "btc": {
+      "conll2003": {
+        "intersection": 150,
+        "union": 4871,
+        "jaccard": 0.03079449804968179
+      },
+      "wnut17": {
+        "intersection": 56,
+        "union": 3429,
+        "jaccard": 0.016331291921843103
+      },
+      "mit_restaurant": {
+        "intersection": 15,
+        "union": 4061,
+        "jaccard": 0.0036936715094804235
+      },
+      "conllpp": {
+        "intersection": 111,
+        "union": 4094,
+        "jaccard": 0.02711284807034685
+      },
+      "wikigold": {
+        "intersection": 77,
+        "union": 4782,
+        "jaccard": 0.016102049351735676
+      },
+      "btc": {
+        "intersection": 2550,
+        "union": 2550,
+        "jaccard": 1.0
+      }
+    }
+  },
+  "conll2003_train_test_shift": {
+    "source": "Tjong Kim Sang and De Meulder (2003), section 2, page 143",
+    "source_url": "https://aclanthology.org/W03-0419/",
+    "train_and_development_period": "End of August 1996",
+    "test_period": "December 1996",
+    "test_mentions": 5648,
+    "unseen_test_mentions": 2500,
+    "unseen_test_mention_fraction": 0.4426345609065156,
+    "test_unique_names": 2471,
+    "unseen_test_unique_names": 1600,
+    "shared_train_test_names": 871,
+    "shared_names_with_different_observed_type_sets": 88,
+    "shared_names_with_different_observed_type_sets_fraction": 0.1010332950631458,
+    "shared_names_with_no_common_type": 18,
+    "shared_names_with_no_common_type_fraction": 0.02066590126291619,
+    "train_names_with_multiple_types": 119,
+    "test_names_with_multiple_types": 69
+  },
+  "annotation_examples": {
+    "Nationality adjective / cuisine": [
+      {
+        "sample_id": "conll2003:test:5",
+        "start": 34,
+        "end": 35,
+        "entity_type": "MISC",
+        "entity": "Chinese"
+      },
+      {
+        "sample_id": "mit_restaurant:test:30",
+        "start": 3,
+        "end": 4,
+        "entity_type": "Cuisine",
+        "entity": "chinese"
+      }
+    ],
+    "Company name / product mention": [
+      {
+        "sample_id": "btc:test:221",
+        "start": 2,
+        "end": 3,
+        "entity_type": "ORG",
+        "entity": "google"
+      },
+      {
+        "sample_id": "wnut17:test:783",
+        "start": 4,
+        "end": 5,
+        "entity_type": "product",
+        "entity": "Google"
+      }
+    ],
+    "Institution acronym": [
+      {
+        "sample_id": "btc:test:1513",
+        "start": 8,
+        "end": 9,
+        "entity_type": "ORG",
+        "entity": "UN"
+      },
+      {
+        "sample_id": "wnut17:test:234",
+        "start": 8,
+        "end": 9,
+        "entity_type": "group",
+        "entity": "UN"
+      }
+    ]
+  }
+}

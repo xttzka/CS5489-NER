@@ -17,7 +17,7 @@ from eval.score_transfer import project_tags
 from models.classic.features import sentence_features
 from models.classic.m1_logistic import repair_iob2
 from models.classic.m2_cross_validate import PROJECT_DIR, TRAIN_PATH, make_folds, read_sentences
-from models.classic.m2_grid_search import GRID_REPORT
+from models.classic.m2_grid_search import GRID_REPORT, grid_code_hashes
 
 
 RESULTS = PROJECT_DIR / "results" / "m2_feature_ablation.json"
@@ -97,10 +97,7 @@ def validate_grid_reference(training, folds, fold_sizes):
             sha256("\n".join(training[i]["sample_id"] for i in heldout).encode("utf-8")).hexdigest()
             for _, heldout in folds
         ],
-        "code_sha256": {
-            path: sha256((PROJECT_DIR / path).read_bytes()).hexdigest()
-            for path in fingerprint["code_sha256"]
-        },
+        "code_sha256": grid_code_hashes(),
         "library_versions": {name: version(name) for name in fingerprint["library_versions"]},
     }
     if (

@@ -12,7 +12,7 @@ from eval.score_ner import read_subset_ids, read_tags_by_id
 from eval.score_transfer import MAPPING_PATH, project_tags
 from models.classic import m0_dictionary, m1_logistic, m2_crf
 from models.classic.m0_dictionary import PROJECT_DIR, read_sentences
-from models.classic.m2_pos_validation import C1, C2, POS_MODEL, POS_ROOT, load_pos_rows, verify_alignment
+from models.classic.m2_pos_validation import POS_MODEL, POS_ROOT, load_pos_rows, verify_alignment
 
 
 DATA = PROJECT_DIR / "data" / "processed"
@@ -21,11 +21,12 @@ RESULTS = PROJECT_DIR / "results" / "m0_m2_baselines.json"
 CO_NLL_CV = RESULTS.with_name("m2_cv_grid.json")
 NATIVE_CV = RESULTS.with_name("m2_native_cv.json")
 GROUPS = {
-    "conll2003": ("conll2003", False, ("conll2003",)),
+    "conll2003": ("conll2003", True, ("conll2003",)),
     "wnut17": ("wnut17", True, ("wnut17",)),
     "mit_restaurant": ("mit_restaurant", True, ("mit_restaurant",)),
     "transfer": ("conll2003", True, ("conllpp", "wikigold", "btc")),
 }
+SOURCES = ("conll2003", "wnut17", "mit_restaurant")
 
 
 def relative(path):
@@ -49,8 +50,7 @@ def load_rows(dataset, split, shared_pos):
 
 def m2_selection(group, train_path, features):
     if group == "transfer":
-        return {"parameters": {"c1": C1, "c2": C2},
-                "rule": "Reuse the original CoNLL-2003 training CV parameters with shared POS."}
+        group = "conll2003"
 
     path = CO_NLL_CV if group == "conll2003" else NATIVE_CV
     report = json.loads(path.read_text(encoding="utf-8"))
@@ -64,6 +64,8 @@ def m2_selection(group, train_path, features):
         ))
         best_mean = best["mean_f1"]
         fold_strategy = "Five held-out folds grouped by doc_id."
+        cv_training = DATA / "conll2003" / "train.jsonl"
+        cv_features = {"pos_model": "original CoNLL-2003 POS", "use_chunk_tags": True, "context_window": 1}
     else:
         if report["features"] != features:
             raise ValueError(f"{path}: CV features differ from the final features")
@@ -71,12 +73,33 @@ def m2_selection(group, train_path, features):
         train_hash = selection["training_sha256"]
         best_mean = selection["best_mean_f1"]
         fold_strategy = selection["fold_strategy"]
-    if selection["selection_split"] != f"{group}:train" or sha256(train_path.read_bytes()).hexdigest() != train_hash:
-        raise ValueError(f"{path}: CV training data differ from the final training data")
+        cv_training = train_path
+        cv_features = features
+    if selection["selection_split"] != f"{group}:train" or sha256(cv_training.read_bytes()).hexdigest() != train_hash:
+        raise ValueError(f"{path}: CV training data differ from the recorded selection inputs")
     return {
         "report": relative(path), "split": selection["selection_split"], "fold_strategy": fold_strategy,
         "parameters": selection["best_parameters"], "mean_f1": best_mean,
+        "selection_training_file": relative(cv_training), "selection_features": cv_features,
     }
+
+
+def read_m1_selection(dataset, train_path):
+    train_path = Path(train_path).resolve()
+    report = json.loads(RESULTS.read_text(encoding="utf-8"))
+    if report["status"] != "complete":
+        raise ValueError(f"{RESULTS}: the official baseline run must be complete")
+    source = report["groups"][dataset]
+    config = source["m1"]
+    if (
+        source["training_file"] != relative(train_path)
+        or config.get("selection", {}).get("training_sha256") != sha256(train_path.read_bytes()).hexdigest()
+        or config.get("tol") != m1_logistic.TOL
+        or config["max_iterations"] != m1_logistic.MAX_ITER
+        or config["solver"] != m1_logistic.SOLVER
+    ):
+        raise ValueError(f"{RESULTS}: M1 selection uses different data or solver settings")
+    return config
 
 
 def score_target(dataset, rows, paths, subset_path, subset_ids, full):
@@ -121,6 +144,9 @@ def write_answers(stage, targets, dictionary, vectorizer, logistic, crf):
 
 def run_group(group):
     source, shared_pos, targets = GROUPS[group]
+    target_groups = {group: targets}
+    if group == "conll2003":
+        target_groups["transfer"] = GROUPS["transfer"][2]
     train_path, train_rows = load_rows(source, "train", shared_pos)
     features = {
         "pos_model": POS_MODEL if shared_pos else "original CoNLL-2003 POS",
@@ -131,27 +157,37 @@ def run_group(group):
     print(f"[{group}] training on {len(train_rows):,} {source} sentences", flush=True)
     training = list(train_rows.values())
     dictionary, ambiguous = m0_dictionary.build_dictionary(training)
-    vectorizer, logistic = m1_logistic.train_model(training)
-    full = group != "transfer"
+    validation_path, validation_rows = load_rows(source, "validation", shared_pos)
+    vectorizer, logistic, candidates = m1_logistic.select_model(training, list(validation_rows.values()))
     target_rows = {}
     subset_info = {}
-    for dataset in targets:
+    for dataset in (dataset for members in target_groups.values() for dataset in members):
         subset_path = SUBSETS / dataset / "test_300.txt"
         sample_ids = read_subset_ids(subset_path)
         _, rows = load_rows(dataset, "test", shared_pos)
         if len(sample_ids) != 300 or set(sample_ids) - rows.keys():
             raise ValueError(f"{subset_path}: expected 300 unique IDs from the test split")
-        target_rows[dataset] = rows if full else {sample_id: rows[sample_id] for sample_id in sample_ids}
+        target_rows[dataset] = rows if dataset == source else {sample_id: rows[sample_id] for sample_id in sample_ids}
         subset_info[dataset] = (subset_path, sample_ids)
 
-    result = {
+    metadata = {
         "source_dataset": source, "training_file": relative(train_path), "training_records": len(training),
         "m0": {"dictionary_entries": len(dictionary), "ambiguous_names_excluded": ambiguous},
         "m1_m2_features": features,
-        "m1": {"c": logistic.C, "iterations": int(logistic.n_iter_[0]), "max_iterations": logistic.max_iter},
+        "m1": {
+            "c": logistic.C, "solver": logistic.solver, "tol": logistic.tol,
+            "iterations": int(logistic.n_iter_[0]), "max_iterations": logistic.max_iter,
+            "selection": {
+                "split": f"{source}:validation", "validation_file": relative(validation_path),
+                "training_sha256": sha256(train_path.read_bytes()).hexdigest(),
+                "validation_sha256": sha256(validation_path.read_bytes()).hexdigest(),
+                "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
+                "candidates": candidates,
+            },
+        },
         "m2": selection,
-        "targets": {},
     }
+    results = {name: {**metadata, "targets": {}} for name in target_groups}
     with TemporaryDirectory(dir=RESULTS.parent) as directory:
         stage = Path(directory)
         crf = m2_crf.train_model(training, stage / "model.crfsuite", **selection["parameters"])
@@ -164,6 +200,7 @@ def run_group(group):
             crf.tagger_.close()
 
         for dataset, rows in target_rows.items():
+            full = dataset == source
             scored = score_target(dataset, rows, files[dataset], *subset_info[dataset], full)
             scored["predicted_records"] = len(rows)
             scored["bio_repairs"] = repairs[dataset]
@@ -173,17 +210,18 @@ def run_group(group):
                 model: relative(PROJECT_DIR / "preds" / dataset / f"{model}_baseline" / "0.jsonl")
                 for model in MODELS
             }
-            result["targets"][dataset] = scored
+            results[group if full else "transfer"]["targets"][dataset] = scored
 
-        for dataset, scored in result["targets"].items():
-            for model, filename in scored["predictions"].items():
-                path = PROJECT_DIR / filename
-                path.parent.mkdir(parents=True, exist_ok=True)
-                files[dataset][model].replace(path)
-            scores = scored[scored["bio_repair_scope"]]["models"]
-            summary = ", ".join(f"{model.upper()}={scores[model]['f1']:.2%}" for model in MODELS)
-            print(f"[{group}] {dataset} {scored['bio_repair_scope']}: {summary}", flush=True)
-    return group, result
+        for name, result in results.items():
+            for dataset, scored in result["targets"].items():
+                for model, filename in scored["predictions"].items():
+                    path = PROJECT_DIR / filename
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    files[dataset][model].replace(path)
+                scores = scored[scored["bio_repair_scope"]]["models"]
+                summary = ", ".join(f"{model.upper()}={scores[model]['f1']:.2%}" for model in MODELS)
+                print(f"[{name}] {dataset} {scored['bio_repair_scope']}: {summary}", flush=True)
+    return results
 
 
 def save_report(report):
@@ -195,15 +233,14 @@ def save_report(report):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--jobs", type=int, choices=range(1, len(GROUPS) + 1), default=1)
+    parser.add_argument("--jobs", type=int, choices=range(1, len(SOURCES) + 1), default=1)
     args = parser.parse_args()
     report = {"metric": "exact entity-level micro F1", "status": "in_progress", "groups": {}}
     save_report(report)
     with ProcessPoolExecutor(max_workers=args.jobs) as executor:
-        jobs = [executor.submit(run_group, group) for group in GROUPS]
+        jobs = [executor.submit(run_group, group) for group in SOURCES]
         for job in as_completed(jobs):
-            group, result = job.result()
-            report["groups"][group] = result
+            report["groups"].update(job.result())
             save_report(report)
     report["status"] = "complete"
     save_report(report)

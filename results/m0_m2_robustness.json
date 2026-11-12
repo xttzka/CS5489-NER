@@ -1,0 +1,1492 @@
+{
+  "training_input": "data/processed_pos/conll2003/train.jsonl",
+  "training_records": 14041,
+  "features": {
+    "pos_model": "en_core_web_sm 3.8.0",
+    "use_chunk_tags": false,
+    "context_window": 1,
+    "pos_frozen_from_original": true
+  },
+  "entity_types": [
+    "PER",
+    "LOC",
+    "ORG",
+    "MISC"
+  ],
+  "bootstrap": {
+    "resamples": 1000,
+    "seed": 42,
+    "unit": "sentence",
+    "interval": "95% percentile"
+  },
+  "models": {
+    "m0": {
+      "dictionary_entries": 7950,
+      "ambiguous_names_excluded": 132
+    },
+    "m1": {
+      "c": 10.0,
+      "tol": 1e-05,
+      "max_iterations": 2000,
+      "iterations": 195
+    },
+    "m2": {
+      "parameters": {
+        "c1": 0.0001,
+        "c2": 0.1
+      }
+    }
+  },
+  "replacement": {
+    "version": "v2",
+    "replacement_log": "data/derived/entity_replacement/conll2003/replacements_v2.jsonl",
+    "paired_test_sentences": 500,
+    "conditions": {
+      "original": {
+        "input": "data/derived/entity_replacement/conll2003/original_v2.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 933,
+              "fp": 171,
+              "fn": 509,
+              "precision": 0.845108695652174,
+              "recall": 0.6470180305131762,
+              "f1": 0.7329143754909663,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.8208496098929929,
+                  0.8678272673617943
+                ],
+                "recall": [
+                  0.6171538693505221,
+                  0.6780398343183612
+                ],
+                "f1": [
+                  0.7083797303175293,
+                  0.7572784682099195
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_replacement_v2_original/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 1226,
+              "fp": 279,
+              "fn": 216,
+              "precision": 0.8146179401993355,
+              "recall": 0.8502080443828016,
+              "f1": 0.832032575500509,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.7828447269215925,
+                  0.8439003743225465
+                ],
+                "recall": [
+                  0.8264242277992278,
+                  0.8726765509168943
+                ],
+                "f1": [
+                  0.8046677971513271,
+                  0.8577464934349699
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_replacement_v2_original/0.jsonl",
+            "raw_bio_error_tokens": 103,
+            "raw_bio_error_sentences": 80,
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 1262,
+              "fp": 147,
+              "fn": 180,
+              "precision": 0.8956706884315118,
+              "recall": 0.8751733703190014,
+              "f1": 0.8853034023149772,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.8762535926129762,
+                  0.9164388586336085
+                ],
+                "recall": [
+                  0.852646370652011,
+                  0.897905920370709
+                ],
+                "f1": [
+                  0.8653084119877027,
+                  0.9053892399647974
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_replacement_v2_original/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          }
+        }
+      },
+      "replaced": {
+        "input": "data/derived/entity_replacement/conll2003/replaced_v2.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 485,
+              "fp": 218,
+              "fn": 957,
+              "precision": 0.689900426742532,
+              "recall": 0.3363384188626907,
+              "f1": 0.4522144522144522,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.6510246653911436,
+                  0.7267922995577774
+                ],
+                "recall": [
+                  0.3050259659821811,
+                  0.3658990494631227
+                ],
+                "f1": [
+                  0.41802180543353945,
+                  0.48496668043265495
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_replacement_v2_replaced/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": -15.52082689096419,
+              "recall": -31.067961165048548,
+              "f1": -28.069992327651406
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -17.945968827108636,
+                -13.438136749458367
+              ],
+              "recall": [
+                -33.583686879964276,
+                -28.711261278546736
+              ],
+              "f1": [
+                -30.57706008547914,
+                -25.799768328657652
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 1060,
+              "fp": 456,
+              "fn": 382,
+              "precision": 0.6992084432717678,
+              "recall": 0.7350901525658807,
+              "f1": 0.7167004732927654,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.6642931867496532,
+                  0.7309347218116914
+                ],
+                "recall": [
+                  0.7035363866052259,
+                  0.7627379923394383
+                ],
+                "f1": [
+                  0.6830389109229286,
+                  0.7464284703457578
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_replacement_v2_replaced/0.jsonl",
+            "raw_bio_error_tokens": 148,
+            "raw_bio_error_sentences": 117,
+            "delta_vs_original_pp": {
+              "precision": -11.540949692756774,
+              "recall": -11.51178918169209,
+              "f1": -11.53321022077436
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -13.52925440110911,
+                -9.872892647688202
+              ],
+              "recall": [
+                -13.38619272126228,
+                -9.965260301981752
+              ],
+              "f1": [
+                -13.4360760160749,
+                -9.929431953894156
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 500,
+              "scored_records": 500,
+              "tp": 1132,
+              "fp": 238,
+              "fn": 310,
+              "precision": 0.8262773722627738,
+              "recall": 0.7850208044382802,
+              "f1": 0.8051209103840683,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.8009112635242609,
+                  0.8512718549555142
+                ],
+                "recall": [
+                  0.75640372452565,
+                  0.8109621388990464
+                ],
+                "f1": [
+                  0.7782804647282642,
+                  0.829952129579847
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_replacement_v2_replaced/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": -6.939331616873801,
+              "recall": -9.015256588072129,
+              "f1": -8.018249193090888
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -8.412124527279516,
+                -5.4604553779925755
+              ],
+              "recall": [
+                -10.728729876556613,
+                -7.513478705210031
+              ],
+              "f1": [
+                -9.521070552974573,
+                -6.555242547588532
+              ]
+            }
+          }
+        }
+      }
+    },
+    "replacement_targets": {
+      "models": {
+        "m0": {
+          "targets": 500,
+          "original_correct": 448,
+          "replaced_correct": 0,
+          "both_correct": 0,
+          "original_only": 448,
+          "replaced_only": 0,
+          "neither_correct": 52,
+          "per_type": {
+            "PER": {
+              "targets": 150,
+              "original_correct": 144,
+              "replaced_correct": 0,
+              "both_correct": 0,
+              "original_only": 144,
+              "replaced_only": 0,
+              "neither_correct": 6
+            },
+            "LOC": {
+              "targets": 150,
+              "original_correct": 128,
+              "replaced_correct": 0,
+              "both_correct": 0,
+              "original_only": 128,
+              "replaced_only": 0,
+              "neither_correct": 22
+            },
+            "ORG": {
+              "targets": 150,
+              "original_correct": 127,
+              "replaced_correct": 0,
+              "both_correct": 0,
+              "original_only": 127,
+              "replaced_only": 0,
+              "neither_correct": 23
+            },
+            "MISC": {
+              "targets": 50,
+              "original_correct": 49,
+              "replaced_correct": 0,
+              "both_correct": 0,
+              "original_only": 49,
+              "replaced_only": 0,
+              "neither_correct": 1
+            }
+          },
+          "target_details": "preds/conll2003/m0_robustness_replacement_v2/targets.jsonl"
+        },
+        "m1": {
+          "targets": 500,
+          "original_correct": 475,
+          "replaced_correct": 310,
+          "both_correct": 304,
+          "original_only": 171,
+          "replaced_only": 6,
+          "neither_correct": 19,
+          "per_type": {
+            "PER": {
+              "targets": 150,
+              "original_correct": 146,
+              "replaced_correct": 118,
+              "both_correct": 117,
+              "original_only": 29,
+              "replaced_only": 1,
+              "neither_correct": 3
+            },
+            "LOC": {
+              "targets": 150,
+              "original_correct": 137,
+              "replaced_correct": 67,
+              "both_correct": 64,
+              "original_only": 73,
+              "replaced_only": 3,
+              "neither_correct": 10
+            },
+            "ORG": {
+              "targets": 150,
+              "original_correct": 142,
+              "replaced_correct": 87,
+              "both_correct": 85,
+              "original_only": 57,
+              "replaced_only": 2,
+              "neither_correct": 6
+            },
+            "MISC": {
+              "targets": 50,
+              "original_correct": 50,
+              "replaced_correct": 38,
+              "both_correct": 38,
+              "original_only": 12,
+              "replaced_only": 0,
+              "neither_correct": 0
+            }
+          },
+          "target_details": "preds/conll2003/m1_robustness_replacement_v2/targets.jsonl"
+        },
+        "m2": {
+          "targets": 500,
+          "original_correct": 470,
+          "replaced_correct": 339,
+          "both_correct": 333,
+          "original_only": 137,
+          "replaced_only": 6,
+          "neither_correct": 24,
+          "per_type": {
+            "PER": {
+              "targets": 150,
+              "original_correct": 148,
+              "replaced_correct": 122,
+              "both_correct": 121,
+              "original_only": 27,
+              "replaced_only": 1,
+              "neither_correct": 1
+            },
+            "LOC": {
+              "targets": 150,
+              "original_correct": 135,
+              "replaced_correct": 72,
+              "both_correct": 69,
+              "original_only": 66,
+              "replaced_only": 3,
+              "neither_correct": 12
+            },
+            "ORG": {
+              "targets": 150,
+              "original_correct": 138,
+              "replaced_correct": 105,
+              "both_correct": 103,
+              "original_only": 35,
+              "replaced_only": 2,
+              "neither_correct": 10
+            },
+            "MISC": {
+              "targets": 50,
+              "original_correct": 49,
+              "replaced_correct": 40,
+              "both_correct": 40,
+              "original_only": 9,
+              "replaced_only": 0,
+              "neither_correct": 1
+            }
+          },
+          "target_details": "preds/conll2003/m2_robustness_replacement_v2/targets.jsonl"
+        }
+      }
+    }
+  },
+  "perturbations": {
+    "version": "v1",
+    "manifest": "data/derived/perturbations/conll2003/manifest_v1.json",
+    "test_records_per_condition": 3453,
+    "conditions": {
+      "original": {
+        "input": "data/processed_pos/conll2003/test.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 2641,
+              "fp": 1022,
+              "fn": 3007,
+              "precision": 0.7209937209937209,
+              "recall": 0.46759915014164305,
+              "f1": 0.5672860057995919,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.7027760948152251,
+                  0.7367759813308831
+                ],
+                "recall": [
+                  0.4518330446573674,
+                  0.4824256894123544
+                ],
+                "f1": [
+                  0.5521672329989378,
+                  0.5805432540520873
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_perturbation_v1_original/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4354,
+              "fp": 1886,
+              "fn": 1294,
+              "precision": 0.6977564102564102,
+              "recall": 0.7708923512747875,
+              "f1": 0.7325033647375505,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.681653535537295,
+                  0.7124444751976878
+                ],
+                "recall": [
+                  0.7582465598441297,
+                  0.78320756372728
+                ],
+                "f1": [
+                  0.7181996792237144,
+                  0.7458082314287787
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_perturbation_v1_original/0.jsonl",
+            "raw_bio_error_tokens": 662,
+            "raw_bio_error_sentences": 517,
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4561,
+              "fp": 997,
+              "fn": 1087,
+              "precision": 0.8206189276718244,
+              "recall": 0.8075424929178471,
+              "f1": 0.8140281991790113,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.8079177065139257,
+                  0.831953275334331
+                ],
+                "recall": [
+                  0.7951312809892627,
+                  0.8194910744555617
+                ],
+                "f1": [
+                  0.8020611756110398,
+                  0.8252442666066141
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_perturbation_v1_original/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                0.0,
+                0.0
+              ],
+              "recall": [
+                0.0,
+                0.0
+              ],
+              "f1": [
+                0.0,
+                0.0
+              ]
+            }
+          }
+        }
+      },
+      "lowercase": {
+        "input": "data/derived/perturbations/conll2003/lowercase_v1.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 49,
+              "fp": 162,
+              "fn": 5599,
+              "precision": 0.23222748815165878,
+              "recall": 0.008675637393767706,
+              "f1": 0.016726403823178016,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.17645796516031306,
+                  0.2935323383084577
+                ],
+                "recall": [
+                  0.006433827755631779,
+                  0.011404490059850086
+                ],
+                "f1": [
+                  0.012422318078937055,
+                  0.021967064908542645
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_perturbation_v1_lowercase/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": -48.87662328420622,
+              "recall": -45.892351274787536,
+              "f1": -55.05596019764138
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -54.266821870744636,
+                -43.091897480700524
+              ],
+              "recall": [
+                -47.37311687840152,
+                -44.32615453551673
+              ],
+              "f1": [
+                -56.48093869208269,
+                -53.52366096347228
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 211,
+              "fp": 291,
+              "fn": 5437,
+              "precision": 0.4203187250996016,
+              "recall": 0.037358356940509915,
+              "f1": 0.06861788617886179,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.37968807819418393,
+                  0.46374827300359217
+                ],
+                "recall": [
+                  0.03272589376814148,
+                  0.04225421940751115
+                ],
+                "f1": [
+                  0.060434251494669966,
+                  0.07723224165060352
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_perturbation_v1_lowercase/0.jsonl",
+            "raw_bio_error_tokens": 188,
+            "raw_bio_error_sentences": 167,
+            "delta_vs_original_pp": {
+              "precision": -27.743768515680863,
+              "recall": -73.35339943342775,
+              "f1": -66.38854785586888
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -31.844646815617025,
+                -23.392695569836246
+              ],
+              "recall": [
+                -74.6453909130655,
+                -72.05184233373707
+              ],
+              "f1": [
+                -67.8560590508342,
+                -64.94223384433306
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 286,
+              "fp": 20,
+              "fn": 5362,
+              "precision": 0.934640522875817,
+              "recall": 0.05063739376770538,
+              "f1": 0.09606986899563319,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.9041906602131201,
+                  0.9651567944250871
+                ],
+                "recall": [
+                  0.044690263826420204,
+                  0.05627060201138689
+                ],
+                "f1": [
+                  0.08528895140838692,
+                  0.10627910550644984
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_perturbation_v1_lowercase/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": 11.402159520399257,
+              "recall": -75.69050991501418,
+              "f1": -71.7958330183378
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                8.200458927578113,
+                14.515941536335276
+              ],
+              "recall": [
+                -76.89010878655081,
+                -74.46493237155863
+              ],
+              "f1": [
+                -73.23761921063605,
+                -70.43497562526639
+              ]
+            }
+          }
+        }
+      },
+      "spelling_noise": {
+        "input": "data/derived/perturbations/conll2003/spelling_noise_v1.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1827,
+              "fp": 910,
+              "fn": 3821,
+              "precision": 0.6675191815856778,
+              "recall": 0.3234773371104816,
+              "f1": 0.435778175313059,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.6473247151976687,
+                  0.6852991603744376
+                ],
+                "recall": [
+                  0.3105118622298053,
+                  0.3364915639957257
+                ],
+                "f1": [
+                  0.4212178821540691,
+                  0.4503230480938005
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_perturbation_v1_spelling_noise/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": -5.347453940804314,
+              "recall": -14.412181303116146,
+              "f1": -13.150783048653286
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -6.3204539392201795,
+                -4.392051929199172
+              ],
+              "recall": [
+                -15.32013298372859,
+                -13.422774219949236
+              ],
+              "f1": [
+                -14.072766273579338,
+                -12.16915030833427
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4084,
+              "fp": 2304,
+              "fn": 1564,
+              "precision": 0.6393237319974953,
+              "recall": 0.7230878186968839,
+              "f1": 0.6786307743436357,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.6232675454245801,
+                  0.6537869830730985
+                ],
+                "recall": [
+                  0.7102149382480265,
+                  0.73646681332008
+                ],
+                "f1": [
+                  0.6641069198396928,
+                  0.6917438641158669
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_perturbation_v1_spelling_noise/0.jsonl",
+            "raw_bio_error_tokens": 902,
+            "raw_bio_error_sentences": 675,
+            "delta_vs_original_pp": {
+              "precision": -5.8432678258914965,
+              "recall": -4.780453257790363,
+              "f1": -5.387259039391479
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -6.642249283719038,
+                -4.97657495419088
+              ],
+              "recall": [
+                -5.504177304708585,
+                -4.022777974930841
+              ],
+              "f1": [
+                -6.104488933803657,
+                -4.5880235204336035
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4338,
+              "fp": 1185,
+              "fn": 1310,
+              "precision": 0.7854426941879413,
+              "recall": 0.7680594900849859,
+              "f1": 0.7766538358249038,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.7733006884966759,
+                  0.7969645027348082
+                ],
+                "recall": [
+                  0.7553686278645559,
+                  0.7807421208614657
+                ],
+                "f1": [
+                  0.7644699877449282,
+                  0.7884661298233742
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_perturbation_v1_spelling_noise/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": -3.51762334838831,
+              "recall": -3.9483002832861214,
+              "f1": -3.7374363354107487
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -4.18415499274372,
+                -2.8582667007810825
+              ],
+              "recall": [
+                -4.60824601875396,
+                -3.2911848075556307
+              ],
+              "f1": [
+                -4.395832605171401,
+                -3.089776771469661
+              ]
+            }
+          }
+        }
+      },
+      "no_punctuation": {
+        "input": "data/derived/perturbations/conll2003/no_punctuation_v1.jsonl",
+        "models": {
+          "m0": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 2639,
+              "fp": 1023,
+              "fn": 3009,
+              "precision": 0.7206444565811032,
+              "recall": 0.4672450424929179,
+              "f1": 0.5669172932330827,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.7023607268257455,
+                  0.7364296591981576
+                ],
+                "recall": [
+                  0.45130938481883504,
+                  0.48207464774793324
+                ],
+                "f1": [
+                  0.5518545659388321,
+                  0.5801906675157453
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m0_robustness_perturbation_v1_no_punctuation/0.jsonl",
+            "delta_vs_original_pp": {
+              "precision": -0.034926441261773356,
+              "recall": -0.03541076487251771,
+              "f1": -0.03687125665091662
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -0.09955511388584665,
+                0.0
+              ],
+              "recall": [
+                -0.08964108162806586,
+                0.0
+              ],
+              "f1": [
+                -0.0963508696311724,
+                0.0
+              ]
+            }
+          },
+          "m1": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 4010,
+              "fp": 2338,
+              "fn": 1638,
+              "precision": 0.6316950220541903,
+              "recall": 0.7099858356940509,
+              "f1": 0.6685561853951317,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.6153901825763259,
+                  0.646595417502999
+                ],
+                "recall": [
+                  0.6969135810612254,
+                  0.7228680601235811
+                ],
+                "f1": [
+                  0.6535342313514095,
+                  0.6818858354085193
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m1_robustness_perturbation_v1_no_punctuation/0.jsonl",
+            "raw_bio_error_tokens": 927,
+            "raw_bio_error_sentences": 678,
+            "delta_vs_original_pp": {
+              "precision": -6.606138820221997,
+              "recall": -6.090651558073656,
+              "f1": -6.3947179342418785
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -7.745889728912218,
+                -5.551379794424408
+              ],
+              "recall": [
+                -6.986352636010911,
+                -5.2108021186175595
+              ],
+              "f1": [
+                -7.406312988875244,
+                -5.40409112407088
+              ]
+            }
+          },
+          "m2": {
+            "scores": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 3810,
+              "fp": 1280,
+              "fn": 1838,
+              "precision": 0.7485265225933202,
+              "recall": 0.6745750708215298,
+              "f1": 0.7096293536971503,
+              "bootstrap_ci95": {
+                "precision": [
+                  0.733766249644688,
+                  0.7619942951171954
+                ],
+                "recall": [
+                  0.6552233395642132,
+                  0.6928250105428896
+                ],
+                "f1": [
+                  0.6935791135367294,
+                  0.7253025754165409
+                ]
+              }
+            },
+            "predictions": "preds/conll2003/m2_robustness_perturbation_v1_no_punctuation/0.jsonl",
+            "raw_bio_error_tokens": 0,
+            "raw_bio_error_sentences": 0,
+            "delta_vs_original_pp": {
+              "precision": -7.2092405078504225,
+              "recall": -13.296742209631729,
+              "f1": -10.439884548186097
+            },
+            "delta_vs_original_ci95_pp": {
+              "precision": [
+                -8.297944000735313,
+                -6.231057097875362
+              ],
+              "recall": [
+                -15.085799822827735,
+                -11.701688443482054
+              ],
+              "f1": [
+                -11.889353384881167,
+                -9.141956886385255
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "lowercase_vs_btc": {
+    "btc_input": "data/processed_pos/btc/test.jsonl",
+    "entity_types": [
+      "PER",
+      "LOC",
+      "ORG"
+    ],
+    "models": {
+      "m0": {
+        "original": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 2176,
+          "fp": 902,
+          "fn": 2770,
+          "precision": 0.7069525666016894,
+          "recall": 0.43995147594015366,
+          "f1": 0.5423728813559322,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 231,
+              "fp": 173,
+              "fn": 1386,
+              "precision": 0.5717821782178217,
+              "recall": 0.14285714285714285,
+              "f1": 0.22859970311726868
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1227,
+              "fp": 423,
+              "fn": 441,
+              "precision": 0.7436363636363637,
+              "recall": 0.7356115107913669,
+              "f1": 0.7396021699819169
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 718,
+              "fp": 306,
+              "fn": 943,
+              "precision": 0.701171875,
+              "recall": 0.43226971703792894,
+              "f1": 0.5348230912476722
+            }
+          }
+        },
+        "lowercase": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 49,
+          "fp": 157,
+          "fn": 4897,
+          "precision": 0.23786407766990292,
+          "recall": 0.00990699555196118,
+          "f1": 0.019021739130434784,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1617,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 49,
+              "fp": 1,
+              "fn": 1619,
+              "precision": 0.98,
+              "recall": 0.029376498800959234,
+              "f1": 0.0570430733410943
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 0,
+              "fp": 156,
+              "fn": 1661,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0
+            }
+          }
+        },
+        "btc": {
+          "gold_records": 2000,
+          "scored_records": 2000,
+          "tp": 241,
+          "fp": 411,
+          "fn": 4135,
+          "precision": 0.3696319018404908,
+          "recall": 0.05507312614259598,
+          "f1": 0.0958631662688942,
+          "per_type": {
+            "PER": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 34,
+              "fp": 99,
+              "fn": 2616,
+              "precision": 0.2556390977443609,
+              "recall": 0.012830188679245283,
+              "f1": 0.02443406395975566
+            },
+            "LOC": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 132,
+              "fp": 162,
+              "fn": 504,
+              "precision": 0.4489795918367347,
+              "recall": 0.20754716981132076,
+              "f1": 0.2838709677419355
+            },
+            "ORG": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 75,
+              "fp": 150,
+              "fn": 1015,
+              "precision": 0.3333333333333333,
+              "recall": 0.06880733944954129,
+              "f1": 0.11406844106463879
+            }
+          }
+        },
+        "predictions": "preds/btc/m0_robustness_transfer/0.jsonl",
+        "lowercase_loss_pp": 52.33511422254974,
+        "btc_loss_pp": 44.650971508703805
+      },
+      "m1": {
+        "original": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 3804,
+          "fp": 1685,
+          "fn": 1142,
+          "precision": 0.6930224084532701,
+          "recall": 0.7691063485644966,
+          "f1": 0.7290848107331097,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1286,
+              "fp": 553,
+              "fn": 331,
+              "precision": 0.6992930940728657,
+              "recall": 0.795299938157081,
+              "f1": 0.7442129629629629
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1397,
+              "fp": 378,
+              "fn": 271,
+              "precision": 0.7870422535211268,
+              "recall": 0.8375299760191847,
+              "f1": 0.8115015974440895
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1121,
+              "fp": 754,
+              "fn": 540,
+              "precision": 0.5978666666666667,
+              "recall": 0.674894641782059,
+              "f1": 0.6340497737556561
+            }
+          }
+        },
+        "lowercase": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 180,
+          "fp": 243,
+          "fn": 4766,
+          "precision": 0.425531914893617,
+          "recall": 0.03639304488475536,
+          "f1": 0.06705159247532129,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 3,
+              "fp": 88,
+              "fn": 1614,
+              "precision": 0.03296703296703297,
+              "recall": 0.0018552875695732839,
+              "f1": 0.00351288056206089
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 140,
+              "fp": 46,
+              "fn": 1528,
+              "precision": 0.7526881720430108,
+              "recall": 0.08393285371702638,
+              "f1": 0.15102481121898598
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 37,
+              "fp": 109,
+              "fn": 1624,
+              "precision": 0.2534246575342466,
+              "recall": 0.022275737507525588,
+              "f1": 0.04095185390149419
+            }
+          }
+        },
+        "btc": {
+          "gold_records": 2000,
+          "scored_records": 2000,
+          "tp": 965,
+          "fp": 1839,
+          "fn": 3411,
+          "precision": 0.344151212553495,
+          "recall": 0.22052102376599633,
+          "f1": 0.26880222841225626,
+          "per_type": {
+            "PER": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 511,
+              "fp": 645,
+              "fn": 2139,
+              "precision": 0.4420415224913495,
+              "recall": 0.19283018867924528,
+              "f1": 0.26852338413032056
+            },
+            "LOC": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 217,
+              "fp": 252,
+              "fn": 419,
+              "precision": 0.4626865671641791,
+              "recall": 0.3411949685534591,
+              "f1": 0.3927601809954751
+            },
+            "ORG": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 237,
+              "fp": 942,
+              "fn": 853,
+              "precision": 0.2010178117048346,
+              "recall": 0.21743119266055047,
+              "f1": 0.20890260026443366
+            }
+          }
+        },
+        "predictions": "preds/btc/m1_robustness_transfer/0.jsonl",
+        "raw_bio_error_tokens": 1202,
+        "raw_bio_error_sentences": 823,
+        "lowercase_loss_pp": 66.20332182577884,
+        "btc_loss_pp": 46.02825823208534
+      },
+      "m2": {
+        "original": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 4023,
+          "fp": 840,
+          "fn": 923,
+          "precision": 0.8272671190623072,
+          "recall": 0.8133845531742823,
+          "f1": 0.8202671016413497,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1390,
+              "fp": 221,
+              "fn": 227,
+              "precision": 0.8628181253879578,
+              "recall": 0.8596165739022882,
+              "f1": 0.8612143742255266
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1452,
+              "fp": 282,
+              "fn": 216,
+              "precision": 0.8373702422145328,
+              "recall": 0.8705035971223022,
+              "f1": 0.8536155202821869
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 1181,
+              "fp": 337,
+              "fn": 480,
+              "precision": 0.7779973649538867,
+              "recall": 0.7110174593618303,
+              "f1": 0.7430009436929852
+            }
+          }
+        },
+        "lowercase": {
+          "gold_records": 3453,
+          "scored_records": 3453,
+          "tp": 259,
+          "fp": 14,
+          "fn": 4687,
+          "precision": 0.9487179487179487,
+          "recall": 0.052365547917509095,
+          "f1": 0.09925273040812416,
+          "per_type": {
+            "PER": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 12,
+              "fp": 0,
+              "fn": 1605,
+              "precision": 1.0,
+              "recall": 0.0074211502782931356,
+              "f1": 0.014732965009208104
+            },
+            "LOC": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 203,
+              "fp": 10,
+              "fn": 1465,
+              "precision": 0.9530516431924883,
+              "recall": 0.12170263788968826,
+              "f1": 0.21584263689526847
+            },
+            "ORG": {
+              "gold_records": 3453,
+              "scored_records": 3453,
+              "tp": 44,
+              "fp": 4,
+              "fn": 1617,
+              "precision": 0.9166666666666666,
+              "recall": 0.026490066225165563,
+              "f1": 0.051492100643651256
+            }
+          }
+        },
+        "btc": {
+          "gold_records": 2000,
+          "scored_records": 2000,
+          "tp": 804,
+          "fp": 1058,
+          "fn": 3572,
+          "precision": 0.4317937701396348,
+          "recall": 0.18372943327239488,
+          "f1": 0.2577749278614941,
+          "per_type": {
+            "PER": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 374,
+              "fp": 364,
+              "fn": 2276,
+              "precision": 0.5067750677506775,
+              "recall": 0.14113207547169812,
+              "f1": 0.22077922077922077
+            },
+            "LOC": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 254,
+              "fp": 173,
+              "fn": 382,
+              "precision": 0.594847775175644,
+              "recall": 0.39937106918238996,
+              "f1": 0.477892756349953
+            },
+            "ORG": {
+              "gold_records": 2000,
+              "scored_records": 2000,
+              "tp": 176,
+              "fp": 521,
+              "fn": 914,
+              "precision": 0.25251076040172166,
+              "recall": 0.1614678899082569,
+              "f1": 0.1969781757134863
+            }
+          }
+        },
+        "predictions": "preds/btc/m2_robustness_transfer/0.jsonl",
+        "raw_bio_error_tokens": 0,
+        "raw_bio_error_sentences": 0,
+        "lowercase_loss_pp": 72.10143712332255,
+        "btc_loss_pp": 56.24921737798556
+      }
+    },
+    "interpretation": "Descriptive comparison of full lowercasing with transfer to a different corpus."
+  }
+}

@@ -55,11 +55,11 @@
     "code_sha256": {
       "models/classic/features.py": "c4de3753c9e8d95c0eb3d3e39e7c4176b486d61f7c3be7f3f2c729c16c4dc1c9",
       "models/classic/m0_dictionary.py": "36b588f8fdad0ab9c318a708a5c1776ecab81be8e5cfef53785a9c93197fa221",
-      "models/classic/m1_logistic.py": "bafe3be0670d65d6167deb25b8cba92665e2c805d316f3250dd94e67364767bf",
       "models/classic/m2_crf.py": "067d90b5bd8c9a838d493a96c7061acbbecf85100ca78b70698bf7223416fe53",
       "models/classic/m2_cross_validate.py": "a4d744786f15b5a0865b5a8969cf949a75d8f39a95830c79168bffbb2d6f919b",
-      "models/classic/m2_grid_search.py": "03f53c389898ffb1d61fc79409d558fb4bd7f7a5aa5e3a8add8f79c07dfa4da5",
-      "eval/score_ner.py": "1039126583659205a65dbcd7a053cd3bb580fef2c898e2c59a6e020a4694f58a"
+      "models/classic/m2_grid_search.py": "c4725ef36450306f0e09de6d243c9df23f86c33a418b5594af0f14e7ea58f019",
+      "eval/score_ner.py": "1039126583659205a65dbcd7a053cd3bb580fef2c898e2c59a6e020a4694f58a",
+      "models/classic/m1_logistic.py:repair_iob2": "ada4321a82b50d96e164db2ea0bdee193d9ee524696cfcd3f3c5206284c15b55"
     },
     "library_versions": {
       "scikit-learn": "1.9.1",
@@ -1818,5 +1818,10 @@
       "raw_bio_error_sentences": 0
     }
   },
-  "validation_predictions": "preds/conll2003/m2_cv_grid/0.jsonl"
+  "validation_predictions": "preds/conll2003/m2_cv_grid/0.jsonl",
+  "fingerprint_migration": {
+    "reason": "Fingerprint the BIO repair used by CRF rather than the entire logistic-regression module.",
+    "previous_m1_file_sha256": "bafe3be0670d65d6167deb25b8cba92665e2c805d316f3250dd94e67364767bf",
+    "verification": "The original BIO-repair source matches its recorded digest and selected M2 fold 1 reproduces all saved counts."
+  }
 }

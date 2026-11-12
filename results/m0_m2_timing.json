@@ -1,0 +1,275 @@
+{
+  "measured_at_utc": "2026-11-12T06:47:58.696566+00:00",
+  "reference": "results/m0_m2_baselines.json",
+  "protocol": {
+    "schedule": "One model operation at a time within this process. Wall times depend on background load.",
+    "timer": "time.perf_counter wall time",
+    "fit_repetitions": 1,
+    "inference_warmups": 1,
+    "inference_repetitions": 3,
+    "fit_scope": "Dictionary construction or feature extraction/vectorization and model fitting, including the CRF model file.",
+    "inference_scope": "Full-test production prediction, including feature extraction where applicable, BIO repair and temporary JSONL output.",
+    "excluded_from_timing": "Dataset loading, POS generation, cross-validation, scoring and parameter inspection.",
+    "gpu_vram_mb": "Null for CPU runs."
+  },
+  "datasets": {
+    "conll2003": {
+      "training_file": "data/processed_pos/conll2003/train.jsonl",
+      "test_file": "data/processed_pos/conll2003/test.jsonl",
+      "training_records": 14041,
+      "training_tokens": 203621,
+      "test_records": 3453,
+      "test_tokens": 46435,
+      "features": {
+        "pos_model": "en_core_web_sm 3.8.0",
+        "use_chunk_tags": false,
+        "context_window": 1
+      },
+      "m1_parameters": {
+        "c": 10.0,
+        "tol": 1e-05,
+        "solver": "lbfgs",
+        "max_iterations": 2000
+      },
+      "m2_parameters": {
+        "c1": 0.0001,
+        "c2": 0.1
+      },
+      "models": {
+        "m0": {
+          "fit_seconds": 0.04547000000002299,
+          "inference_seconds_median": 0.0722929999999451,
+          "inference_sentences_per_second": 47763.96054946706,
+          "inference_tokens_per_second": 642316.6834968153,
+          "inference_seconds_runs": [
+            0.07309319999990294,
+            0.0722929999999451,
+            0.07025160000011965
+          ],
+          "full_test_f1": 0.5672860057995919,
+          "gpu_vram_mb": null,
+          "parameter_count": 7950,
+          "parameter_count_kind": "dictionary entries"
+        },
+        "m1": {
+          "fit_seconds": 32.589864900000066,
+          "inference_seconds_median": 0.4756388999999217,
+          "inference_sentences_per_second": 7259.708993525484,
+          "inference_tokens_per_second": 97626.58184603413,
+          "inference_seconds_runs": [
+            0.46907489999989593,
+            0.4756388999999217,
+            0.5072112999998808
+          ],
+          "full_test_f1": 0.7325033647375505,
+          "gpu_vram_mb": null,
+          "parameter_count": 1020456,
+          "parameter_count_kind": "coefficients and intercepts",
+          "coefficients": 1020447,
+          "intercepts": 9
+        },
+        "m2": {
+          "fit_seconds": 18.394490399999995,
+          "inference_seconds_median": 0.3855407999999443,
+          "inference_sentences_per_second": 8956.250544690727,
+          "inference_tokens_per_second": 120441.2088163087,
+          "inference_seconds_runs": [
+            0.39795329999992646,
+            0.3855407999999443,
+            0.38167219999991175
+          ],
+          "full_test_f1": 0.8140281991790113,
+          "gpu_vram_mb": null,
+          "parameter_count": 107697,
+          "parameter_count_kind": "stored CRF state and transition weights",
+          "state_weights": 107616,
+          "transition_weights": 81
+        }
+      }
+    },
+    "wnut17": {
+      "training_file": "data/processed_pos/wnut17/train.jsonl",
+      "test_file": "data/processed_pos/wnut17/test.jsonl",
+      "training_records": 3394,
+      "training_tokens": 62730,
+      "test_records": 1287,
+      "test_tokens": 23394,
+      "features": {
+        "pos_model": "en_core_web_sm 3.8.0",
+        "use_chunk_tags": false,
+        "context_window": 1
+      },
+      "m1_parameters": {
+        "c": 10.0,
+        "tol": 1e-05,
+        "solver": "lbfgs",
+        "max_iterations": 2000
+      },
+      "m2_parameters": {
+        "c1": 0.0001,
+        "c2": 0.1
+      },
+      "models": {
+        "m0": {
+          "fit_seconds": 0.010129499999948166,
+          "inference_seconds_median": 0.04072059999998601,
+          "inference_sentences_per_second": 31605.62467155303,
+          "inference_tokens_per_second": 574500.3757313999,
+          "inference_seconds_runs": [
+            0.04072059999998601,
+            0.042206699999951525,
+            0.03606509999985974
+          ],
+          "full_test_f1": 0.0,
+          "gpu_vram_mb": null,
+          "parameter_count": 1580,
+          "parameter_count_kind": "dictionary entries"
+        },
+        "m1": {
+          "fit_seconds": 14.25058439999998,
+          "inference_seconds_median": 0.24093900000002577,
+          "inference_sentences_per_second": 5341.600986141149,
+          "inference_tokens_per_second": 97095.11536113912,
+          "inference_seconds_runs": [
+            0.22932689999993272,
+            0.24093900000002577,
+            0.2449280999999246
+          ],
+          "full_test_f1": 0.1383248730964467,
+          "gpu_vram_mb": null,
+          "parameter_count": 998075,
+          "parameter_count_kind": "coefficients and intercepts",
+          "coefficients": 998062,
+          "intercepts": 13
+        },
+        "m2": {
+          "fit_seconds": 7.2459899999998925,
+          "inference_seconds_median": 0.16305010000019138,
+          "inference_sentences_per_second": 7893.279427602249,
+          "inference_tokens_per_second": 143477.37290545998,
+          "inference_seconds_runs": [
+            0.16871420000006765,
+            0.158723400000099,
+            0.16305010000019138
+          ],
+          "full_test_f1": 0.16126601356443104,
+          "gpu_vram_mb": null,
+          "parameter_count": 76664,
+          "parameter_count_kind": "stored CRF state and transition weights",
+          "state_weights": 76495,
+          "transition_weights": 169
+        }
+      }
+    },
+    "mit_restaurant": {
+      "training_file": "data/processed_pos/mit_restaurant/train.jsonl",
+      "test_file": "data/processed_pos/mit_restaurant/test.jsonl",
+      "training_records": 6894,
+      "training_tokens": 64465,
+      "test_records": 1521,
+      "test_tokens": 14256,
+      "features": {
+        "pos_model": "en_core_web_sm 3.8.0",
+        "use_chunk_tags": false,
+        "context_window": 1
+      },
+      "m1_parameters": {
+        "c": 10.0,
+        "tol": 1e-05,
+        "solver": "lbfgs",
+        "max_iterations": 2000
+      },
+      "m2_parameters": {
+        "c1": 0.01,
+        "c2": 0.5
+      },
+      "models": {
+        "m0": {
+          "fit_seconds": 0.02220060000013291,
+          "inference_seconds_median": 0.03693879999991623,
+          "inference_sentences_per_second": 41176.21579486744,
+          "inference_tokens_per_second": 385935.6557341422,
+          "inference_seconds_runs": [
+            0.03732009999998809,
+            0.02300439999999071,
+            0.03693879999991623
+          ],
+          "full_test_f1": 0.44515539305301643,
+          "gpu_vram_mb": null,
+          "parameter_count": 4427,
+          "parameter_count_kind": "dictionary entries"
+        },
+        "m1": {
+          "fit_seconds": 20.501813200000015,
+          "inference_seconds_median": 0.1659487000001718,
+          "inference_sentences_per_second": 9165.48306795067,
+          "inference_tokens_per_second": 85906.06615167965,
+          "inference_seconds_runs": [
+            0.1601064999999835,
+            0.1659487000001718,
+            0.1799033000002055
+          ],
+          "full_test_f1": 0.6887595163457232,
+          "gpu_vram_mb": null,
+          "parameter_count": 363358,
+          "parameter_count_kind": "coefficients and intercepts",
+          "coefficients": 363341,
+          "intercepts": 17
+        },
+        "m2": {
+          "fit_seconds": 8.951977400000033,
+          "inference_seconds_median": 0.12699659999998403,
+          "inference_sentences_per_second": 11976.698588782623,
+          "inference_tokens_per_second": 112254.97375521701,
+          "inference_seconds_runs": [
+            0.12699659999998403,
+            0.1225529999999253,
+            0.1378041000000394
+          ],
+          "full_test_f1": 0.7725225225225225,
+          "gpu_vram_mb": null,
+          "parameter_count": 43309,
+          "parameter_count_kind": "stored CRF state and transition weights",
+          "state_weights": 43020,
+          "transition_weights": 289
+        }
+      }
+    }
+  },
+  "environment": {
+    "device": "CPU",
+    "processor": "Intel(R) Core(TM) Ultra X7 358H",
+    "logical_cpu_count": 16,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.16",
+    "library_versions": {
+      "numpy": "2.0.1",
+      "scipy": "1.16.0",
+      "scikit-learn": "1.9.1",
+      "threadpoolctl": "3.7.0",
+      "sklearn-crfsuite": "0.5.0",
+      "python-crfsuite": "0.9.12"
+    },
+    "requested_native_thread_limit": 2,
+    "native_thread_pools": [
+      {
+        "prefix": "vcomp",
+        "internal_api": "openmp",
+        "version": null,
+        "num_threads": 2
+      },
+      {
+        "prefix": "mkl_rt",
+        "internal_api": "mkl",
+        "version": "2023.1-Product",
+        "num_threads": 2
+      },
+      {
+        "prefix": "libiomp",
+        "internal_api": "openmp",
+        "version": null,
+        "num_threads": 16
+      }
+    ]
+  }
+}

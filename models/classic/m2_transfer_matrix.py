@@ -110,15 +110,7 @@ def main():
         "entity_types": settings["types"],
         "evaluation": "full test splits",
         "label_mapping": relative(MAPPING_PATH),
-        "historical_conll2003": {
-            "source_datasets": [SOURCE],
-            "training_records": original["training_records"],
-            "training_records_by_dataset": {SOURCE: original["training_records"]},
-            "training_inputs": [original["training_input"]],
-            "training_label_policy": "Train on native four types and project predictions to the shared three types.",
-            "reused_report": relative(CONLL_RESULTS),
-            "targets": original["targets"],
-        },
+        "native_label_training_reference": relative(CONLL_RESULTS),
         "rows": {},
     }
     pending_predictions = {}
