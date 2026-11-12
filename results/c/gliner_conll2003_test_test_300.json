@@ -4,6 +4,7 @@
   "dataset": "conll2003",
   "split": "test",
   "scope": "test_300",
+  "input": null,
   "subset_ids": "data/subsets/conll2003/test_300.txt",
   "threshold": 0.5,
   "type_descriptions": {
@@ -23,11 +24,53 @@
     "recall": 0.5991735537190083,
     "f1": 0.59244126659857
   },
+  "per_type": {
+    "LOC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 122,
+      "fp": 86,
+      "fn": 27,
+      "precision": 0.5865384615384616,
+      "recall": 0.8187919463087249,
+      "f1": 0.6834733893557423
+    },
+    "MISC": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 0,
+      "fp": 0,
+      "fn": 72,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "ORG": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 56,
+      "fp": 76,
+      "fn": 81,
+      "precision": 0.42424242424242425,
+      "recall": 0.40875912408759124,
+      "f1": 0.4163568773234201
+    },
+    "PER": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 112,
+      "fp": 43,
+      "fn": 14,
+      "precision": 0.7225806451612903,
+      "recall": 0.8888888888888888,
+      "f1": 0.797153024911032
+    }
+  },
   "timing": {
     "device": "cuda",
     "batch_size": 32,
-    "inference_seconds": 1.512448599562049,
-    "inference_sentences_per_second": 198.35384824771518,
+    "inference_seconds": 1.2580485604703426,
+    "inference_sentences_per_second": 238.4645628367795,
     "includes": "tokenization and span decoding"
   }
 }
