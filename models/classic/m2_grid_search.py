@@ -6,6 +6,7 @@ from concurrent.futures import ProcessPoolExecutor
 from contextlib import nullcontext
 from hashlib import sha256
 from importlib.metadata import version
+from inspect import getsource
 from pathlib import Path
 from statistics import mean
 from tempfile import TemporaryDirectory
@@ -24,6 +25,7 @@ from models.classic.m2_cross_validate import (
     refit_and_score,
     summarize,
 )
+from models.classic.m1_logistic import repair_iob2
 
 
 C1_VALUES = (0, 0.0001, 0.0005, 0.001, 0.01)
@@ -31,6 +33,22 @@ C2_VALUES = (0.01, 0.03, 0.1, 0.5)
 GRID = tuple((c1, c2) for c1 in C1_VALUES for c2 in C2_VALUES)
 GRID_REPORT = RESULTS_PATH.with_name("m2_cv_grid.json")
 GRID_PREDICTIONS = EXTRA_PREDICTIONS.parent.with_name("m2_cv_grid") / "0.jsonl"
+
+
+def grid_code_hashes():
+    paths = (
+        "models/classic/features.py",
+        "models/classic/m0_dictionary.py",
+        "models/classic/m2_crf.py",
+        "models/classic/m2_cross_validate.py",
+        "models/classic/m2_grid_search.py",
+        "eval/score_ner.py",
+    )
+    fingerprints = {path: sha256((PROJECT_DIR / path).read_bytes()).hexdigest() for path in paths}
+    fingerprints["models/classic/m1_logistic.py:repair_iob2"] = sha256(
+        getsource(repair_iob2).encode("utf-8")
+    ).hexdigest()
+    return fingerprints
 
 
 def parameter_pair(candidate):
@@ -81,15 +99,6 @@ def run_grid(jobs):
     incumbent = cached[parameter_pair(previous_report["best_parameters"])]
     previous_predictions = EXTRA_PREDICTIONS if previous_report["refit_performed"] else TUNED_PREDICTIONS
 
-    code_paths = (
-        "models/classic/features.py",
-        "models/classic/m0_dictionary.py",
-        "models/classic/m1_logistic.py",
-        "models/classic/m2_crf.py",
-        "models/classic/m2_cross_validate.py",
-        "models/classic/m2_grid_search.py",
-        "eval/score_ner.py",
-    )
     fingerprint = {
         "train_sha256": sha256(TRAIN_PATH.read_bytes()).hexdigest(),
         "heldout_sample_ids_sha256": [
@@ -97,9 +106,7 @@ def run_grid(jobs):
             for rows in heldout_rows
         ],
         "history_sha256": history,
-        "code_sha256": {
-            path: sha256((PROJECT_DIR / path).read_bytes()).hexdigest() for path in code_paths
-        },
+        "code_sha256": grid_code_hashes(),
         "library_versions": {
             name: version(name) for name in ("scikit-learn", "sklearn-crfsuite", "python-crfsuite")
         },

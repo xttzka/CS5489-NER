@@ -1,5 +1,7 @@
 """Score native NER baselines and compare them on paired bootstrap samples."""
 
+from itertools import combinations
+
 import numpy as np
 
 from eval.score_ner import bio_to_spans, score_ner
@@ -126,7 +128,7 @@ def score_baselines(gold_by_id, predictions_by_model, *, resamples=1000, seed=42
             )
 
     paired = {}
-    for first, second in ((0, 1), (1, 2)):
+    for first, second in combinations(range(len(MODELS)), 2):
         point = models[MODELS[second]]["f1"] - models[MODELS[first]]["f1"]
         changes = bootstrap[:, second, 0, 2] - bootstrap[:, first, 0, 2]
         low, high = np.quantile(changes, (0.025, 0.975)).tolist()

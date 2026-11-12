@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -23,6 +24,23 @@ DATASETS = {
     "wnut17": STANDARD_SPLITS,
     "mit_restaurant": STANDARD_SPLITS,
 }
+
+
+def tag_texts(nlp, texts):
+    if not isinstance(texts, list) or not texts or not all(
+        isinstance(text, str) and text.strip() for text in texts
+    ):
+        raise ValueError("expected a JSON list of nonempty input strings")
+    for doc in nlp.pipe(texts):
+        words = [token for token in doc if not token.is_space]
+        if not words or not all(token.tag_ for token in words):
+            raise ValueError("each input needs at least one token and a POS tag for each token")
+        yield {
+            "text": doc.text,
+            "tokens": [token.text for token in words],
+            "pos_tags": [token.tag_ for token in words],
+            "offsets": [[token.idx, token.idx + len(token.text)] for token in words],
+        }
 
 
 def read_docs(nlp, source, dataset, split):
@@ -67,13 +85,20 @@ def tag_split(nlp, dataset, split):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset", choices=DATASETS, help="Tag one dataset instead of all six")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--dataset", choices=DATASETS, help="Tag one dataset instead of all six")
+    mode.add_argument("--text-json", action="store_true", help="Tag raw strings from a UTF-8 JSON list on stdin")
     args = parser.parse_args()
 
     try:
         nlp = spacy.load(MODEL, enable=["tok2vec", "tagger"])
         if nlp.meta["version"] != MODEL_VERSION:
             raise ValueError(f"expected {MODEL} {MODEL_VERSION}, found {nlp.meta['version']}")
+        if args.text_json:
+            texts = json.loads(sys.stdin.buffer.read().decode("utf-8"))
+            result = json.dumps(list(tag_texts(nlp, texts)), ensure_ascii=False)
+            sys.stdout.buffer.write((result + "\n").encode("utf-8"))
+            return
         print(f"spaCy {spacy.__version__}, {MODEL} {MODEL_VERSION}", flush=True)
 
         sentences = tokens = 0

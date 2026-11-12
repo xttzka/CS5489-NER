@@ -1,0 +1,77 @@
+{
+  "mode": "glove",
+  "gold": "data/processed/conll2003/test.jsonl",
+  "gold_sha256": "41ceaf488723b7d097cc934e5036c7ab2c61fbeab552c598af53173f1f88a12d",
+  "gold_spans": 5648,
+  "shared_spans": 5534,
+  "excluded_spans": 114,
+  "gold_type_counts": {
+    "LOC": 1668,
+    "MISC": 702,
+    "ORG": 1661,
+    "PER": 1617
+  },
+  "shared_type_counts": {
+    "LOC": 1657,
+    "MISC": 668,
+    "ORG": 1633,
+    "PER": 1576
+  },
+  "matching": "Identical intersection of (sample_id, start, end) gold spans for every representation.",
+  "cluster_config": {
+    "algorithm": "K-means (Lloyd)",
+    "k": 4,
+    "misc_k": 4,
+    "n_init": 10,
+    "random_state": 42,
+    "normalization": "none"
+  },
+  "misc_review": "MISC subclusters use cluster sizes and span assignments for manual interpretation.",
+  "representations": {
+    "glove": {
+      "input": "data/external/glove/glove.6B.100d.txt",
+      "sha256": "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6",
+      "dimensions": 100,
+      "partially_out_of_vocabulary_spans": 164,
+      "fully_out_of_vocabulary_spans": 114,
+      "pooling": "Mean of the available lowercase token vectors; exclude spans with no covered tokens.",
+      "available_spans": 5534,
+      "used_spans": 5534,
+      "ari": 0.2535550425325975,
+      "nmi": 0.2624605270777827,
+      "cluster_gold_type_counts": {
+        "0": {
+          "ORG": 589,
+          "LOC": 68,
+          "MISC": 10,
+          "PER": 12
+        },
+        "1": {
+          "LOC": 379,
+          "ORG": 480,
+          "PER": 217,
+          "MISC": 85
+        },
+        "2": {
+          "LOC": 999,
+          "PER": 42,
+          "MISC": 462,
+          "ORG": 228
+        },
+        "3": {
+          "PER": 1305,
+          "MISC": 111,
+          "ORG": 336,
+          "LOC": 211
+        }
+      },
+      "misc_cluster_sizes": {
+        "0": 135,
+        "1": 108,
+        "2": 166,
+        "3": 259
+      }
+    }
+  },
+  "assignments": "output/entity_clustering/glove_assignments.jsonl"
+}

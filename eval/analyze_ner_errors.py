@@ -1,8 +1,9 @@
-"""Classify exact-match NER errors and draw a reproducible human-review sample."""
+"""Classify exact-match NER errors, sample them and summarize two independent reviews."""
 
 import argparse
 import csv
 import json
+import sys
 from collections import Counter
 from pathlib import Path
 from random import Random
@@ -13,6 +14,7 @@ from eval.score_ner import bio_to_spans, read_subset_ids, read_tags_by_id, score
 
 KINDS = ("missed", "spurious", "boundary", "type", "boundary_and_type")
 REVIEW_KINDS = ("type", "spurious")
+JUDGMENTS = ("guideline_difference", "gold_error", "other")
 REVIEW_FIELDS = (
     "error_id", "sample_id", "sentence", "automatic_category",
     "gold_text", "gold_type", "gold_start", "gold_end",
@@ -178,8 +180,110 @@ def save_outputs(destination, errors, sample, summary):
         stage.rename(destination)
 
 
+def read_review(path):
+    rows = {}
+    with path.open(encoding="utf-8-sig", newline="") as source:
+        reader = csv.DictReader(source, strict=True)
+        fields = reader.fieldnames or []
+        if not {"error_id", "judgment"}.issubset(fields) or len(set(fields)) != len(fields):
+            raise ValueError(f"{path}: expected distinct CSV headers including error_id and judgment")
+        for row in reader:
+            location = f"{path}:{reader.line_num}"
+            if None in row or None in row.values():
+                raise ValueError(f"{location}: row does not match the CSV header")
+            error_id = row["error_id"].strip()
+            if not error_id or error_id in rows:
+                raise ValueError(f"{location}: error_id must be nonempty and unique")
+            judgment = row["judgment"].strip()
+            if judgment not in JUDGMENTS:
+                raise ValueError(f"{location}: judgment for {error_id!r} must be one of {', '.join(JUDGMENTS)}")
+            rows[error_id] = {**row, "judgment": judgment}
+    if not rows:
+        raise ValueError(f"{path}: no completed review rows")
+    return rows, set(fields)
+
+
+def summarize_agreement(review_a, review_b):
+    if review_a.samefile(review_b):
+        raise ValueError("supply two distinct review CSV files")
+    first, first_fields = read_review(review_a)
+    second, second_fields = read_review(review_b)
+    if first.keys() != second.keys():
+        missing_in_a = len(second.keys() - first.keys())
+        missing_in_b = len(first.keys() - second.keys())
+        raise ValueError(f"review error IDs differ ({missing_in_a} missing in A, {missing_in_b} missing in B)")
+
+    # Error IDs are numbered within a sentence. Separate model outputs can reuse an ID.
+    shared_event_fields = [field for field in REVIEW_FIELDS[1:-2] if field in first_fields & second_fields]
+    matrix = {label: dict.fromkeys(JUDGMENTS, 0) for label in JUDGMENTS}
+    for error_id, row in first.items():
+        peer = second[error_id]
+        for field in shared_event_fields:
+            if row[field] != peer[field]:
+                raise ValueError(f"{error_id!r}: review sheets describe different events in column {field!r}")
+        matrix[row["judgment"]][peer["judgment"]] += 1
+
+    size = len(first)
+    counts_a = {label: sum(matrix[label].values()) for label in JUDGMENTS}
+    counts_b = {label: sum(row[label] for row in matrix.values()) for label in JUDGMENTS}
+    consensus = {label: matrix[label][label] for label in JUDGMENTS}
+    agreed = sum(consensus.values())
+    chance_numerator = sum(counts_a[label] * counts_b[label] for label in JUDGMENTS)
+    denominator = size * size - chance_numerator
+    kappa = (agreed * size - chance_numerator) / denominator if denominator else None
+
+    return {
+        "reviewed": size,
+        "judgment_options": JUDGMENTS,
+        "reviewers": {
+            reviewer: {"input": path.as_posix(), "judgment_counts": counts,
+                       "guideline_difference_rate": counts["guideline_difference"] / size}
+            for reviewer, path, counts in (("a", review_a, counts_a), ("b", review_b, counts_b))
+        },
+        "contingency_table_a_by_b": matrix,
+        "observed_agreement": agreed / size,
+        "expected_agreement_by_chance": chance_numerator / (size * size),
+        "cohen_kappa": kappa,
+        "cohen_kappa_status": "defined" if denominator else "undefined_same_single_label",
+        "consensus": {
+            "agreed": agreed, "disagreed": size - agreed, "judgment_counts": consensus,
+            "guideline_difference_rate_among_agreed": consensus["guideline_difference"] / agreed if agreed else None,
+        },
+    }
+
+
+def agreement_main(argv):
+    parser = argparse.ArgumentParser(
+        prog="python -m eval.analyze_ner_errors agreement",
+        description="Summarize independent judgments of the same sampled errors. "
+                    f"Allowed judgment values are {', '.join(JUDGMENTS)}.",
+    )
+    parser.add_argument("--review-a", type=Path, required=True, help="First completed review.csv copy")
+    parser.add_argument("--review-b", type=Path, required=True, help="Second completed review.csv copy")
+    parser.add_argument("--agreement-output", type=Path, required=True, help="New JSON file for agreement and rates")
+    args = parser.parse_args(argv)
+    try:
+        summary = summarize_agreement(args.review_a, args.review_b)
+        args.agreement_output.parent.mkdir(parents=True, exist_ok=True)
+        with args.agreement_output.open("x", encoding="utf-8", newline="\n") as output:
+            output.write(json.dumps(summary, indent=2) + "\n")
+    except (OSError, ValueError, csv.Error) as error:
+        parser.exit(2, f"Error: {error}\n")
+    print(f"Agreed on {summary['consensus']['agreed']} of {summary['reviewed']} reviewed errors")
+    if summary["cohen_kappa"] is None:
+        print("Cohen's kappa is undefined because both reviewers used the same single label.")
+    else:
+        print(f"Cohen's kappa: {summary['cohen_kappa']:.4f}")
+    print(f"Agreement report: {args.agreement_output.resolve()}")
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    if sys.argv[1:2] == ["agreement"]:
+        agreement_main(sys.argv[2:])
+        return
+    parser = argparse.ArgumentParser(
+        description=__doc__, epilog="Run with 'agreement --help' to compare two completed review CSVs.",
+    )
     parser.add_argument("--gold", type=Path, nargs="+", required=True, help="Processed gold JSONL file(s)")
     parser.add_argument("--pred", type=Path, nargs="+", required=True, help="Prediction JSONL file(s), same BIO labels as gold")
     parser.add_argument("--subset-ids", type=Path, nargs="+", help="Require exactly the IDs in these fixed lists")
@@ -209,7 +313,7 @@ def main():
                 "categories": kinds, "seed": args.seed, "requested": args.sample_size,
                 "eligible": eligible, "sampled": len(sample),
                 "sampled_by_category": dict(Counter(row["category"] for row in sample)),
-                "judgment_options": ["guideline_difference", "gold_error", "other"],
+                "judgment_options": list(JUDGMENTS),
             },
         }
         save_outputs(args.output_dir.resolve(), errors, sample, summary)

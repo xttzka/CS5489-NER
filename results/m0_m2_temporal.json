@@ -22,8 +22,56 @@
       "ambiguous_names_excluded": 132
     },
     "m1": {
-      "c": 1.0,
-      "iterations": 36
+      "c": 10.0,
+      "solver": "lbfgs",
+      "tol": 1e-05,
+      "iterations": 195,
+      "max_iterations": 2000,
+      "selection": {
+        "split": "conll2003:validation",
+        "validation_file": "data/processed_pos/conll2003/validation.jsonl",
+        "training_sha256": "7f570ace54979dc8159325586614479202711e101fdc697d6eba942629c42070",
+        "validation_sha256": "79b548a3618a6c57bcb1a26c4adf86d5970cd65b363b48592e130c2cb9a643f4",
+        "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
+        "candidates": [
+          {
+            "c": 0.1,
+            "iterations": 101,
+            "gold_records": 3250,
+            "scored_records": 3250,
+            "tp": 4721,
+            "fp": 1734,
+            "fn": 1221,
+            "precision": 0.7313710302091402,
+            "recall": 0.7945136317738135,
+            "f1": 0.761635879648302
+          },
+          {
+            "c": 1.0,
+            "iterations": 158,
+            "gold_records": 3250,
+            "scored_records": 3250,
+            "tp": 5036,
+            "fp": 1282,
+            "fn": 906,
+            "precision": 0.7970876859765749,
+            "recall": 0.8475260854930999,
+            "f1": 0.8215334420880913
+          },
+          {
+            "c": 10.0,
+            "iterations": 195,
+            "gold_records": 3250,
+            "scored_records": 3250,
+            "tp": 5070,
+            "fp": 1232,
+            "fn": 872,
+            "precision": 0.804506505871152,
+            "recall": 0.8532480646247055,
+            "f1": 0.8281607317869977
+          }
+        ]
+      }
     },
     "m2": {
       "parameters": {
@@ -77,38 +125,38 @@
         "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
         "overall": {
           "gold_entities": 5648,
-          "predicted_entities": 6350,
-          "tp": 4000,
-          "fp": 2350,
-          "fn": 1648,
-          "precision": 0.6299212598425197,
-          "recall": 0.7082152974504249,
-          "f1": 0.6667777962993833
+          "predicted_entities": 6240,
+          "tp": 4354,
+          "fp": 1886,
+          "fn": 1294,
+          "precision": 0.6977564102564102,
+          "recall": 0.7708923512747875,
+          "f1": 0.7325033647375505
         },
         "seen": {
           "gold_entities": 3148,
-          "predicted_entities": 3295,
-          "tp": 2631,
-          "fp": 664,
-          "fn": 517,
-          "precision": 0.7984825493171472,
-          "recall": 0.8357687420584498,
-          "f1": 0.8167002948936831
+          "predicted_entities": 3339,
+          "tp": 2854,
+          "fp": 485,
+          "fn": 294,
+          "precision": 0.8547469302186284,
+          "recall": 0.9066073697585769,
+          "f1": 0.8799136735008478
         },
         "unseen": {
           "gold_entities": 2500,
-          "predicted_entities": 3055,
-          "tp": 1369,
-          "fp": 1686,
-          "fn": 1131,
-          "precision": 0.4481178396072013,
-          "recall": 0.5476,
-          "f1": 0.4928892889288929
+          "predicted_entities": 2901,
+          "tp": 1500,
+          "fp": 1401,
+          "fn": 1000,
+          "precision": 0.5170630816959669,
+          "recall": 0.6,
+          "f1": 0.5554526939455656
         },
         "predictions": "preds/conll2003/m1_temporal/0.jsonl",
         "raw_bio_repairs": {
-          "tokens": 893,
-          "sentences": 686
+          "tokens": 662,
+          "sentences": 517
         }
       },
       "m2": {
@@ -191,38 +239,38 @@
         "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
         "overall": {
           "gold_entities": 4007,
-          "predicted_entities": 4605,
-          "tp": 2406,
-          "fp": 2199,
-          "fn": 1601,
-          "precision": 0.5224755700325733,
-          "recall": 0.6004492138757175,
-          "f1": 0.5587552252670692
+          "predicted_entities": 4386,
+          "tp": 2640,
+          "fp": 1746,
+          "fn": 1367,
+          "precision": 0.6019151846785226,
+          "recall": 0.6588470177189918,
+          "f1": 0.6290956749672346
         },
         "seen": {
           "gold_entities": 1693,
-          "predicted_entities": 1896,
-          "tp": 1445,
-          "fp": 451,
-          "fn": 248,
-          "precision": 0.7621308016877637,
-          "recall": 0.8535144713526285,
-          "f1": 0.8052382279186403
+          "predicted_entities": 1871,
+          "tp": 1547,
+          "fp": 324,
+          "fn": 146,
+          "precision": 0.8268305718866916,
+          "recall": 0.9137625516834023,
+          "f1": 0.8681257014590348
         },
         "unseen": {
           "gold_entities": 2314,
-          "predicted_entities": 2709,
-          "tp": 961,
-          "fp": 1748,
-          "fn": 1353,
-          "precision": 0.3547434477667036,
-          "recall": 0.4152981849611063,
-          "f1": 0.3826398566593669
+          "predicted_entities": 2515,
+          "tp": 1093,
+          "fp": 1422,
+          "fn": 1221,
+          "precision": 0.4345924453280318,
+          "recall": 0.47234226447709593,
+          "f1": 0.4526817146407124
         },
         "predictions": "preds/conllpp/m1_temporal/0.jsonl",
         "raw_bio_repairs": {
-          "tokens": 926,
-          "sentences": 619
+          "tokens": 742,
+          "sentences": 528
         }
       },
       "m2": {
@@ -270,9 +318,9 @@
       "unseen": 0.0
     },
     "m1": {
-      "overall": -10.802257103231405,
-      "seen": -1.1462066975042817,
-      "unseen": -11.0249432269526
+      "overall": -10.340768977031589,
+      "seen": -1.1787972041813033,
+      "unseen": -10.277097930485324
     },
     "m2": {
       "overall": -11.734635142364368,

@@ -9,7 +9,7 @@ from eval.score_m2_familiarity import TRANSFER_REPORT
 from models.classic import m0_dictionary, m1_logistic
 from models.classic.m0_dictionary import PROJECT_DIR
 from models.classic.m2_pos_validation import POS_MODEL
-from models.classic.run_baselines import load_rows, relative
+from models.classic.run_baselines import load_rows, m2_selection, read_m1_selection, relative
 
 
 SOURCE = "conll2003"
@@ -23,13 +23,16 @@ def main():
     train_path, rows = load_rows(SOURCE, "train", shared_pos=True)
     m2 = json.loads(TRANSFER_REPORT.read_text(encoding="utf-8"))
     features = {"pos_model": POS_MODEL, "use_chunk_tags": False}
+    m2_config = m2_selection(SOURCE, train_path, {**features, "context_window": 1})
     if (m2["source_dataset"] != SOURCE or m2["training_input"] != relative(train_path)
-            or m2["training_records"] != len(rows) or m2["features"] != features):
+            or m2["training_records"] != len(rows) or m2["features"] != features
+            or m2["parameters"] != m2_config["parameters"]):
         raise ValueError("M2 report does not use the same source data and shared POS configuration")
 
     training = list(rows.values())
     dictionary, ambiguous = m0_dictionary.build_dictionary(training)
-    vectorizer, classifier = m1_logistic.train_model(training)
+    m1_config = read_m1_selection(SOURCE, train_path)
+    vectorizer, classifier = m1_logistic.train_model(training, c=m1_config["c"])
     report = {
         "source_dataset": SOURCE,
         "training_input": relative(train_path),
@@ -41,7 +44,7 @@ def main():
         "features": {**features, "context_window": 1},
         "models": {
             "m0": {"dictionary_entries": len(dictionary), "ambiguous_names_excluded": ambiguous},
-            "m1": {"c": classifier.C, "iterations": int(classifier.n_iter_[0])},
+            "m1": {**m1_config, "iterations": int(classifier.n_iter_[0])},
             "m2": {"parameters": m2["parameters"], "reused_report": relative(TRANSFER_REPORT)},
         },
         "datasets": {},

@@ -2,6 +2,9 @@
 
 这个仓库整理了 A 的数据准备、M0–M2 经典基线、M2 分析实验，以及供 B、C 共用的评分和错误分析脚本。命令中的路径从项目根目录算起。汇总 JSON 记录分数、输入和答卷的位置。完整数据、逐条答卷和人工检查表由下列命令在各自电脑上生成。
 
+- [B、C 的数据准备与评测任务单](README_BC.md)可直接交给能操作本地仓库的 AI。
+- [A 的任务与复现说明](README_A.md)记录 A 已完成的实验、运行顺序和结果位置。
+
 ## 1. 安装环境
 
 实测环境为 Windows x64、Python 3.11.16，经典模型在 CPU 上运行。实验和 POS 标注分别使用两个虚拟环境，以复用原实验的依赖版本。两份依赖清单分别是 [requirements.txt](requirements.txt) 和 [requirements-pos.txt](requirements-pos.txt)。先在项目根目录打开 PowerShell。
@@ -21,20 +24,13 @@ $pos = "./.venv-pos/Scripts/python.exe"
 
 ## 2. 下载、转换并准备六套数据
 
-CoNLL-2003 的转换脚本读 ZIP 内的 `train.txt`、`valid.txt` 和 `test.txt`，并保留原文件中的文档边界。原下载地址来自数据集加载脚本。[CoNLL-2003 加载脚本](https://huggingface.co/datasets/eriktks/conll2003/blob/main/conll2003.py#L152)
+统一入口按顺序下载或核对原始文件，转换六套语料，再生成评分所需的固定子集、索引、统一词性、替换和扰动数据。CoNLL-2003 的转换保留原文件中的文档边界。[统一入口](data/prepare.py) · [CoNLL-2003 加载脚本](https://huggingface.co/datasets/eriktks/conll2003/blob/main/conll2003.py#L152)
 
 ```powershell
-New-Item -ItemType Directory -Force data/raw/conll2003 | Out-Null
-if (-not (Test-Path data/raw/conll2003/conll2003.zip)) {
-    Invoke-WebRequest -Uri 'https://data.deepai.org/conll2003.zip' -OutFile data/raw/conll2003/conll2003.zip
-}
-Get-FileHash data/raw/conll2003/conll2003.zip -Algorithm SHA256
-& $exp -B -m data.prepare_conll2003
-& $exp -B -m data.prepare_external_ner --download
-& $exp -B -m data.prepare_external_ner
+& $exp -B -m data.prepare --all --download --pos-python $pos
 ```
 
-现有 CoNLL-2003 ZIP 的 SHA-256 是 `96a104d174ddae7558bab603f19382c5fe02ff1da5c077a7f3ce2ced1578a2c3`。若下载地址不可达，从组内资料取得相同 ZIP 后再转换。其余五套由 `--download` 下载并校验，下一条命令才做转换。两个步骤都支持 `--dataset conllpp` 等单数据集选项。
+原始文件齐备时可去掉 `--download`。CoNLL-2003 ZIP 的预期 SHA-256 是 `96a104d174ddae7558bab603f19382c5fe02ff1da5c077a7f3ce2ced1578a2c3`。若下载地址不可达，从组内资料取得相同 ZIP 放到下表所示路径后重试。其余五套的文件名和校验值由转换脚本维护。
 
 | 数据集目录 | 训练／验证／测试条数 | 原始文件 | 来源 |
 |---|---:|---|---|
@@ -47,19 +43,13 @@ Get-FileHash data/raw/conll2003/conll2003.zip -Algorithm SHA256
 
 MIT Restaurant 的 766 条验证数据由原训练文件按项目预处理规则划出。数据清单、下载地址和校验值见 [prepare_external_ner.py](data/prepare_external_ner.py)。
 
-```powershell
-& $exp -B -m data.make_eval_subsets
-& $exp -B -m data.make_entity_index
-& $pos -B -m data.add_pos_tags
-& $exp -B -m data.make_entity_replacement
-& $exp -B -m data.make_perturbation_sets
-```
+已生成 `data/processed/` 时，可运行 `& $exp -B -m data.prepare --derived --pos-python $pos` 重建派生数据。下表也列出各步骤的单独调用方式。
 
 | 文件 | 作用及运行方式 | 输出位置 |
 |---|---|---|
 | [prepare_conll2003.py](data/prepare_conll2003.py) | `python -m data.prepare_conll2003`。将原始 ZIP 转成 JSONL，保留文档号、词性和短语标签。可用 `--archive`、`--output-dir` 改路径。 | `data/processed/conll2003/{train,validation,test}.jsonl` |
 | [prepare_external_ner.py](data/prepare_external_ner.py) | `python -m data.prepare_external_ner --download` 下载。去掉 `--download` 后转换其他五套数据。 | `data/raw/<数据集>/`、`data/processed/<数据集>/` |
-| [make_eval_subsets.py](data/make_eval_subsets.py) | `python -m data.make_eval_subsets`。用种子 42 生成或核对每套测试集的固定 300 个样本 ID。 | [data/subsets/](data/subsets/) 下各数据集的 `test_300.txt` |
+| [make_eval_subsets.py](data/make_eval_subsets.py) | `python -m data.make_eval_subsets`。用种子 42 生成或核对六套测试集的固定 300 条，以及 C 选提示词用的 CoNLL-2003 验证集 300 条。 | 各数据集的 `test_300.txt` 和 [CoNLL-2003 验证清单](data/subsets/conll2003/validation_300.txt) |
 | [make_entity_index.py](data/make_entity_index.py) | `python -m data.make_entity_index`。记录测试实体的范围、类别和见过／没见过。查找时将完整实体名忽略大小写，与 CoNLL-2003 训练实体比较。 | `data/derived/entity_index/<数据集>/test_v1.jsonl` |
 | [add_pos_tags.py](data/add_pos_tags.py) | 用 POS 环境执行 `python -m data.add_pos_tags`。在原分词上补 spaCy 词性。可用 `--dataset` 只处理一套。 | `data/processed_pos/<数据集>/<划分>.jsonl` |
 | [make_entity_replacement.py](data/make_entity_replacement.py) | `python -m data.make_entity_replacement`。读取统一 POS 的 CoNLL-2003 和 CoNLL++ 测试数据，生成 500 对 v2 实体替换样本。 | `data/derived/entity_replacement/conll2003/` 下的 `original_v2.jsonl`、`replaced_v2.jsonl`、`replacements_v2.jsonl` |
@@ -76,24 +66,32 @@ M0 用训练集实体词典做精确匹配。M1 用逻辑回归逐词预测。M2
 & $exp -B -m models.classic.run_baselines --jobs 1
 ```
 
-CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。最终 `c1=0.0001`、`c2=0.1`，五折平均实体 F1 为 **87.7603%**，全量重训后的验证集 F1 为 **88.8190%**。克隆后，`tune_crf` 可用已提交的调参报告复用 20 组网格分数，并重建缺少的验证答卷。如果只想运行正式基线，且两份选参报告及其对应训练数据已经齐备，可直接运行 `run_baselines`。
+CoNLL-2003 的历史调参用原 POS 和 chunk，以文档为单位按训练集五折平均 F1 选出 `c1=0.0001`、`c2=0.1`。该配置的五折平均实体 F1 为 **87.7603%**，全量重训后的验证集 F1 为 **88.8190%**。`tune_crf` 可复用已提交的 20 组网格分数，并重建缺少的验证答卷。正式基线在三套域内数据上统一使用 spaCy POS、关闭 chunk，M1 与 M2 共用 ±1 窗口。CoNLL-2003 的 M2 固定沿用历史五折的正则化系数。M1 在各自验证集从 `C=0.1, 1, 10` 选参，L-BFGS 使用 `tol=1e-5`、最多 2,000 次迭代。若选参报告及训练数据已经齐备，可直接运行 `run_baselines`。
 
 | 文件 | 作用及运行方式 | 报告和答卷 |
 |---|---|---|
 | [features.py](models/classic/features.py) | M1、M2 和消融脚本导入的共用特征代码。 | 通过调用它的实验产生结果 |
 | [m0_dictionary.py](models/classic/m0_dictionary.py) | `python -m models.classic.m0_dictionary`。单独生成 M0 验证集答卷。 | `preds/conll2003/m0/0.jsonl` |
-| [m1_logistic.py](models/classic/m1_logistic.py) | `python -m models.classic.m1_logistic`。单独生成 M1 验证集答卷。 | `preds/conll2003/m1/0.jsonl` |
+| [m1_logistic.py](models/classic/m1_logistic.py) | `python -m models.classic.m1_logistic`。默认在验证集选 `C` 并生成该验证集答卷，也可用 `--c` 固定系数。用 `--train` 和 `--validation` 指定输入。 | `preds/conll2003/m1/0.jsonl` |
 | [m2_crf.py](models/classic/m2_crf.py) | `python -m models.classic.m2_crf`。默认参数的 M2 验证集实验，也是从头调参时的参照。 | `preds/conll2003/m2/0.jsonl` |
 | [tune_crf.py](models/classic/tune_crf.py) | `python -m models.classic.tune_crf --jobs 3`。CoNLL-2003 调参入口，补齐缺少的前序报告和答卷后运行最终网格。 | [m2_cv_grid.json](results/m2_cv_grid.json)、`preds/conll2003/m2_cv_grid/0.jsonl` |
 | [m2_cross_validate.py](models/classic/m2_cross_validate.py) | `python -m models.classic.m2_cross_validate` 做最早的五折。加 `--extend` 做补充候选。两阶段均由 `tune_crf` 在需要时调用。 | [m2_cv.json](results/m2_cv.json)、[m2_cv_extra.json](results/m2_cv_extra.json)，及 `preds/conll2003/{m2_cv,m2_cv_extra}/0.jsonl` |
 | [m2_grid_search.py](models/classic/m2_grid_search.py) | `python -m models.classic.m2_grid_search` 汇合前两阶段候选，完成最终网格。直接调用时须备齐前序报告及需要的验证答卷。 | 同 `tune_crf` 的最终报告与答卷 |
 | [m2_native_cv.py](models/classic/m2_native_cv.py) | `python -m models.classic.m2_native_cv --jobs 3`。为 WNUT-17 和 MIT Restaurant 分别做各自训练集上的五折调参。 | [m2_native_cv.json](results/m2_native_cv.json) |
 | [run_baselines.py](models/classic/run_baselines.py) | `python -m models.classic.run_baselines --jobs 1`。生成三套完整域内测试和六套固定 300 条的 M0–M2 基线，含实体级指标和 bootstrap。 | [m0_m2_baselines.json](results/m0_m2_baselines.json)、`preds/<数据集>/{m0,m1,m2}_baseline/0.jsonl` |
-| [baseline_statistics.py](eval/baseline_statistics.py) | `run_baselines` 导入的实体级指标、置信区间和模型差值计算。 | 写入正式基线报告 |
+| [baseline_statistics.py](eval/baseline_statistics.py) | `run_baselines` 导入的实体级指标、置信区间和三对模型的配对差值计算。 | 写入正式基线报告 |
+
+### 训练集交叉验证补充对照
+
+```powershell
+& $exp -B -m models.classic.m2_cv_controls --jobs 3
+```
+
+[m2_cv_controls.py](models/classic/m2_cv_controls.py) 固定各数据集已选出的 `c1`、`c2`，沿用其五折，比较左右各看 1 个词和各看 2 个词。CoNLL-2003 的对照使用原 POS 和 chunk，另比较按文档、按连续句子块和随机句子分折，并记录每折重叠文档数。五折只读取训练集。窗口对照及验证结果写在 [m2_cv_controls.json](results/m2_cv_controls.json)。
 
 ## 4. 运行迁移、年代和鲁棒性分析
 
-下列命令承接第 2、3 节。从统一词性迁移答卷开始，再跑读取这些答卷的分析。CoNLL-2003 域内正式基线使用原词性和短语标签。统一词性实验使用 spaCy 词性并关闭短语标签，分别以各自报告为准。
+下列命令承接第 2、3 节。从统一词性迁移答卷开始，再跑读取这些答卷的分析。正式基线、年代对照和鲁棒性实验使用统一 spaCy 词性并关闭短语标签。历史词性对照和 G1–G5 消融的原 POS 与 chunk 设置在对应报告中标出。
 
 ```powershell
 & $exp -B -m models.classic.m2_pos_transfer
@@ -106,8 +104,7 @@ CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。�
 & $exp -B -m models.classic.m2_feature_ablation --jobs 3
 & $exp -B -m models.classic.m2_pos_validation
 & $exp -B -m models.classic.m2_pos_casing
-& $exp -B -m models.classic.m2_pos_replacement --version v2
-& $exp -B -m models.classic.m2_pos_perturbations
+& $exp -B -m models.classic.run_robustness --replacement-version v2
 ```
 
 | 文件 | 输入和作用 | 报告和答卷 |
@@ -116,16 +113,13 @@ CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。�
 | [score_m2_familiarity.py](eval/score_m2_familiarity.py) | 用迁移答卷和实体索引算见过／没见过的 F1。保留两套新闻的四类分数及五套迁移的三类分数。 | [m2_seen_unseen_f1.json](results/m2_seen_unseen_f1.json) |
 | [run_temporal_baselines.py](models/classic/run_temporal_baselines.py) | 在两套完整新闻测试集上用同一个 M1 预测，生成 M0/M1 的完整答卷，并与已有 M2 统一 POS 答卷一起按见过／没见过评分。 | [m0_m2_temporal.json](results/m0_m2_temporal.json)、`preds/{conll2003,conllpp}/{m0,m1}_temporal/0.jsonl` |
 | [analyze_transfer_recall.py](eval/analyze_transfer_recall.py) | 从迁移答卷拆出实体熟悉度、大小写和 BTC 账号等分组召回率。 | [m2_transfer_recall_groups.json](results/m2_transfer_recall_groups.json) |
-| [m2_transfer_matrix.py](models/classic/m2_transfer_matrix.py) | 接上 CoNLL-2003 迁移参照，用共有三类比较 CoNLL-2003、WNUT-17 和两者合并训练。 | [m2_transfer_matrix.json](results/m2_transfer_matrix.json)、`preds/<数据集>/m2_pos_transfer_<训练来源>/0.jsonl` |
+| [m2_transfer_matrix.py](models/classic/m2_transfer_matrix.py) | 各训练来源先映射为共有三类，再对比 CoNLL-2003、WNUT-17 和两者合并训练。四类训练的独立参照见 `m2_pos_transfer.json`。 | [m2_transfer_matrix.json](results/m2_transfer_matrix.json)、`preds/<数据集>/m2_pos_transfer_<训练来源>/0.jsonl` |
 | [analyze_m2_transfer_overlap.py](eval/analyze_m2_transfer_overlap.py) | 读取迁移矩阵，计算训练与测试实体名称重叠和迁移分数下降的关系。 | [m2_transfer_overlap.json](results/m2_transfer_overlap.json) |
 | [m2_g2_transfer.py](models/classic/m2_g2_transfer.py) | 用统一 POS 比较移除 G2 书写形式特征前后的域内结果及 CoNLL-2003 到 BTC 的迁移。 | [m2_g2_transfer.json](results/m2_g2_transfer.json)、`preds/<数据集>/m2_g2_<训练源>_<条件>/0.jsonl`，部分参照复用迁移答卷 |
 | [m2_feature_ablation.py](models/classic/m2_feature_ablation.py) | 读取最终网格报告，在相同五折上分别移除 G1–G5 特征组。 | [m2_feature_ablation.json](results/m2_feature_ablation.json) |
 | [m2_pos_validation.py](models/classic/m2_pos_validation.py) | 用最终网格的验证集答卷作参照，检查统一词性的三类验证集表现。 | [m2_pos_validation.json](results/m2_pos_validation.json)、`preds/conll2003/m2_pos/0.jsonl` |
 | [m2_pos_casing.py](models/classic/m2_pos_casing.py) | 比较同一模型在原始验证句和全小写验证句上的表现。 | [m2_pos_casing.json](results/m2_pos_casing.json)、`preds/conll2003/m2_pos_casing_<条件>/0.jsonl` |
-| [m2_pos_replacement.py](models/classic/m2_pos_replacement.py) | 读取 v2 配对数据，比较替换前后四类 F1，并逐个核对被替换的实体。 | `results/m2_pos_replacement_v2.json`、`preds/conll2003/m2_pos_replacement_v2_<条件>/0.jsonl` |
-| [m2_pos_perturbations.py](models/classic/m2_pos_perturbations.py) | 核对扰动清单的哈希，比较原始测试和三种扰动的四类 F1、召回率。 | [m2_pos_perturbations.json](results/m2_pos_perturbations.json)、`preds/conll2003/m2_pos_perturbations_<条件>/0.jsonl` |
-
-500 对 v2 样本中，M2 圈对了 470 个原实体和 339 个替换实体。逐条结果含实体原文，保存在本机的替换报告中。
+| [run_robustness.py](models/classic/run_robustness.py) | 每个模型只拟合一次，统一比较 500 对实体替换和原文、全小写、拼写噪声、去标点四个条件。报告配对区间和共有三类的全小写／BTC 对照。 | [m0_m2_robustness.json](results/m0_m2_robustness.json)、`preds/conll2003/<模型>_robustness_<实验>_<条件>/0.jsonl` |
 
 ### 地名词典和 GloVe 聚类
 
@@ -137,7 +131,27 @@ CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。�
 | 国家信息 | `data/external/gazetteers/countryInfo.txt` | [GeoNames 下载目录](https://download.geonames.org/export/dump/) |
 | GloVe 100 维词向量 | 从 `glove.6B.zip` 解出 `glove.6B.100d.txt`，放到 `data/external/glove/` | [Stanford GloVe 文件](https://huggingface.co/stanfordnlp/glove/blob/main/glove.6B.zip) |
 
-[m2_extra_features.py](models/classic/m2_extra_features.py) 比较词典特征及 100、500、1,000 个 GloVe 簇。结果写到 [m2_extra_features.json](results/m2_extra_features.json)，答卷位于 `preds/{conll2003,conllpp}/m2_extra_<条件>/0.jsonl`。脚本校验每个资源的 SHA-256。GeoNames 地址会滚动更新，复跑原实验使用组内保留的 2026-11-10 文件快照。资源校验值见结果文件的 `resources` 字段。
+[m2_extra_features.py](models/classic/m2_extra_features.py) 比较词典特征及预设的 100、500、1,000 个 GloVe 簇，聚类中心只用训练集词型拟合，三个条件均报告。结果写到 [m2_extra_features.json](results/m2_extra_features.json)，答卷位于 `preds/{conll2003,conllpp}/m2_extra_<条件>/0.jsonl`。脚本校验每个资源的 SHA-256。GeoNames 地址会滚动更新，复跑原实验使用组内保留的 2026-11-10 文件快照。资源校验值见结果文件的 `resources` 字段。
+
+### 从原始句子抽取实体
+
+```powershell
+& $exp -B -m scripts.predict --model m2 --text "John Smith visited London."
+```
+
+[predict.py](scripts/predict.py) 支持 `m0`、`m1`、`m2`，默认训练来源为 CoNLL-2003。它会拟合指定模型、用 spaCy 处理原句，再返回实体短语、类别和字符区间。重复传 `--text` 可在同一次拟合中处理多句。POS 环境位置不同可用 `--pos-python` 指向对应解释器。M1 读取已完成的正式基线选参报告。
+
+### 数据探索和报告素材
+
+```powershell
+& $exp -B -m analysis.data_exploration
+& $exp -B -m analysis.make_tables
+& $exp -B -m analysis.make_figures
+```
+
+[data_exploration.py](analysis/data_exploration.py) 读取六套数据的原生标注，统计实体类别、大小写、名称重叠、句子和实体长度，并保留可按样本编号核对的标注差异例子。输出为 [results/data_exploration.json](results/data_exploration.json)。[make_tables.py](analysis/make_tables.py) 生成 [T1 数据概况](report/tables/t1.tex)、[T2 成员 A 的调参记录](report/tables/t2.tex) 和 [T4 成员 A 的投票对照](report/tables/t4_a.tex)。[make_figures.py](analysis/make_figures.py) 使用 Times New Roman 生成 PDF 和 PNG，图表复现和各图含义见 [A 的实验说明](README_A.md#报告图表和原句预测)。
+
+实体向量聚类和同范式投票的实际结果、复现命令，以及接入 B、C 结果的方式，见 [A 的扩展实验](README_A.md#实体向量聚类和集成)。
 
 ## 5. B、C 的共用接口
 
@@ -164,4 +178,5 @@ CoNLL-2003 以文档为单位做五折，按训练集五折平均 F1 选参。�
 | [score_familiarity.py](eval/score_familiarity.py) | `python -m eval.score_familiarity`。输入 CoNLL-2003 或 CoNLL++ 的完整四类答卷，计算总体及两组熟悉度分数。 | 终端 JSON |
 | [analyze_ner_errors.py](eval/analyze_ner_errors.py) | `python -m eval.analyze_ner_errors`。按样本 ID 对照同标签体系的答卷，列出漏圈、误圈、范围错、类别错和两者皆错。从类别错和误圈中固定种子抽样。每次指定一个新的 `--output-dir`。 | 指定目录下的 `errors.jsonl`、`review.csv`、`summary.json`。示例为 [M2 错误汇总](results/error_analysis/conll2003_m2/summary.json) |
 
+人工检查时，两人各复制一份 `review.csv`，按相同的 `error_id` 独立填写。新版 M2 示例在 762 条候选错误里用种子 42 抽了 60 条。C 可分别运行两版提示词的答卷。若每版需要把多套数据汇成一个抽样池，可在 `--gold`、`--pred` 和 `--subset-ids` 后各传多个对应文件，保证样本 ID 唯一。LLM 生成的句外实体需要从 C 保留的原始输出单独核查，BIO 答卷只标原句中的词。
 
