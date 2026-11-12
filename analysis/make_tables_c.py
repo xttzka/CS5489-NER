@@ -1,6 +1,7 @@
 """Generate member C's tables: zero-shot rows of T3, the LoRA comparison of T4 and the robustness results."""
 
 import json
+from statistics import mean, pstdev
 
 from analysis.data_exploration import ROOT
 from analysis.make_tables import OUTPUT, table
@@ -25,14 +26,35 @@ def llm(method, dataset, scope="test_300", split="test"):
 
 def zero_shot_table():
     rows = [
-        ("GLiNER", "None", *(f1(f"gliner_{dataset}_test_test_300") for dataset in DATASETS)),
-        ("Qwen2.5-1.5B", "None", *(llm("qwen1.5b_k0_plain", dataset) for dataset in DATASETS)),
-        ("Qwen2.5-7B", "None", *(llm("qwen7b_k0_plain", dataset) for dataset in DATASETS)),
-        ("Qwen2.5-7B", "10 retrieved", *(llm(BEST, dataset) for dataset in DATASETS)),
+        ("GLiNER", "Zero-shot", *(f1(f"gliner_{dataset}_test_test_300") for dataset in DATASETS)),
+        ("Qwen2.5-1.5B", "Zero-shot", *(llm("qwen1.5b_k0_plain", dataset) for dataset in DATASETS)),
+        ("Qwen2.5-7B", "Zero-shot", *(llm("qwen7b_k0_plain", dataset) for dataset in DATASETS)),
+        ("Qwen2.5-7B", "Few-shot", *(llm(BEST, dataset) for dataset in DATASETS)),
     ]
-    return table("ll" + "r" * len(DATASETS), ("Method", "Examples", *DATASETS.values()), rows,
+    return table("ll" + "r" * len(DATASETS), ("Method", "Labels used", *DATASETS.values()), rows,
                  "T3, member C. Entity F1 (%) on the fixed 300-sentence test subsets, native labels. "
-                 "Retrieved examples come from the training split of the label scheme. Load booktabs.")
+                 "Few-shot retrieves 10 examples per sentence from the full training split of the label scheme. "
+                 "Load booktabs.")
+
+
+def pool_table():
+    """F1 of the 7B model as the labelled pool that examples are retrieved from grows."""
+    sizes = (("50", (0, 1, 2), "50"), ("100", (0, 1, 2), "100"), ("0.01", (0,), "1\\%"), ("0.1", (0,), "10\\%"))
+    rows = []
+    for dataset in ("conll2003", "wnut17", "mit_restaurant"):
+        cells = [llm("qwen7b_k0_plain", dataset)]
+        for size, seeds, _ in sizes:
+            values = []
+            for seed in seeds:
+                path = RESULTS / f"{BEST}_pool{size}_test_300_{dataset}_test_seed{seed}.json"
+                values.append(100 * json.loads(path.read_text(encoding="utf-8"))["scores"]["f1"])
+            cells.append(f"{mean(values):.1f}" + (f" $\\pm$ {pstdev(values):.1f}" if len(values) > 1 else ""))
+        rows.append((DATASETS[dataset], *cells, llm(BEST, dataset)))
+    return table("lrrrrrr", ("Dataset", "0", *(label for _, _, label in sizes), "100\\%"), rows,
+                 "Member C. Entity F1 (%) of Qwen2.5-7B on the fixed 300-sentence test subsets by the number of "
+                 "labelled training sentences available as examples. Column 0 uses no examples. The other columns "
+                 "retrieve 10 examples per sentence from the pool. 50 and 100 show mean and SD over 3 pools. "
+                 "Load booktabs.")
 
 
 def lora_table():
@@ -65,7 +87,8 @@ def robustness_table():
 
 
 def main():
-    tables = {"t3_c": zero_shot_table(), "t4_c": lora_table(), "robustness_c": robustness_table()}
+    tables = {"t3_c": zero_shot_table(), "t4_c": lora_table(), "robustness_c": robustness_table(),
+              "pool_c": pool_table()}
     for key, content in tables.items():
         (OUTPUT / f"{key}.tex").write_text(content, encoding="utf-8", newline="\n")
         print(OUTPUT / f"{key}.tex")

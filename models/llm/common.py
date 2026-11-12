@@ -91,7 +91,10 @@ def load_input(path):
 
 
 def sample_train(dataset, size, seed):
-    """Draw training sentences: a count when size is an integer string, a share when it has a point."""
+    """Draw training sentences: a count when size is an integer string, a share when it has a point.
+
+    The BERT learning curve and the LLM example pool both call this, so each budget uses the same sentences.
+    """
     rows = load_rows(dataset, "train")
     count = round(float(size) * len(rows)) if "." in size else int(size)
     if count >= len(rows):

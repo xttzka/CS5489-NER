@@ -1,0 +1,156 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "mit_restaurant",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "mit_restaurant",
+  "input": null,
+  "subset_ids": "data/subsets/mit_restaurant/test_300.txt",
+  "shots": 10,
+  "selection": "similar",
+  "example_source": "mit_restaurant:train",
+  "example_pool_size": "50",
+  "example_pool_sentences": 50,
+  "example_pool_with_entities": 49,
+  "guideline": false,
+  "seed": 1,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "Amenity": "restaurant amenity or feature",
+    "Cuisine": "cuisine",
+    "Dish": "dish or food item",
+    "Hours": "opening hours or time",
+    "Location": "location or distance",
+    "Price": "price level",
+    "Rating": "rating or review quality",
+    "Restaurant_Name": "restaurant name"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/mit_restaurant/qwen7b_k10_similar_plain_pool50_test_300/1.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 379,
+    "fp": 194,
+    "fn": 214,
+    "precision": 0.6614310645724258,
+    "recall": 0.6391231028667791,
+    "f1": 0.6500857632933105
+  },
+  "per_type": {
+    "Amenity": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 55,
+      "fp": 44,
+      "fn": 41,
+      "precision": 0.5555555555555556,
+      "recall": 0.5729166666666666,
+      "f1": 0.5641025641025641
+    },
+    "Cuisine": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 65,
+      "fp": 15,
+      "fn": 38,
+      "precision": 0.8125,
+      "recall": 0.6310679611650486,
+      "f1": 0.7103825136612022
+    },
+    "Dish": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 35,
+      "fp": 18,
+      "fn": 20,
+      "precision": 0.660377358490566,
+      "recall": 0.6363636363636364,
+      "f1": 0.6481481481481481
+    },
+    "Hours": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 15,
+      "fp": 14,
+      "fn": 17,
+      "precision": 0.5172413793103449,
+      "recall": 0.46875,
+      "f1": 0.4918032786885246
+    },
+    "Location": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 98,
+      "fp": 28,
+      "fn": 55,
+      "precision": 0.7777777777777778,
+      "recall": 0.6405228758169934,
+      "f1": 0.7025089605734767
+    },
+    "Price": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 18,
+      "fp": 22,
+      "fn": 17,
+      "precision": 0.45,
+      "recall": 0.5142857142857142,
+      "f1": 0.48
+    },
+    "Rating": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 25,
+      "fp": 14,
+      "fn": 12,
+      "precision": 0.6410256410256411,
+      "recall": 0.6756756756756757,
+      "f1": 0.6578947368421053
+    },
+    "Restaurant_Name": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 68,
+      "fp": 39,
+      "fn": 14,
+      "precision": 0.6355140186915887,
+      "recall": 0.8292682926829268,
+      "f1": 0.7195767195767195
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 379,
+    "fp": 194,
+    "fn": 214,
+    "precision": 0.6614310645724258,
+    "recall": 0.6391231028667791,
+    "f1": 0.6500857632933105
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 0,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 588,
+    "unknown_type": 14,
+    "absent_from_sentence": 1,
+    "absent_from_sentence_rate": 0.0017006802721088435
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 48.59266947302967,
+    "inference_sentences_per_second": 6.173770720015878,
+    "gpu_vram_mb": 19367.41259765625,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "method": "LLM prompt",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "dataset": "mit_restaurant",
+  "split": "test",
+  "scope": "test_300",
+  "label_scheme": "mit_restaurant",
+  "input": null,
+  "subset_ids": "data/subsets/mit_restaurant/test_300.txt",
+  "shots": 10,
+  "selection": "similar",
+  "example_source": "mit_restaurant:train",
+  "example_pool_size": "0.01",
+  "example_pool_sentences": 69,
+  "example_pool_with_entities": 68,
+  "guideline": false,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "Amenity": "restaurant amenity or feature",
+    "Cuisine": "cuisine",
+    "Dish": "dish or food item",
+    "Hours": "opening hours or time",
+    "Location": "location or distance",
+    "Price": "price level",
+    "Rating": "rating or review quality",
+    "Restaurant_Name": "restaurant name"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/mit_restaurant/qwen7b_k10_similar_plain_pool0.01_test_300/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 392,
+    "fp": 177,
+    "fn": 201,
+    "precision": 0.6889279437609842,
+    "recall": 0.6610455311973018,
+    "f1": 0.6746987951807228
+  },
+  "per_type": {
+    "Amenity": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 55,
+      "fp": 37,
+      "fn": 41,
+      "precision": 0.5978260869565217,
+      "recall": 0.5729166666666666,
+      "f1": 0.5851063829787234
+    },
+    "Cuisine": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 68,
+      "fp": 16,
+      "fn": 35,
+      "precision": 0.8095238095238095,
+      "recall": 0.6601941747572816,
+      "f1": 0.7272727272727273
+    },
+    "Dish": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 36,
+      "fp": 11,
+      "fn": 19,
+      "precision": 0.7659574468085106,
+      "recall": 0.6545454545454545,
+      "f1": 0.7058823529411765
+    },
+    "Hours": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 14,
+      "fp": 10,
+      "fn": 18,
+      "precision": 0.5833333333333334,
+      "recall": 0.4375,
+      "f1": 0.5
+    },
+    "Location": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 106,
+      "fp": 28,
+      "fn": 47,
+      "precision": 0.7910447761194029,
+      "recall": 0.6928104575163399,
+      "f1": 0.7386759581881533
+    },
+    "Price": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 23,
+      "fp": 13,
+      "fn": 12,
+      "precision": 0.6388888888888888,
+      "recall": 0.6571428571428571,
+      "f1": 0.647887323943662
+    },
+    "Rating": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 24,
+      "fp": 19,
+      "fn": 13,
+      "precision": 0.5581395348837209,
+      "recall": 0.6486486486486487,
+      "f1": 0.6
+    },
+    "Restaurant_Name": {
+      "gold_records": 300,
+      "scored_records": 300,
+      "tp": 66,
+      "fp": 43,
+      "fn": 16,
+      "precision": 0.6055045871559633,
+      "recall": 0.8048780487804879,
+      "f1": 0.6910994764397905
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 300,
+    "scored_records": 300,
+    "tp": 392,
+    "fp": 177,
+    "fn": 201,
+    "precision": 0.6889279437609842,
+    "recall": 0.6610455311973018,
+    "f1": 0.6746987951807228
+  },
+  "output": {
+    "sentences": 300,
+    "parse_failures_first_attempt": 0,
+    "parse_failures_after_retry": 0,
+    "parse_failure_rate": 0.0,
+    "entities": 573,
+    "unknown_type": 3,
+    "absent_from_sentence": 1,
+    "absent_from_sentence_rate": 0.0017452006980802793
+  },
+  "timing": {
+    "device": "NVIDIA H20",
+    "dtype": "bfloat16",
+    "batch_size": 32,
+    "inference_seconds": 47.83243513479829,
+    "inference_sentences_per_second": 6.271894775052939,
+    "gpu_vram_mb": 19493.6640625,
+    "parameter_count": 7615616512,
+    "includes": "tokenization, generation and JSON parsing of the first attempt"
+  }
+}

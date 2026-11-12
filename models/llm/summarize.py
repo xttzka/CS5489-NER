@@ -33,7 +33,10 @@ def describe(report):
         + (",rules" if report["guideline"] else "")
     if report.get("adapter"):
         return "LoRA-LLM", "standard", "conll2003", {**config, "adapter": report["adapter"]}
-    if all(report[key] == value for key, value in STANDARD.items()):
+    if report.get("example_pool_size"):
+        setting += f",pool{report['example_pool_size']}"
+        config["example_pool_size"] = report["example_pool_size"]
+    elif all(report[key] == value for key, value in STANDARD.items()):
         setting = "standard"
     return "LLM", setting, (report["example_source"] or "").split(":")[0], config
 

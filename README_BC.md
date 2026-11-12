@@ -70,6 +70,16 @@ Linux 或 macOS 用 `python3.11 -m venv .venv` 和 `python3.11 -m venv .venv-pos
 
 A 的新版基线使用统一 spaCy POS 和验证集选出的 M1 配置。对照替换或扰动时，复用表中的 v2 配对样本和 v1 扰动样本，按相同的 ID 与 A 的三模型结果比较。[正式基线](results/m0_m2_baselines.json) · [替换与扰动结果](results/m0_m2_robustness.json) · [固定 300 条投票示例](results/m0_m2_ensemble.json)
 
+### B 的训练子集与 C 的示例池
+
+B 的 BERT 学习曲线和 C 的少样本 LLM 曲线在同一批句子上比较。两边都用 [sample_train](models/llm/common.py) 抽取每一档标注：`sample_train(dataset, size, seed)`，`size` 写句数（如 `"50"`）或带小数点的比例（如 `"0.1"`）。50 句和 100 句用种子 0、1、2，1%、10% 和全量用种子 0，数据集为 `conll2003`、`wnut17`、`mit_restaurant`。C 把抽出的句子作为示例检索池，B 用同样的句子训练。
+
+```python
+from models.llm.common import sample_train
+rows = sample_train("conll2003", "50", 0)   # 50 句，种子 0
+rows = sample_train("wnut17", "0.1", 0)     # 训练集的 10%
+```
+
 ## 2. B、C 答卷和评分
 
 标准答案和答卷都用 UTF-8 JSONL，每行一个 JSON 对象。标准答案含 `sample_id`、`tokens`、`tags`、`dataset`、`split` 和可用的文档、词性字段。模型答卷只需对应的 `sample_id` 和 `tags`。例如仓库的一句评分演示中有这条答卷。 [演示文件](preds/conll2003/demo/0.jsonl)

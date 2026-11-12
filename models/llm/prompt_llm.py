@@ -11,7 +11,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from eval.score_ner import bio_to_spans
 from models.llm.common import (
     EXAMPLE_SOURCE, GUIDELINES, PROJECT, RAW_OUTPUT, RESULTS, TYPE_DESCRIPTIONS, entities_to_tags,
-    load_input, load_rows, per_type_scores, save_json, score_any, subset_path, write_predictions,
+    load_input, load_rows, per_type_scores, sample_train, save_json, score_any, subset_path, write_predictions,
 )
 
 
@@ -72,9 +72,10 @@ class ExamplePicker:
     """Choose few-shot examples once at random, or per sentence by embedding similarity."""
 
     def __init__(self, pool, types, shots, selection, seed, device):
-        self.shots, self.selection = shots, selection
         # Examples are training sentences with at least one entity of the target types.
         self.pool = [(" ".join(row["tokens"]), entities) for row in pool if (entities := gold_entities(row, types))]
+        self.shots, self.selection = min(shots, len(self.pool)), selection
+        shots = self.shots
         if shots and selection == "random":
             self.fixed = random.Random(seed).sample(self.pool, shots)
         if shots and selection == "similar":
@@ -119,7 +120,10 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     rows = load_input(args.input) if args.input else load_rows(dataset, args.split, subset)
     texts = [" ".join(row["tokens"]) for row in rows]
     source = EXAMPLE_SOURCE.get(schema, schema)
-    pool = load_rows(source, "train") if args.shots else []
+    pool = []
+    if args.shots:
+        # A limited pool stands for a fixed annotation budget, drawn like the training sample of that size.
+        pool = sample_train(source, args.pool_size, args.seed) if args.pool_size else load_rows(source, "train")
     picker = ExamplePicker(pool, types, args.shots, args.selection, args.seed, model.device)
     guidelines = GUIDELINES.get(schema, ()) if args.guideline else ()
     if args.guideline and not guidelines:
@@ -151,6 +155,7 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     size = next(key for key, name in MODELS.items() if name == args.model_name)
     method = (("lora" if args.adapter else "qwen") + f"{size}_k{args.shots}"
               + (f"_{args.selection}" if args.shots else "") + ("_guide" if args.guideline else "_plain")
+              + (f"_pool{args.pool_size}" if args.shots and args.pool_size else "")
               + (f"_as_{schema}" if schema != dataset else "") + f"_{scope}")
     path = write_predictions(dataset, method, rows, tags, args.seed)
     raw_path = RAW_OUTPUT / dataset / method / f"{args.seed}.jsonl"
@@ -169,6 +174,8 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
                        else subset_path(dataset, subset).relative_to(PROJECT).as_posix()),
         "shots": args.shots, "selection": args.selection if args.shots else None,
         "example_source": f"{source}:train" if args.shots else None,
+        "example_pool_size": args.pool_size if args.shots else None,
+        "example_pool_sentences": len(pool), "example_pool_with_entities": len(picker.pool),
         "guideline": args.guideline, "seed": args.seed, "max_new_tokens": args.max_new_tokens,
         "type_descriptions": descriptions, "annotation_rules": list(guidelines),
         "predictions": path.relative_to(PROJECT).as_posix(),
@@ -216,6 +223,8 @@ def main():
     parser.add_argument("--adapter", help="Directory of a LoRA adapter to load on the base model")
     parser.add_argument("--shots", type=int, default=0)
     parser.add_argument("--selection", choices=("random", "similar"), default="random")
+    parser.add_argument("--pool-size", help="Labelled sentences available as examples: a count such as 50 "
+                                             "or a share such as 0.1; the full training split by default")
     parser.add_argument("--guideline", action="store_true", help="Add the annotation rules of the label scheme")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=32)
