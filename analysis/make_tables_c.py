@@ -25,13 +25,18 @@ def llm(method, dataset, scope="test_300", split="test"):
 
 
 def zero_shot_table():
+    groups = json.loads((ROOT / "results" / "m0_m2_baselines.json").read_text(encoding="utf-8"))["groups"]
+    sources = {dataset: dataset if dataset in groups else "transfer" for dataset in DATASETS}
+    crf = (f"{100 * groups[sources[dataset]]['targets'][dataset]['test_300']['models']['m2']['f1']:.1f}"
+           for dataset in DATASETS)
     rows = [
-        ("GLiNER", "Zero-shot", *(f1(f"gliner_{dataset}_test_test_300") for dataset in DATASETS)),
-        ("Qwen2.5-1.5B", "Zero-shot", *(llm("qwen1.5b_k0_plain", dataset) for dataset in DATASETS)),
-        ("Qwen2.5-7B", "Zero-shot", *(llm("qwen7b_k0_plain", dataset) for dataset in DATASETS)),
-        ("Qwen2.5-7B", "Few-shot", *(llm(BEST, dataset) for dataset in DATASETS)),
+        ("CRF", "Full training split", *crf),
+        ("GLiNER", "None", *(f1(f"gliner_{dataset}_test_test_300") for dataset in DATASETS)),
+        ("Qwen2.5-1.5B", "None", *(llm("qwen1.5b_k0_plain", dataset) for dataset in DATASETS)),
+        ("Qwen2.5-7B", "None", *(llm("qwen7b_k0_plain", dataset) for dataset in DATASETS)),
+        ("Qwen2.5-7B", "10 retrieved examples", *(llm(BEST, dataset) for dataset in DATASETS)),
     ]
-    return table("ll" + "r" * len(DATASETS), ("Method", "Labels used", *DATASETS.values()), rows,
+    return table("ll" + "r" * len(DATASETS), ("Method", "Labelled sentences", *DATASETS.values()), rows,
                  "T3, member C. Entity F1 (%) on the fixed 300-sentence test subsets, native labels. "
                  "Few-shot retrieves 10 examples per sentence from the full training split of the label scheme. "
                  "Load booktabs.")

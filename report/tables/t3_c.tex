@@ -2,12 +2,13 @@
 \begingroup\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
-Method & Labels used & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
+Method & Labelled sentences & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
 \midrule
-GLiNER & Zero-shot & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
-Qwen2.5-1.5B & Zero-shot & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
-Qwen2.5-7B & Zero-shot & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
-Qwen2.5-7B & Few-shot & 84.5 & 81.2 & 76.3 & 55.9 & 54.8 & 71.0 \\
+CRF & Full training split & 81.0 & 70.3 & 57.8 & 25.2 & 20.3 & 77.8 \\
+GLiNER & None & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
+Qwen2.5-1.5B & None & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
+Qwen2.5-7B & None & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
+Qwen2.5-7B & 10 retrieved examples & 84.5 & 81.2 & 76.3 & 55.9 & 54.8 & 71.0 \\
 \bottomrule
 \end{tabular}
 \endgroup
