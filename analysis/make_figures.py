@@ -47,6 +47,9 @@ def interval(ax, x, low, high):
                 ecolor="#444444", linewidth=0.7, capsize=2, zorder=3)
 
 
+EDGE = {"edgecolor": "#444444", "linewidth": 0.5}
+
+
 def save(figure, name):
     for extension in ("pdf", "png"):
         figure.savefig(OUTPUT / f"{name}.{extension}")
@@ -132,8 +135,9 @@ def figure_5():
     first, second, third, fourth = axes.flat
     for i, method in enumerate(METHODS):
         row = temporal["conll2003"][method]
-        first.bar(i - 0.17, 100 * row["seen"]["f1"], 0.32, color=METHOD[method.upper()], label="Seen" if i == 0 else None)
-        first.bar(i + 0.17, 100 * row["unseen"]["f1"], 0.32, color=METHOD[method.upper()], hatch="//",
+        first.bar(i - 0.17, 100 * row["seen"]["f1"], 0.32, color=METHOD[method.upper()], **EDGE,
+                  label="Seen" if i == 0 else None)
+        first.bar(i + 0.17, 100 * row["unseen"]["f1"], 0.32, color=METHOD[method.upper()], hatch="////", **EDGE,
                   label="Unseen" if i == 0 else None)
     first.set_xticks(range(len(METHODS)), [method.upper() for method in METHODS])
     first.set_ylabel("F1 (%)")
@@ -145,7 +149,7 @@ def figure_5():
             x = i + (j - 0.5) * 0.34
             scores = replacement[condition]["models"][method]["scores"]
             second.bar(x, 100 * scores["f1"], 0.32,
-                       color=METHOD[method.upper()], hatch="//" if j else None,
+                       color=METHOD[method.upper()], hatch="////" if j else None, **EDGE,
                        label=condition.capitalize() if i == 0 else None)
             interval(second, x, *(100 * value for value in scores["bootstrap_ci95"]["f1"]))
     second.set_xticks(range(len(METHODS)), [method.upper() for method in METHODS])
@@ -165,7 +169,7 @@ def figure_5():
     x = np.arange(len(conditions))
     for j, (dataset, scope, label) in enumerate((("conll2003", "unseen", "CoNLL-03 unseen"), ("conllpp", "overall", "CoNLL++ all"))):
         values = [extra[condition][dataset]["f1_delta_vs_baseline_pp"][scope] for condition in conditions]
-        fourth.bar(x + (j - 0.5) * 0.36, values, 0.34, color=METHOD["M2"], hatch="//" if j == 0 else None, label=label)
+        fourth.bar(x + (j - 0.5) * 0.36, values, 0.34, color=METHOD["M2"], hatch="////" if j == 0 else None, **EDGE, label=label)
     fourth.set_xticks(x, ("Gazetteer", "$k=100$", "$k=500$", "$k=1000$"))
     fourth.set_ylabel("F1 change (pp)")
     fourth.axhline(0, color="#333333", linewidth=0.7)
@@ -177,25 +181,28 @@ def figure_5():
 
 def figure_6b():
     report = read("m2_transfer_overlap")
-    rows = [row for row in report["points"] if not row["target_is_source_domain"]]
-    sources = {"conll2003": "o", "wnut17": "s", "merged": "^"}
+    source = "conll2003"
+    rows = [row for row in report["points"] if row["source"] == source and not row["target_is_source_domain"]]
+    markers = {"PER": "o", "LOC": "s", "ORG": "^"}
     targets = list(dict.fromkeys(row["target"] for row in rows))
-    fig, ax = plt.subplots(figsize=(TEXT_WIDTH, 3.5), layout="constrained")
+    fig, ax = plt.subplots(figsize=(TEXT_WIDTH, 3.2), layout="constrained")
     for row in rows:
-        ax.scatter(100 * row["overlap"], row["f1_loss_pp"], marker=sources[row["source"]],
-                   color=DATASET[row["target"]], s=33, edgecolor="#555555", linewidth=0.45, zorder=3)
-    fit = report["all_non_source_targets"]
+        ax.scatter(100 * row["overlap"], row["f1_loss_pp"], marker=markers[row["entity_type"]],
+                   color=DATASET[row["target"]], s=36, edgecolor="#555555", linewidth=0.45, zorder=3)
+    fit = report["by_source_non_source_targets"][source]
     x = np.array([min(100 * row["overlap"] for row in rows), max(100 * row["overlap"] for row in rows)])
     ax.plot(x, fit["ols_intercept_pp"] + x * fit["ols_slope_f1_loss_pp_per_overlap_pp"], "--", color="#333333")
-    ax.axhline(0, color="#999999", linewidth=0.7)
-    ax.set_xlabel("Target entity mentions seen in source training (%)")
-    ax.set_ylabel("F1 loss from source reference (pp)")
-    handles = [Line2D([0], [0], marker="o", linestyle="", color=DATASET[key], label=SHORT_DATASET[key]) for key in targets]
-    source_handles = [Line2D([0], [0], marker=marker, linestyle="", color="#444444", label=SHORT_DATASET[key])
-                      for key, marker in sources.items()]
+    ax.text(0.98, 0.72, f"$r={fit['pearson_r']:.2f}$", transform=ax.transAxes, ha="right", va="top")
+    ax.set_ylim(bottom=-3)
+    ax.set_xlabel("Target entity mentions seen in CoNLL-03 training (%)")
+    ax.set_ylabel("F1 loss vs. CoNLL-03 test (pp)")
+    handles = [Line2D([0], [0], marker="o", linestyle="", color=DATASET[key], markeredgecolor="#555555",
+                      markeredgewidth=0.45, label=SHORT_DATASET[key]) for key in targets]
+    type_handles = [Line2D([0], [0], marker=marker, linestyle="", color="#888888", markeredgecolor="#555555",
+                           markeredgewidth=0.45, label=kind) for kind, marker in markers.items()]
     legend = ax.legend(handles=handles, loc="upper right", title="Target", ncols=2)
     ax.add_artist(legend)
-    fig.legend(handles=source_handles, loc="outside lower center", title="Training source", ncols=3)
+    ax.legend(handles=type_handles, loc="upper right", bbox_to_anchor=(1, 0.62), title="Entity type", ncols=3)
     panel(ax, "b")
     save(fig, "f6b")
 
