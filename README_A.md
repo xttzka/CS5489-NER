@@ -15,16 +15,16 @@ M0 从训练实体构建区分大小写的词典，保留只有一种训练类�
 
 | 测试集 | 全量域内 F1 | 固定 300 条 F1 |
 |---|---:|---:|
-| CoNLL-2003 | 56.73%／73.25%／81.40% | 60.17%／69.86%／81.04% |
-| WNUT-17 | 0.00%／13.83%／16.13% | 0.00%／17.30%／20.33% |
-| MIT Restaurant | 44.52%／68.88%／77.25% | 43.62%／67.66%／77.82% |
-| CoNLL++ | — | 46.97%／65.44%／70.30% |
-| WikiGold | — | 24.01%／41.22%／57.81% |
-| BTC | — | 10.85%／25.53%／25.17% |
+| CoNLL-2003 | 56.73%／73.39%／81.40% | 60.17%／69.93%／81.04% |
+| WNUT-17 | 0.00%／14.40%／16.13% | 0.00%／16.71%／20.33% |
+| MIT Restaurant | 44.52%／68.94%／77.25% | 43.62%／67.71%／77.82% |
+| CoNLL++ | — | 46.97%／65.40%／70.30% |
+| WikiGold | — | 24.01%／41.43%／57.81% |
+| BTC | — | 10.85%／26.10%／25.17% |
 
-三套域内评测各用本数据集训练和原生标签。M1/M2 统一使用 spaCy 词性、关闭短语标签，并使用同样的 ±1 特征窗口。M1 将 L-BFGS 停止容差收紧到 `1e-5`，在各自验证集比较 `C=0.1,1,10`，三套都选出 `C=10`。CoNLL++、WikiGold 和 BTC 的固定子集复用同一套 CoNLL-2003 模型。前两套保留 CoNLL 四类，BTC 映射到 `PER`、`LOC`、`ORG`。
+三套域内评测各用本数据集训练和原生标签。M1/M2 统一使用 spaCy 词性、关闭短语标签，并使用同样的 ±1 特征窗口。M1 将 L-BFGS 停止容差收紧到 `1e-5`，在各自验证集比较 `C=0.1,1,10,100`。CoNLL-2003 和 MIT Restaurant 选出 `C=10`，WNUT-17 选出 `C=100`。CoNLL++、WikiGold 和 BTC 的固定子集复用同一套 CoNLL-2003 模型。前两套保留 CoNLL 四类，BTC 映射到 `PER`、`LOC`、`ORG`。
 
-CoNLL-2003 在原 POS 和 chunk 设置下用训练集文档分组五折选出 `c1=0.0001`、`c2=0.1`。该历史设置的五折平均 F1 为 **87.7603%**，全量重训后的验证集 F1 为 **88.8190%**。统一 POS 基线沿用这两个系数。WNUT-17 和 MIT Restaurant 各用连续五折在本训练集选参，分别为 `(0.0001, 0.1)` 和 `(0.01, 0.5)`。窗口和分折对照使用对应的五折与固定正则化参数。[CoNLL-2003 历史网格](results/m2_cv_grid.json) · [两套原生域内交叉验证](results/m2_native_cv.json) · [窗口与分折对照](results/m2_cv_controls.json)
+CoNLL-2003 在原 POS 和 chunk 设置下用训练集文档分组五折选出 `c1=0.0001`、`c2=0.1`。该历史设置的五折平均 F1 为 **87.7603%**，全量重训后的验证集 F1 为 **88.8190%**。统一 POS 基线沿用这两个系数。同一组 20 对系数在统一 POS 下按相同的文档分组五折重算，这两个系数的平均 F1 为 **87.74%**，网格内最高为 `(0.001, 0.1)` 的 **87.79%**，五折标准差约 1 个百分点。[统一 POS 网格](results/m2_pos_cv_check.json)WNUT-17 和 MIT Restaurant 各用连续五折在本训练集选参，分别为 `(0.0001, 0.1)` 和 `(0.01, 0.5)`。窗口和分折对照使用对应的五折与固定正则化参数。[CoNLL-2003 历史网格](results/m2_cv_grid.json) · [两套原生域内交叉验证](results/m2_native_cv.json) · [窗口与分折对照](results/m2_cv_controls.json)
 
 | 训练集五折 | ±1 平均 F1 | ±2 平均 F1 | 本次对照中较高的窗口 |
 |---|---:|---:|---|
@@ -38,11 +38,11 @@ CoNLL-2003 的原 POS 和 chunk 对照中，±2 模型在完整验证集得 **89
 
 | 实验 | 口径和结果文件 |
 |---|---|
-| 时间泛化与实体熟悉度 | 同一组 CoNLL-2003 训练的 M0–M2，分别评估 3,453 条 CoNLL-2003 和 1,840 条 CoNLL++ 完整测试。M1/M2 使用统一词性，按四类报告总体、已见和未见 F1。已见按完整词元序列 `casefold` 后是否出现在训练金标实体中划分，预测的误报按预测本身的名称归组。[M0–M2 年代对照](results/m0_m2_temporal.json) · [M2 熟悉度](results/m2_seen_unseen_f1.json) |
+| 时间泛化与实体熟悉度 | 同一组 CoNLL-2003 训练的 M0–M2，分别评估 3,453 条 CoNLL-2003 和 1,840 条 CoNLL++ 完整测试。M1/M2 使用统一词性，按四类报告总体、已见和未见 F1，各附 1,000 次句子重采样的 95% 区间。已见按完整词元序列 `casefold` 后是否出现在训练金标实体中划分，预测的误报按预测本身的名称归组。[M0–M2 年代对照](results/m0_m2_temporal.json) · [M2 熟悉度](results/m2_seen_unseen_f1.json) |
 | 统一词性与跨领域迁移 | 正式三源五目标矩阵统一在共有三类上训练和测试。CoNLL-2003 四类训练、三类评分的结果独立记录。附熟悉度、大小写分组召回和实体重叠分析。[三类迁移矩阵](results/m2_transfer_matrix.json) · [CoNLL 四类训练参照](results/m2_pos_transfer.json) · [分组召回](results/m2_transfer_recall_groups.json) · [重叠分析](results/m2_transfer_overlap.json) |
 | G1–G5、G2 与小写 | G1–G5 在 CoNLL-2003 同一组训练五折上逐组移除，使用原词性和短语标签。G2 在统一词性下比较三套完整域内测试及 CoNLL-2003 到 BTC 的迁移，衡量显式书写形式特征。小写实验使用同一个统一词性模型比较原始与全小写验证集。另有统一词性的三类验证集对照。[G1–G5](results/m2_feature_ablation.json) · [G2](results/m2_g2_transfer.json) · [小写](results/m2_pos_casing.json) · [词性对照](results/m2_pos_validation.json) |
 | 泛化特征 | 固定统一词性 M2 的训练设置，单独加入 GeoNames 地名词典或 GloVe 6B 100d 聚类特征。`k=100, 500, 1000` 是预设比较条件，聚类中心只用有向量的训练集词型拟合。在两套完整新闻测试的四类上报告总体、已见和未见 F1。[额外特征报告](results/m2_extra_features.json) |
-| 实体替换与文本扰动 | M0、M1、M2 各训练一次，在相同的 500 对 v2 样本以及完整 CoNLL-2003 的原文和三种 v1 扰动上比较。原／替换实体命中数依次为 M0 448／0、M1 475／310、M2 470／339。结果含配对区间及共有三类全小写与 BTC 掉分的描述性对照。[统一脚本](models/classic/run_robustness.py) · [汇总结果](results/m0_m2_robustness.json) |
+| 实体替换与文本扰动 | M0、M1、M2 各训练一次，在相同的 500 对 v2 样本以及完整 CoNLL-2003 的原文和三种 v1 扰动上比较。原／替换实体命中数依次为 M0 448／0、M1 475／311、M2 470／339。结果含配对区间及共有三类全小写与 BTC 掉分的描述性对照。[统一脚本](models/classic/run_robustness.py) · [汇总结果](results/m0_m2_robustness.json) |
 | 错误分类与抽样 | 共用工具把范围错、类别错、两者皆错、误报和漏检分开。正式 M2 示例从 762 条类别错或误报中以种子 42 抽出 60 条。句外生成实体通过 LLM 原始输出核查。[错误分析工具](eval/analyze_ner_errors.py) · [M2 示例汇总](results/error_analysis/conll2003_m2/summary.json) |
 
 ## 复现顺序
@@ -67,6 +67,7 @@ CoNLL-2003 的原 POS 和 chunk 对照中，±2 模型在完整验证集得 **89
 & $exp -B -m models.classic.m2_native_cv --jobs 3
 & $exp -B -m models.classic.run_baselines --jobs 1
 & $exp -B -m models.classic.m2_cv_controls --jobs 3
+& $exp -B -m models.classic.m2_pos_cv_check --jobs 5
 ```
 
 分析先生成 CoNLL-2003 迁移答卷，再运行依赖这些答卷的实验。其余输出和答卷位置见 [分析脚本清单](README.md#4-运行迁移年代和鲁棒性分析)。
@@ -105,7 +106,7 @@ CoNLL-2003 的 5,648 个测试实体中，GloVe 覆盖 5,534 个。`k=4` 的 ARI
 & $exp -B -m analysis.cluster_entities
 ```
 
-CoNLL-2003 固定 300 条中，M0、M1、M2 以实体范围和类型做多数投票，得到 **79.02% F1**，M2 单独为 **81.04%**。两者差值为 **−2.02 个百分点**，配对 95% 区间为 **−4.12 至 +0.42 个百分点**。报告还列出每对模型漏报、误报及总体错误的重叠。可以重复传 `--pred` 和 `--group` 来比较更多模型或投票组，所有答卷使用同一批样本和同一套标签。[集成脚本](eval/ensemble_ner.py) · [投票结果](results/m0_m2_ensemble.json)
+CoNLL-2003 固定 300 条中，M0、M1、M2 以实体范围和类型做多数投票，得到 **78.94% F1**，M2 单独为 **81.04%**。两者差值为 **−2.11 个百分点**，配对 95% 区间为 **−4.26 至 +0.31 个百分点**。报告还列出每对模型漏报、误报及总体错误的重叠。可以重复传 `--pred` 和 `--group` 来比较更多模型或投票组，所有答卷使用同一批样本和同一套标签。[集成脚本](eval/ensemble_ner.py) · [投票结果](results/m0_m2_ensemble.json)
 
 ```powershell
 & $exp -B -m eval.ensemble_ner --gold data/processed/conll2003/test.jsonl --subset-ids data/subsets/conll2003/test_300.txt --pred M0=preds/conll2003/m0_baseline/0.jsonl --pred M1=preds/conll2003/m1_baseline/0.jsonl --pred M2=preds/conll2003/m2_baseline/0.jsonl --group classical=M0,M1,M2 --output results/m0_m2_ensemble.json

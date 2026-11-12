@@ -25,7 +25,7 @@
       "c": 10.0,
       "solver": "lbfgs",
       "tol": 1e-05,
-      "iterations": 195,
+      "iterations": 231,
       "max_iterations": 2000,
       "selection": {
         "split": "conll2003:validation",
@@ -48,27 +48,39 @@
           },
           {
             "c": 1.0,
-            "iterations": 158,
+            "iterations": 168,
             "gold_records": 3250,
             "scored_records": 3250,
             "tp": 5036,
-            "fp": 1282,
+            "fp": 1283,
             "fn": 906,
-            "precision": 0.7970876859765749,
+            "precision": 0.796961544548188,
             "recall": 0.8475260854930999,
-            "f1": 0.8215334420880913
+            "f1": 0.8214664383003017
           },
           {
             "c": 10.0,
-            "iterations": 195,
+            "iterations": 231,
             "gold_records": 3250,
             "scored_records": 3250,
-            "tp": 5070,
-            "fp": 1232,
-            "fn": 872,
-            "precision": 0.804506505871152,
-            "recall": 0.8532480646247055,
-            "f1": 0.8281607317869977
+            "tp": 5068,
+            "fp": 1233,
+            "fn": 874,
+            "precision": 0.8043167751150611,
+            "recall": 0.852911477616964,
+            "f1": 0.8279016580903373
+          },
+          {
+            "c": 100.0,
+            "iterations": 179,
+            "gold_records": 3250,
+            "scored_records": 3250,
+            "tp": 4984,
+            "fp": 1379,
+            "fn": 958,
+            "precision": 0.7832783278327833,
+            "recall": 0.838774823291821,
+            "f1": 0.81007720438846
           }
         ]
       }
@@ -87,6 +99,12 @@
         "test_records": 3453,
         "gold": "data/processed/conll2003/test.jsonl",
         "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 5648,
           "predicted_entities": 3663,
@@ -95,7 +113,11 @@
           "fn": 3007,
           "precision": 0.7209937209937209,
           "recall": 0.46759915014164305,
-          "f1": 0.5672860057995919
+          "f1": 0.5672860057995919,
+          "f1_ci95": [
+            0.5518584998555662,
+            0.5829457680231407
+          ]
         },
         "seen": {
           "gold_entities": 3148,
@@ -105,7 +127,11 @@
           "fn": 507,
           "precision": 0.7209937209937209,
           "recall": 0.8389453621346887,
-          "f1": 0.7755102040816326
+          "f1": 0.7755102040816326,
+          "f1_ci95": [
+            0.7628685698386701,
+            0.788095042983492
+          ]
         },
         "unseen": {
           "gold_entities": 2500,
@@ -115,7 +141,11 @@
           "fn": 2500,
           "precision": 0.0,
           "recall": 0.0,
-          "f1": 0.0
+          "f1": 0.0,
+          "f1_ci95": [
+            0.0,
+            0.0
+          ]
         },
         "predictions": "preds/conll2003/m0_temporal/0.jsonl"
       },
@@ -123,46 +153,70 @@
         "test_records": 3453,
         "gold": "data/processed/conll2003/test.jsonl",
         "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 5648,
-          "predicted_entities": 6240,
-          "tp": 4354,
-          "fp": 1886,
-          "fn": 1294,
-          "precision": 0.6977564102564102,
-          "recall": 0.7708923512747875,
-          "f1": 0.7325033647375505
+          "predicted_entities": 6236,
+          "tp": 4361,
+          "fp": 1875,
+          "fn": 1287,
+          "precision": 0.699326491340603,
+          "recall": 0.7721317280453258,
+          "f1": 0.7339279703803433,
+          "f1_ci95": [
+            0.7212064340481024,
+            0.7481629473738493
+          ]
         },
         "seen": {
           "gold_entities": 3148,
-          "predicted_entities": 3339,
+          "predicted_entities": 3340,
           "tp": 2854,
-          "fp": 485,
+          "fp": 486,
           "fn": 294,
-          "precision": 0.8547469302186284,
+          "precision": 0.8544910179640719,
           "recall": 0.9066073697585769,
-          "f1": 0.8799136735008478
+          "f1": 0.8797780517879161,
+          "f1_ci95": [
+            0.8688972138767797,
+            0.8902985788055342
+          ]
         },
         "unseen": {
           "gold_entities": 2500,
-          "predicted_entities": 2901,
-          "tp": 1500,
-          "fp": 1401,
-          "fn": 1000,
-          "precision": 0.5170630816959669,
-          "recall": 0.6,
-          "f1": 0.5554526939455656
+          "predicted_entities": 2896,
+          "tp": 1507,
+          "fp": 1389,
+          "fn": 993,
+          "precision": 0.5203729281767956,
+          "recall": 0.6028,
+          "f1": 0.5585618977020015,
+          "f1_ci95": [
+            0.5380192350076107,
+            0.5820947668489849
+          ]
         },
         "predictions": "preds/conll2003/m1_temporal/0.jsonl",
         "raw_bio_repairs": {
-          "tokens": 662,
-          "sentences": 517
+          "tokens": 676,
+          "sentences": 524
         }
       },
       "m2": {
         "test_records": 3453,
         "gold": "data/processed/conll2003/test.jsonl",
         "entity_index": "data/derived/entity_index/conll2003/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 5648,
           "predicted_entities": 5558,
@@ -171,7 +225,11 @@
           "fn": 1087,
           "precision": 0.8206189276718244,
           "recall": 0.8075424929178471,
-          "f1": 0.8140281991790113
+          "f1": 0.8140281991790113,
+          "f1_ci95": [
+            0.8023114654717975,
+            0.8245302550318914
+          ]
         },
         "seen": {
           "gold_entities": 3148,
@@ -181,7 +239,11 @@
           "fn": 306,
           "precision": 0.9173660426081343,
           "recall": 0.9027954256670903,
-          "f1": 0.9100224143451809
+          "f1": 0.9100224143451809,
+          "f1_ci95": [
+            0.9006030891016955,
+            0.9194113003095503
+          ]
         },
         "unseen": {
           "gold_entities": 2500,
@@ -191,7 +253,11 @@
           "fn": 781,
           "precision": 0.698780487804878,
           "recall": 0.6876,
-          "f1": 0.6931451612903226
+          "f1": 0.6931451612903226,
+          "f1_ci95": [
+            0.6724158552985191,
+            0.7131050295180087
+          ]
         },
         "predictions": "preds/conll2003/m2_pos_transfer/0.jsonl"
       }
@@ -201,6 +267,12 @@
         "test_records": 1840,
         "gold": "data/processed/conllpp/test.jsonl",
         "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 4007,
           "predicted_entities": 2202,
@@ -209,7 +281,11 @@
           "fn": 2605,
           "precision": 0.6366939146230699,
           "recall": 0.3498876965310706,
-          "f1": 0.45160251248188116
+          "f1": 0.45160251248188116,
+          "f1_ci95": [
+            0.4314278423894067,
+            0.4707228330673118
+          ]
         },
         "seen": {
           "gold_entities": 1693,
@@ -219,7 +295,11 @@
           "fn": 291,
           "precision": 0.6366939146230699,
           "recall": 0.8281157708210277,
-          "f1": 0.7198973042362002
+          "f1": 0.7198973042362002,
+          "f1_ci95": [
+            0.7002482318550693,
+            0.738493825084186
+          ]
         },
         "unseen": {
           "gold_entities": 2314,
@@ -229,7 +309,11 @@
           "fn": 2314,
           "precision": 0.0,
           "recall": 0.0,
-          "f1": 0.0
+          "f1": 0.0,
+          "f1_ci95": [
+            0.0,
+            0.0
+          ]
         },
         "predictions": "preds/conllpp/m0_temporal/0.jsonl"
       },
@@ -237,46 +321,70 @@
         "test_records": 1840,
         "gold": "data/processed/conllpp/test.jsonl",
         "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 4007,
-          "predicted_entities": 4386,
-          "tp": 2640,
-          "fp": 1746,
-          "fn": 1367,
-          "precision": 0.6019151846785226,
-          "recall": 0.6588470177189918,
-          "f1": 0.6290956749672346
+          "predicted_entities": 4384,
+          "tp": 2639,
+          "fp": 1745,
+          "fn": 1368,
+          "precision": 0.6019616788321168,
+          "recall": 0.6585974544547043,
+          "f1": 0.6290072696937195,
+          "f1_ci95": [
+            0.6121829568858982,
+            0.6472004726522799
+          ]
         },
         "seen": {
           "gold_entities": 1693,
           "predicted_entities": 1871,
-          "tp": 1547,
-          "fp": 324,
-          "fn": 146,
-          "precision": 0.8268305718866916,
-          "recall": 0.9137625516834023,
-          "f1": 0.8681257014590348
+          "tp": 1549,
+          "fp": 322,
+          "fn": 144,
+          "precision": 0.8278995189738108,
+          "recall": 0.9149438865918488,
+          "f1": 0.8692480359147026,
+          "f1_ci95": [
+            0.8526482888067283,
+            0.8844222468828135
+          ]
         },
         "unseen": {
           "gold_entities": 2314,
-          "predicted_entities": 2515,
-          "tp": 1093,
-          "fp": 1422,
-          "fn": 1221,
-          "precision": 0.4345924453280318,
-          "recall": 0.47234226447709593,
-          "f1": 0.4526817146407124
+          "predicted_entities": 2513,
+          "tp": 1090,
+          "fp": 1423,
+          "fn": 1224,
+          "precision": 0.43374452845204936,
+          "recall": 0.4710458081244598,
+          "f1": 0.4516262689040812,
+          "f1_ci95": [
+            0.4310866432251738,
+            0.4738508204249637
+          ]
         },
         "predictions": "preds/conllpp/m1_temporal/0.jsonl",
         "raw_bio_repairs": {
-          "tokens": 742,
-          "sentences": 528
+          "tokens": 732,
+          "sentences": 523
         }
       },
       "m2": {
         "test_records": 1840,
         "gold": "data/processed/conllpp/test.jsonl",
         "entity_index": "data/derived/entity_index/conllpp/test_v1.jsonl",
+        "bootstrap": {
+          "resamples": 1000,
+          "seed": 42,
+          "unit": "sentence",
+          "interval": "95% percentile"
+        },
         "overall": {
           "gold_entities": 4007,
           "predicted_entities": 3678,
@@ -285,7 +393,11 @@
           "fn": 1330,
           "precision": 0.7278412180532898,
           "recall": 0.6680808584976291,
-          "f1": 0.6966818477553676
+          "f1": 0.6966818477553676,
+          "f1_ci95": [
+            0.6797641653944982,
+            0.7129617934154772
+          ]
         },
         "seen": {
           "gold_entities": 1693,
@@ -295,7 +407,11 @@
           "fn": 170,
           "precision": 0.9076281287246722,
           "recall": 0.8995865327820437,
-          "f1": 0.9035894393355087
+          "f1": 0.9035894393355087,
+          "f1_ci95": [
+            0.8904056629849454,
+            0.9165168423869655
+          ]
         },
         "unseen": {
           "gold_entities": 2314,
@@ -305,7 +421,11 @@
           "fn": 1160,
           "precision": 0.577,
           "recall": 0.49870354364736386,
-          "f1": 0.5350023180343069
+          "f1": 0.5350023180343069,
+          "f1_ci95": [
+            0.5119942580198448,
+            0.5552040690815958
+          ]
         },
         "predictions": "preds/conllpp/m2_pos_transfer/0.jsonl"
       }
@@ -318,9 +438,9 @@
       "unseen": 0.0
     },
     "m1": {
-      "overall": -10.340768977031589,
-      "seen": -1.1787972041813033,
-      "unseen": -10.277097930485324
+      "overall": -10.492070068662384,
+      "seen": -1.053001587321356,
+      "unseen": -10.69356287979203
     },
     "m2": {
       "overall": -11.734635142364368,

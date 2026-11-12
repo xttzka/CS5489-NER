@@ -111,9 +111,10 @@ def baseline_rows():
 
 
 def selection_rows():
-    for name in ("m2_cv_grid.json", "m2_native_cv.json"):
+    for name in ("m2_cv_grid.json", "m2_pos_cv_check.json", "m2_native_cv.json"):
         data = report(name)
-        groups = [("conll2003", ())] if name == "m2_cv_grid.json" else [
+        experiment = "regularization_cv_shared_pos" if name == "m2_pos_cv_check.json" else "regularization_cv"
+        groups = [("conll2003", ())] if name != "m2_native_cv.json" else [
             (dataset, ("datasets", dataset)) for dataset in data["datasets"]
         ]
         for dataset, base in groups:
@@ -122,7 +123,7 @@ def selection_rows():
                 for index, candidate in enumerate(selection.get(section, ())):
                     path = (*base, section, str(index))
                     params = {key: candidate[key] for key in ("c1", "c2")}
-                    context = dict(experiment="regularization_cv", method="M2",
+                    context = dict(experiment=experiment, method="M2",
                                    condition=f"c1={params['c1']},c2={params['c2']}",
                                    train_source=dataset, dataset=dataset, split="train_cv",
                                    config={"parameters": params, "context_window": 1})

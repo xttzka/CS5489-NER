@@ -4,13 +4,17 @@ import argparse
 import json
 from pathlib import Path
 
+import numpy as np
+
 from data.make_entity_index import DATA_DIR, OUTPUT_ROOT as INDEX_ROOT, name_key, read_entities
-from eval.score_m2_familiarity import load_spans, score_groups
+from eval.baseline_statistics import bootstrap_counts, metric_values
+from eval.score_m2_familiarity import load_spans, project_groups, score_groups
 from eval.score_transfer import MAPPING_PATH
 
 
 PROJECT = DATA_DIR.parent
 REFERENCE = DATA_DIR / "processed" / "conll2003" / "train.jsonl"
+GROUPS = ("overall", "seen", "unseen")
 FAMILIARITY = (
     "Gold uses the v1 entity index. Predictions use their own full case-folded token sequence "
     "matched against training gold names, irrespective of entity type."
@@ -28,16 +32,38 @@ def training_names():
     return names
 
 
+def f1_intervals(gold, predicted, label_map, sentence_count, *, resamples=1000, seed=42):
+    """Resample test sentences and return 95% percentile F1 intervals for each familiarity group."""
+    gold_groups, pred_groups = project_groups(gold, label_map), project_groups(predicted, label_map)
+    by_sentence = {}
+    for group, seen in ((1, True), (2, False)):
+        expected, answered = gold_groups[seen], pred_groups[seen]
+        for metric, spans in enumerate((expected & answered, answered - expected, expected - answered)):
+            for sample_id, *_ in spans:
+                by_sentence.setdefault(sample_id, np.zeros((3, 3), dtype=np.int64))[group, metric] += 1
+    # Sentences without entities stay in the resampling pool as all-zero rows.
+    counts = np.zeros((sentence_count, 3, 3), dtype=np.int64)
+    for index, sample_id in enumerate(sorted(by_sentence)):
+        counts[index] = by_sentence[sample_id]
+    counts[:, 0] = counts[:, 1] + counts[:, 2]
+    bounds = np.quantile(metric_values(bootstrap_counts(counts, resamples, seed)), (0.025, 0.975), axis=0)
+    return {group: bounds[:, index, 2].tolist() for index, group in enumerate(GROUPS)}
+
+
 def score_full_test(dataset, prediction_path, names, label_map):
     gold_path = DATA_DIR / "processed" / dataset / "test.jsonl"
     gold, predicted, count = load_spans(
         dataset, {"gold": gold_path, "predictions": prediction_path.resolve()}, names,
     )
+    scores = score_groups(gold, predicted, label_map, label_map)
+    for group, bounds in f1_intervals(gold, predicted, label_map, count).items():
+        scores[group]["f1_ci95"] = bounds
     return {
         "test_records": count,
         "gold": gold_path.relative_to(PROJECT).as_posix(),
         "entity_index": (INDEX_ROOT / dataset / "test_v1.jsonl").relative_to(PROJECT).as_posix(),
-        **score_groups(gold, predicted, label_map, label_map),
+        "bootstrap": {"resamples": 1000, "seed": 42, "unit": "sentence", "interval": "95% percentile"},
+        **scores,
     }
 
 

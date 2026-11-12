@@ -75,6 +75,9 @@ def parameter_table():
         c1, c2 = ([candidate[key] for candidate in candidates] for key in ("c1", "c2"))
         ranges = rf"$c_1\in[{min(c1):g},{max(c1):g}],\ c_2\in[{min(c2):g},{max(c2):g}]$"
         rows.append(("M2", dataset, split, shortstack(f"{len(candidates)} pairs", ranges), rf"$({values['c1']:g},{values['c2']:g})$"))
+    check = read("m2_pos_cv_check")
+    rows.insert(5, ("M2", "CoNLL-2003", "Same grid, shared POS", f"{len(check['candidates'])} pairs",
+                    rf"{100 * check['official_mean_f1']:.2f} vs. best {100 * check['best_mean_f1']:.2f}"))
     windows = [controls["higher_mean_window"], *(row["higher_mean_window"] for row in controls["native_windows"]["datasets"].values())]
     rows.append(("M2 window", "Three datasets", "Paired train CV", r"$\pm1$ vs. $\pm2$", r"$" + "/".join(rf"\pm{k}" for k in windows) + "$"))
     return table(

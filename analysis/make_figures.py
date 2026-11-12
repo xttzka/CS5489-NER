@@ -135,6 +135,8 @@ def figure_5():
     first, second, third, fourth = axes.flat
     for i, method in enumerate(METHODS):
         row = temporal["conll2003"][method]
+        for x, group in ((i - 0.17, "seen"), (i + 0.17, "unseen")):
+            interval(first, x, *(100 * value for value in row[group]["f1_ci95"]))
         first.bar(i - 0.17, 100 * row["seen"]["f1"], 0.32, color=METHOD[method.upper()], **EDGE,
                   label="Seen" if i == 0 else None)
         first.bar(i + 0.17, 100 * row["unseen"]["f1"], 0.32, color=METHOD[method.upper()], hatch="////", **EDGE,

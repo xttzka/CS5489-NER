@@ -15,7 +15,7 @@ from models.classic.m0_dictionary import DATA_DIR, PROJECT_DIR, read_sentences
 
 
 DEFAULT_OUTPUT = PROJECT_DIR / "preds" / "conll2003" / "m1" / "0.jsonl"
-C_VALUES = (0.1, 1.0, 10.0)
+C_VALUES = (0.1, 1.0, 10.0, 100.0)
 SOLVER = "lbfgs"
 MAX_ITER = 2_000
 TOL = 1e-5

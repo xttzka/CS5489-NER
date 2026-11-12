@@ -32,11 +32,11 @@
       "gold_records": 300,
       "scored_records": 300,
       "tp": 357,
-      "fp": 181,
+      "fp": 180,
       "fn": 127,
-      "precision": 0.6635687732342007,
+      "precision": 0.664804469273743,
       "recall": 0.737603305785124,
-      "f1": 0.6986301369863014
+      "f1": 0.6993143976493633
     },
     "M2": {
       "gold_records": 300,
@@ -61,20 +61,20 @@
         "gold_records": 300,
         "scored_records": 300,
         "tp": 356,
-        "fp": 61,
+        "fp": 62,
         "fn": 128,
-        "precision": 0.8537170263788969,
+        "precision": 0.8516746411483254,
         "recall": 0.7355371900826446,
-        "f1": 0.7902330743618202
+        "f1": 0.7893569844789357
       },
       "best_constituent": {
         "model": "M2",
         "f1": 0.8104166666666667
       },
-      "f1_delta_vs_best_pp": -2.0183592304846454,
+      "f1_delta_vs_best_pp": -2.105968218773102,
       "paired_f1_delta_ci95_pp": [
-        -4.1180982917886615,
-        0.4156835115954449
+        -4.261407730362192,
+        0.3100568836137116
       ]
     }
   },
@@ -93,17 +93,17 @@
       },
       "spurious": {
         "left_count": 76,
-        "right_count": 181,
-        "intersection": 20,
-        "union": 237,
-        "jaccard": 0.08438818565400844
+        "right_count": 180,
+        "intersection": 21,
+        "union": 235,
+        "jaccard": 0.08936170212765958
       },
       "combined": {
         "left_count": 319,
-        "right_count": 308,
-        "intersection": 134,
-        "union": 493,
-        "jaccard": 0.2718052738336714
+        "right_count": 307,
+        "intersection": 135,
+        "union": 491,
+        "jaccard": 0.27494908350305497
       }
     },
     {
@@ -146,18 +146,18 @@
         "jaccard": 0.5310344827586206
       },
       "spurious": {
-        "left_count": 181,
+        "left_count": 180,
         "right_count": 87,
         "intersection": 51,
-        "union": 217,
-        "jaccard": 0.2350230414746544
+        "union": 216,
+        "jaccard": 0.2361111111111111
       },
       "combined": {
-        "left_count": 308,
+        "left_count": 307,
         "right_count": 182,
         "intersection": 128,
-        "union": 362,
-        "jaccard": 0.35359116022099446
+        "union": 361,
+        "jaccard": 0.3545706371191136
       }
     }
   ]

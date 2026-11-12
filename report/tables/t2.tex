@@ -5,10 +5,11 @@
 Method & Dataset & Selection & Candidates & Selected / higher \\
 \midrule
 M0 & All & Fixed rule & Exact, longest match & -- \\
-M1 & CoNLL-2003 & Source validation F1 & $C\in\{0.1,1,10\}$ & $C=10$ \\
-M1 & WNUT-17 & Source validation F1 & $C\in\{0.1,1,10\}$ & $C=10$ \\
-M1 & MIT Restaurant & Source validation F1 & $C\in\{0.1,1,10\}$ & $C=10$ \\
+M1 & CoNLL-2003 & Source validation F1 & $C\in\{0.1,1,10,100\}$ & $C=10$ \\
+M1 & WNUT-17 & Source validation F1 & $C\in\{0.1,1,10,100\}$ & $C=100$ \\
+M1 & MIT Restaurant & Source validation F1 & $C\in\{0.1,1,10,100\}$ & $C=10$ \\
 M2 & CoNLL-2003 & Document-grouped CV & \shortstack[l]{22 pairs \\ $c_1\in[0,0.1],\ c_2\in[0.01,0.5]$} & $(0.0001,0.1)$ \\
+M2 & CoNLL-2003 & Same grid, shared POS & 20 pairs & 87.74 vs. best 87.79 \\
 M2 & WNUT-17 & Contiguous block CV & \shortstack[l]{5 pairs \\ $c_1\in[0.0001,0.1],\ c_2\in[0.1,0.5]$} & $(0.0001,0.1)$ \\
 M2 & MIT Restaurant & Contiguous block CV & \shortstack[l]{5 pairs \\ $c_1\in[0.0001,0.1],\ c_2\in[0.1,0.5]$} & $(0.01,0.5)$ \\
 M2 window & Three datasets & Paired train CV & $\pm1$ vs. $\pm2$ & $\pm2/\pm1/\pm1$ \\
