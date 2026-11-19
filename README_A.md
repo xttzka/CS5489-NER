@@ -133,8 +133,15 @@ CoNLL-2003 固定 300 条中，M0、M1、M2 以实体范围和类型做多数投
 
 收到 B、C 的答卷及结果 CSV 后，可以使用同一投票脚本跑跨范式组合。C 的两版提示词各需一对人工复核表，再用 [双人一致性工具](README_BC.md#3-自动错误分类与人工复核)计算 κ。
 
-原句提取入口支持 `m0`、`m1`、`m2`。下面的命令会返回实体原文、类别和在输入文本中的字符范围，`start` 从 0 开始，`end` 指向实体结束后的第一个字符。[预测入口](scripts/predict.py)
+原句提取入口支持 `m0`、`m1`、`m2` 和 `m4`。`m4` 是主抽取器，即微调的 BERT，使用前先安装 [requirements-neural.txt](requirements-neural.txt) 并训练一次模型，训练结果保存在 `output/bert_main/`。下面的命令会返回实体原文、类别和在输入文本中的字符范围，`start` 从 0 开始，`end` 指向实体结束后的第一个字符。[预测入口](scripts/predict.py)
 
 ```powershell
 & $exp -B -m scripts.predict --model m2 --text "John Smith visited London."
 ```
+
+```powershell
+python -B -m models.neural.bert_baseline --dataset conll2003 --train-size 1.0 --dev-size 0 --epochs 3 --batch-size 16 --learning-rate 2e-5 --output-dir output/bert_main
+python -B -m scripts.predict --model m4 --text "John Smith visited London." --pos-python $pos
+```
+
+第一条命令训练 BERT，第二条用它提取实体。另存的模型可用 `--checkpoint <训练输出目录>` 指定。

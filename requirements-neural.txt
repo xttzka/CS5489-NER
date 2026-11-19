@@ -1,0 +1,7 @@
+# Python 3.11. BiLSTM-CRF, BERT and span models (models/neural), and --model m4 of scripts/predict.py.
+torch==2.5.1
+transformers==4.46.3
+numpy==1.26.4
+pytorch-crf==0.7.2
+tokenizers==0.20.3
+huggingface_hub==0.36.2
