@@ -1,0 +1,122 @@
+{
+  "note": "Copies are byte-identical to source. Model tables are exact row-wise filtered views of results/B.csv; no score, config or source_ref value is changed.",
+  "source_table_sha256": "a7f3fe85395c2b620ecf21fafcbd9a61220c7a49424bda3b527fb2a392ef879a",
+  "source_rows": 8658,
+  "method_rows": {
+    "M3": 2322,
+    "M4": 4554,
+    "Span": 1782
+  },
+  "method_outputs": {
+    "M3": "bilstm_crf_results.csv",
+    "M4": "bert_results.csv",
+    "Span": "span_bert_results.csv"
+  },
+  "partitions_sha256": {
+    "bilstm_crf_results.csv": "ab3bf82c2ab68e8cc496d8751f182720236144edb3a1a21f58236a748b2d5faf",
+    "bert_results.csv": "f258cdd0ea48df4352ee31593206f401ddfb41269927cf7546ba31af50ca4411",
+    "span_bert_results.csv": "a01071da9ee0d1b40dcdd911758f2d84da370ea920667bf21707ddc75903a71e"
+  },
+  "copies": [
+    {
+      "source": "results/B.csv",
+      "destination": "results/b/all_models_results.csv",
+      "sha256": "a7f3fe85395c2b620ecf21fafcbd9a61220c7a49424bda3b527fb2a392ef879a"
+    },
+    {
+      "source": "results/B_alignment_version_comparison.json",
+      "destination": "results/b/all_models_alignment_version_comparison.json",
+      "sha256": "a4352f106d42ece5083178d66d66b0d8bf960b78eccdb47d2b4e0b2a3c11adbd"
+    },
+    {
+      "source": "results/B_boundary_m4_span_conll_seed0.json",
+      "destination": "results/b/bert_vs_span_boundary_test_seed0.json",
+      "sha256": "62dae4c0ed816d11cfd3c2875019c0c8ad2b1b7a5826e133fc14379ea907df61"
+    },
+    {
+      "source": "results/B_boundary_validation_seed0.json",
+      "destination": "results/b/bert_vs_span_boundary_validation_seed0.json",
+      "sha256": "e1ad04b434997489447a090ea879a4dbebae2991f35d14ec0726708b81f4291b"
+    },
+    {
+      "source": "results/B_classic_baselines.csv",
+      "destination": "results/b/classic_baselines_reference.csv",
+      "sha256": "84d3e3ca6d0854ddf484fc12b4baa92424c2a46e6dc3c9ad92a31fd21252ccab"
+    },
+    {
+      "source": "results/B_costs.csv",
+      "destination": "results/b/all_models_costs.csv",
+      "sha256": "dcfc767f2de1c26636c651c15e8999e5c1ba3e9b9f68c33ef738dd0c2be3b766"
+    },
+    {
+      "source": "results/B_costs_README.md",
+      "destination": "results/b/all_models_costs_README.md",
+      "sha256": "ced10a3d88c23f6bbb6b796e91361882e853411ab00083b3204b0a1ee0fc4a92"
+    },
+    {
+      "source": "results/B_costs_manifest.json",
+      "destination": "results/b/all_models_costs_manifest.json",
+      "sha256": "2c193d7ed955f227092d3c5c8059303efd1a56a21dab0001cf64003235d627f8"
+    },
+    {
+      "source": "results/B_delivery_manifest.json",
+      "destination": "results/b/all_models_original_delivery_manifest.json",
+      "sha256": "99815bd6b6ac2e11d93d56ff7a028fa8a9d32082c5ef8a6c9b810986ce40cb6b"
+    },
+    {
+      "source": "results/B_f4_checked_manifest.json",
+      "destination": "results/b/glove_bert_f4_redraw_manifest.json",
+      "sha256": "235b9d9691569eb6faffca429fd32560a4556e3783e9a1d618965792457dabe3"
+    },
+    {
+      "source": "results/B_f4_metrics.json",
+      "destination": "results/b/glove_bert_f4_clustering_metrics.json",
+      "sha256": "6726a555ad7b5ae32b596621879d59d172a26387093042d489a556dfa365476e"
+    },
+    {
+      "source": "results/B_f6b_from_a_m2.json",
+      "destination": "results/b/crf_a_f6b_overlap_reference.json",
+      "sha256": "1b0ea1a937db37d88da52b70a5b5f8fce7601b50ac7d7f707f7d93cdb041c7fa"
+    },
+    {
+      "source": "results/B_f8_by_seed.csv",
+      "destination": "results/b/bert_learning_curve_by_seed.csv",
+      "sha256": "1bdc6cd46cdbaed3dfac917fc04ed0b5807bc33c82bde1e50675ea01843ebe51"
+    },
+    {
+      "source": "results/B_f8_draft.md",
+      "destination": "results/b/bert_learning_curve_notes.md",
+      "sha256": "26c005a30a84693cee0b0ccd206ea02bae198cf0dbe521360ca9b999daf31509"
+    },
+    {
+      "source": "results/B_f8_summary.csv",
+      "destination": "results/b/bert_learning_curve_summary.csv",
+      "sha256": "8a40edce1b3cd1069d5d7bfdcafe1374371a1ffcf8715adec7d7556ce0f550c9"
+    },
+    {
+      "source": "results/B_glove_validation_metadata.json",
+      "destination": "results/b/glove_validation_entity_vectors_metadata.json",
+      "sha256": "1028009305f6f8b22b918fb9cfdbab0e6cd0d4af9db1d220d2ec1a2c6046d842"
+    },
+    {
+      "source": "results/B_paired_models_conll_seed0.json",
+      "destination": "results/b/all_models_paired_test_seed0.json",
+      "sha256": "6c934a859001d75205e92e4937703df702104217288ef39dc56b3093e713b252"
+    },
+    {
+      "source": "results/B_protocol.json",
+      "destination": "results/b/all_models_experiment_protocol.json",
+      "sha256": "823d842bf94544fb0c0e31a93265e94886fa3815d9c82fd879ddf6732dcb4c27"
+    },
+    {
+      "source": "results/B_validation_methods_seed0.json",
+      "destination": "results/b/all_models_paired_validation_seed0.json",
+      "sha256": "d7193ad76915f821c5e711027a3db5691917ac4c24c897fa75ae78810c90e02e"
+    },
+    {
+      "source": "results/B_vectors_manifest.json",
+      "destination": "results/b/glove_bert_entity_vectors_manifest.json",
+      "sha256": "c6d18e0d27c00c119b33209db341f23bda4da46489df1b77f58362414ff181ab"
+    }
+  ]
+}

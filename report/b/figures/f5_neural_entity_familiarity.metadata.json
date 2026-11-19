@@ -1,0 +1,49 @@
+{
+  "frozen_manifest_sha256": "cc20216cd9a430153e9d344eecb3b340bbe3ed46d559c4081ca5885300189d01",
+  "caption": "All values are exact-entity micro-F1 for seed 0. (a) CoNLL-2003 full test, 3,453 sentences, split by case-folded entity surface-form familiarity. (b) 500 paired original/replaced sentences; values are point estimates; the paired differences and their intervals are in the metadata. (c) Full CoNLL-2003 (3,453) and CoNLL++ (1,840) test sets, with different sentences. Error bars in (a) and (c) are 1,000-sample sentence-bootstrap 95% percentile intervals for each individual score, not seed variability. Temporal differences are descriptive, not paired tests.",
+  "sources": {
+    "output/b_finish_v2/additional_analysis/inventory.json": "aaf8acb05824a7fc11821b19bca6e3017e9042c90cea816d88b7615a9af5b148",
+    "output/b_finish_v2/additional_analysis/familiarity__M3__conll2003.json": "b930c5a9a77bed38a50f1f0163c0ee0322b1fa394a1f0b63c8df0fd148677ede",
+    "output/b_finish_v2/additional_analysis/familiarity__M3__conllpp.json": "d9db3b838a7fa3daa4479f4738e9bf019e1e1316696ac1309a79c753728f414b",
+    "output/b_finish_v2/additional_analysis/paired__M3__replacement_replaced_v2.json": "da467b39cd6403d4967c935c3cc7ca6cc7f59e4751e155bd0941d6f71966f70e",
+    "output/b_finish_v2/additional_analysis/familiarity__M4__conll2003.json": "3467fbab6b6d60bedefcd79ce60e404f9c1fb20ba4fe92b353af733067435f90",
+    "output/b_finish_v2/additional_analysis/familiarity__M4__conllpp.json": "0f1b7572c6767ab62de77d741ec3007f90db4114786cbb5c32310d3ce3468511",
+    "output/b_finish_v2/additional_analysis/paired__M4__replacement_replaced_v2.json": "cdb86563c60d3082579fa3c6698ce91435d16de29653fb7671822557053f52c9",
+    "output/b_finish_v2/additional_analysis/familiarity__Span__conll2003.json": "cd411b7a3eec40243704f9e73bf1db2194667360edecf44636aaf654993ed768",
+    "output/b_finish_v2/additional_analysis/familiarity__Span__conllpp.json": "bac5cf008a7802ae6385a91b97ba04f37dfcf1c310d66b8be1e749cfc084dff9",
+    "output/b_finish_v2/additional_analysis/paired__Span__replacement_replaced_v2.json": "46f458bad60e49bd5dac819109c09ef3a4dce70e1d77962700bfa0c72658e941"
+  },
+  "outputs": {
+    "report/figures/b_f5_neural.pdf": "9e1aed29679a8419866de0372e9ac20f23e0fa94f1ada26469fc1944f29740cb",
+    "report/figures/b_f5_neural.png": "0cd58fc84d4d12f2f1671c54602104b2c952fa818c0ad1e26b03396fb572b382"
+  },
+  "paired_replacement_differences_pp": {
+    "M3": {
+      "delta": -2.7610728845763544,
+      "ci95": [
+        -3.6968743836114197,
+        -1.8513403294260884
+      ]
+    },
+    "M4": {
+      "delta": -2.366554233774143,
+      "ci95": [
+        -3.3725436140940395,
+        -1.303236361891983
+      ]
+    },
+    "Span": {
+      "delta": -2.9194811347548644,
+      "ci95": [
+        -3.9434760031278495,
+        -1.8297384558516185
+      ]
+    }
+  },
+  "limitations": [
+    "Seed 0 only; bootstrap intervals are not between-seed uncertainty.",
+    "Seen/unseen prediction grouping uses name matching irrespective of entity type.",
+    "The 500 paired intervention rows are distinct from the full test populations.",
+    "CoNLL-2003 and CoNLL++ are different test sets, not paired samples."
+  ]
+}

@@ -1,0 +1,17 @@
+% Fixed 300 sentences per target. BTC uses PER/LOC/ORG; other columns use their native labels.
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Method & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
+\midrule
+M0 & 60.2 & 47.0 & 24.0 & 10.8 & 0.0 & 43.6 \\
+M1 & 69.9 & 65.4 & 41.4 & 26.1 & 16.7 & 67.7 \\
+M2 & 81.0 & 70.3 & 57.8 & 25.2 & 20.3 & 77.8 \\
+M3 & 88.5 & 82.0 & 72.5 & 31.5 & 21.0 & 77.9 \\
+M4 & 88.1 & 83.9 & 79.1 & 36.6 & 45.7 & 80.3 \\
+Span & 89.0 & 83.2 & 80.4 & 37.3 & 52.4 & 79.8 \\
+GLiNER & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
+Qwen1.5B-zero & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
+Qwen7B-zero & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
+Qwen7B-few & 84.5 & 81.2 & 76.3 & 55.9 & 54.8 & 71.0 \\
+\bottomrule
+\end{tabular}

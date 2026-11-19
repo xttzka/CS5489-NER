@@ -1,0 +1,31 @@
+% Draft for section 3.1, based on A's classic implementation.
+% Verify the final selected feature sets, cross-validation ranges and citations
+% against A's frozen artifacts before incorporating it into the team paper.
+\paragraph{Dictionary baseline (M0).}
+We construct a dictionary from entity token sequences in the training data,
+retaining a sequence only if all its observed entity occurrences share one
+type. At inference time, exact token matches are selected greedily in
+descending span length without overlap. This simple model measures the
+performance obtainable from memorized training entities.
+
+\paragraph{Token logistic regression (M1).}
+We extract sparse handcrafted features for each token, including lexical,
+orthographic, affix and contextual information, and predict BIO labels with a
+multinomial logistic classifier. Features are fitted on training text and
+predictions are made independently at each token. Invalid inside transitions
+are repaired before extracting spans. This model tests whether features from
+the surrounding text improve upon exact dictionary matching.
+
+\paragraph{Linear-chain CRF (M2).}
+A linear-chain conditional random field uses the shared handcrafted feature
+pipeline while jointly scoring a sentence's label sequence and label
+transitions. We use training-only, contiguous-block cross-validation for the
+reported CRF model selection, then fit on the full training split. Unlike
+independent token predictions, sequence modeling can learn regularities among
+neighboring labels. Both M1 and M2 repair invalid BIO transitions before
+entity scoring; counts of raw invalid transitions should therefore be reported
+separately if used to assess sequence consistency.
+
+% M1 and M2 settings and features must be checked against the selected A
+% configuration for each domain. Adjacent model differences are descriptive,
+% not causal estimates: M2, M3 and M4 differ in more than one design choice.

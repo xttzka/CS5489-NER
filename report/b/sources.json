@@ -1,0 +1,138 @@
+{
+  "description": "Source/destination SHA-256 for report/b copies; original artifacts remain unchanged.",
+  "records": [
+    {
+      "source": "report/b_handoff/B_classic_methods_draft.tex",
+      "destination": "report/b/sections/classic_methods.tex",
+      "source_sha256": "a9eec9e6c5c93d7d91a5729d4ed41476915386f40035f74f4aed6e6f33908faa",
+      "destination_sha256": "a9eec9e6c5c93d7d91a5729d4ed41476915386f40035f74f4aed6e6f33908faa",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/B_methods_draft.tex",
+      "destination": "report/b/sections/neural_methods.tex",
+      "source_sha256": "1dc3da00b33de9ba31c6ecb42db9aca496ff18996fb77036a5fcef1728aeb58a",
+      "destination_sha256": "1dc3da00b33de9ba31c6ecb42db9aca496ff18996fb77036a5fcef1728aeb58a",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/t3_b_native_full.tex",
+      "destination": "report/b/tables/t3_native_full.tex",
+      "source_sha256": "8b87dbc233c24db3bbd98e12a1f8dddacfcbad0596217f74c1ffd03d750d0d04",
+      "destination_sha256": "8b87dbc233c24db3bbd98e12a1f8dddacfcbad0596217f74c1ffd03d750d0d04",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/t3_b_300.tex",
+      "destination": "report/b/tables/t3_fixed_300.tex",
+      "source_sha256": "7525dc14589a6107b5263af1d6753a1bcfb0908450a9e03af029f73e6c20e03f",
+      "destination_sha256": "7525dc14589a6107b5263af1d6753a1bcfb0908450a9e03af029f73e6c20e03f",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/t3_b_seed_summary.tex",
+      "destination": "report/b/tables/t3_neural_seed_summary.tex",
+      "source_sha256": "a81ffed8c3f2dbfd2060f19cbb9dbb2ec4c8a7dae258df866cdea1a7bc0f0a86",
+      "destination_sha256": "a81ffed8c3f2dbfd2060f19cbb9dbb2ec4c8a7dae258df866cdea1a7bc0f0a86",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/figures/f2_b.pdf",
+      "destination": "report/b/figures/f2_method_comparison.pdf",
+      "source_sha256": "c7e1d53f074f05f6ed35f2f54b24093e7b8174fd90acd081159ec5ce5951a2db",
+      "destination_sha256": "c7e1d53f074f05f6ed35f2f54b24093e7b8174fd90acd081159ec5ce5951a2db",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/figures/f3b_b.pdf",
+      "destination": "report/b/figures/f3b_bilstm_input_representations.pdf",
+      "source_sha256": "7b6b23f4eeb0ddfbb553f5ce8bc3c3e82081231a1997e1884dba1de01370d504",
+      "destination_sha256": "7b6b23f4eeb0ddfbb553f5ce8bc3c3e82081231a1997e1884dba1de01370d504",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/figures/f4_b.pdf",
+      "destination": "report/b/figures/f4_entity_representations_checked.pdf",
+      "source_sha256": "8506a0b905ed4e8f15f90199195cb9931cea334d991619c98d4b066b6b4a19c4",
+      "destination_sha256": "8506a0b905ed4e8f15f90199195cb9931cea334d991619c98d4b066b6b4a19c4",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/figures/f6a_b.pdf",
+      "destination": "report/b/figures/f6a_bert_transfer.pdf",
+      "source_sha256": "6a06fe332f53d900025447169dd487b5ef55952cc055a158a101c3e921d2a769",
+      "destination_sha256": "6a06fe332f53d900025447169dd487b5ef55952cc055a158a101c3e921d2a769",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/figures/f6b_from_a_m2.pdf",
+      "destination": "report/b/figures/f6b_crf_overlap_from_a.pdf",
+      "source_sha256": "46165d282bf7d8dfd9a1488f56d5dd422e4f0240cf590a58ffcf681412393638",
+      "destination_sha256": "46165d282bf7d8dfd9a1488f56d5dd422e4f0240cf590a58ffcf681412393638",
+      "transformed": false
+    },
+    {
+      "source": "report/figures/b_f5_neural.pdf",
+      "destination": "report/b/figures/f5_neural_entity_familiarity.pdf",
+      "source_sha256": "9e1aed29679a8419866de0372e9ac20f23e0fa94f1ada26469fc1944f29740cb",
+      "destination_sha256": "9e1aed29679a8419866de0372e9ac20f23e0fa94f1ada26469fc1944f29740cb",
+      "transformed": false
+    },
+    {
+      "source": "report/figures/b_f5_neural.png",
+      "destination": "report/b/figures/f5_neural_entity_familiarity.png",
+      "source_sha256": "0cd58fc84d4d12f2f1671c54602104b2c952fa818c0ad1e26b03396fb572b382",
+      "destination_sha256": "0cd58fc84d4d12f2f1671c54602104b2c952fa818c0ad1e26b03396fb572b382",
+      "transformed": false
+    },
+    {
+      "source": "report/figures/b_f5_neural.metadata.json",
+      "destination": "report/b/figures/f5_neural_entity_familiarity.metadata.json",
+      "source_sha256": "4bc5d648575dede98a09e97c7e4b44e27cf4096e4742e591d499b653cafc5a1c",
+      "destination_sha256": "4bc5d648575dede98a09e97c7e4b44e27cf4096e4742e591d499b653cafc5a1c",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/B_misc_cluster_review.md",
+      "destination": "report/b/reviews/misc_cluster_initial_ai_review.md",
+      "source_sha256": "a225a9afcc6f547465ea1d2f5a73796c5cadc56ecb42f66820219decb4c20396",
+      "destination_sha256": "a225a9afcc6f547465ea1d2f5a73796c5cadc56ecb42f66820219decb4c20396",
+      "transformed": false
+    },
+    {
+      "source": "models/neural/B_misc_sample_review_extended.md",
+      "destination": "report/b/reviews/misc_sample_extended_ai_review.md",
+      "source_sha256": "86a0f462164351c87450bb33ee436a27da4c2cc171ca7a8bdaa84821781547f4",
+      "destination_sha256": "86a0f462164351c87450bb33ee436a27da4c2cc171ca7a8bdaa84821781547f4",
+      "transformed": false
+    },
+    {
+      "source": "report/b_handoff/B_results_analysis_draft.tex",
+      "destination": "report/b/sections/results_analysis.tex",
+      "source_sha256": "1a475d3e96f11d2dba28148189ffdd810c5d2be9052c41b389ddabe3bc9d600f",
+      "destination_sha256": "6487f2f08e84410b854a5cda7de9a5a1f2171710cc1cb9cbdde6605fd710d674",
+      "transformed": true
+    },
+    {
+      "source": "report/b_handoff/B_standalone.tex",
+      "destination": "report/b/role_b_report.tex",
+      "source_sha256": "ee4b6268973a6102a3fb0439b60d61022369b4f4e6d83f39b43a71a263a70355",
+      "destination_sha256": "75bb4302ddd4e76ea2502a9ef59535bf6a493e03917d4071b2c36a2feabda424",
+      "transformed": true
+    },
+    {
+      "source": "models/neural/B_video_script.md",
+      "destination": "report/b/video_script.md",
+      "source_sha256": "f241745125bace3e76f890e5901048b5aeb0ba9c6c22828663a07b2002179e9b",
+      "destination_sha256": "265089a60ca18f84a197896703e0d779b8ef136d528c435b0a9a8fdf93365b0f",
+      "transformed": true
+    }
+  ],
+  "generated_report": {
+    "destination": "report/b/role_b_report.pdf",
+    "sha256": "4dc6089251e236058fd5e0f4a5914f2d399895d2107e1d87e592eafabf732e59",
+    "source": "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error -recorder -output-directory <temp> report/b/role_b_report.tex; run twice from repository root",
+    "passes": 2,
+    "pages": 9
+  }
+}

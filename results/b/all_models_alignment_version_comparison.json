@@ -1,0 +1,9 @@
+{
+  "parent_manifest_sha256": "c139b4a3f078b0e798ddccabec4709a70a392ade20bb01298f120113b9469859",
+  "new_manifest_sha256": "cc20216cd9a430153e9d344eecb3b340bbe3ed46d559c4081ca5885300189d01",
+  "completed_parent_tasks_compared": 48,
+  "tasks_with_changed_predictions": 0,
+  "changed_sentence_occurrences": 0,
+  "changed_token_occurrences": 0,
+  "note": "Counts are summed across tasks, so the same sentence can occur more than once. No test scores were used to select a version."
+}
