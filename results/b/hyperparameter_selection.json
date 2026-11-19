@@ -1,0 +1,214 @@
+{
+  "rule": "Per method and dataset, the candidate with the higher entity F1 on the full validation split at seed 0. Ties keep the first candidate.",
+  "candidates": {
+    "M3": [
+      {
+        "epochs": 5,
+        "batch_size": 16,
+        "learning_rate": 0.001,
+        "hidden_size": 128,
+        "dropout": 0.3
+      },
+      {
+        "epochs": 5,
+        "batch_size": 16,
+        "learning_rate": 0.0005,
+        "hidden_size": 96,
+        "dropout": 0.5
+      }
+    ],
+    "M4": [
+      {
+        "epochs": 3,
+        "batch_size": 8,
+        "learning_rate": 3e-05
+      },
+      {
+        "epochs": 3,
+        "batch_size": 16,
+        "learning_rate": 2e-05
+      }
+    ],
+    "Span": [
+      {
+        "epochs": 3,
+        "batch_size": 4,
+        "learning_rate": 3e-05
+      },
+      {
+        "epochs": 3,
+        "batch_size": 2,
+        "learning_rate": 2e-05
+      }
+    ]
+  },
+  "selected": {
+    "M3": {
+      "conll2003": {
+        "settings": {
+          "epochs": 5,
+          "batch_size": 16,
+          "learning_rate": 0.001,
+          "hidden_size": 128,
+          "dropout": 0.3
+        },
+        "validation_f1_of_candidates": [
+          0.92600387237983,
+          0.8958772447517073
+        ],
+        "validation_f1_by_seed": [
+          0.92600387237983,
+          0.9255947359541083,
+          0.9276238455079765
+        ]
+      },
+      "wnut17": {
+        "settings": {
+          "epochs": 5,
+          "batch_size": 16,
+          "learning_rate": 0.001,
+          "hidden_size": 128,
+          "dropout": 0.3
+        },
+        "validation_f1_of_candidates": [
+          0.3219047619047619,
+          0.17529039070749736
+        ],
+        "validation_f1_by_seed": [
+          0.3219047619047619,
+          0.3433628318584071,
+          0.39932885906040266
+        ]
+      },
+      "mit_restaurant": {
+        "settings": {
+          "epochs": 5,
+          "batch_size": 16,
+          "learning_rate": 0.001,
+          "hidden_size": 128,
+          "dropout": 0.3
+        },
+        "validation_f1_of_candidates": [
+          0.8281345565749235,
+          0.7712895377128953
+        ],
+        "validation_f1_by_seed": [
+          0.8281345565749235,
+          0.8310893512851897,
+          0.8153098420413123
+        ]
+      }
+    },
+    "M4": {
+      "conll2003": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 16,
+          "learning_rate": 2e-05
+        },
+        "validation_f1_of_candidates": [
+          0.9412059881241114,
+          0.9436171992638447
+        ],
+        "validation_f1_by_seed": [
+          0.9436171992638447,
+          0.9433299899699097,
+          0.9413931681178834
+        ]
+      },
+      "wnut17": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 16,
+          "learning_rate": 2e-05
+        },
+        "validation_f1_of_candidates": [
+          0.5128543177323666,
+          0.5409836065573771
+        ],
+        "validation_f1_by_seed": [
+          0.5409836065573771,
+          0.5478686233403215,
+          0.5218637992831541
+        ]
+      },
+      "mit_restaurant": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 16,
+          "learning_rate": 2e-05
+        },
+        "validation_f1_of_candidates": [
+          0.8217967599410898,
+          0.8219910846953937
+        ],
+        "validation_f1_by_seed": [
+          0.8219910846953937,
+          0.8198757763975155,
+          0.8163866784556439
+        ]
+      },
+      "merged_transfer": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 16,
+          "learning_rate": 2e-05
+        },
+        "validation_f1_of_candidates": [
+          0.9168364183863253,
+          0.9226000708466171
+        ]
+      }
+    },
+    "Span": {
+      "conll2003": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 4,
+          "learning_rate": 3e-05
+        },
+        "validation_f1_of_candidates": [
+          0.9448183041722745,
+          0.9445378151260504
+        ],
+        "validation_f1_by_seed": [
+          0.9448183041722745,
+          0.9412163881584528,
+          0.9420914701158171
+        ]
+      },
+      "wnut17": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 4,
+          "learning_rate": 3e-05
+        },
+        "validation_f1_of_candidates": [
+          0.5586034912718204,
+          0.524822695035461
+        ],
+        "validation_f1_by_seed": [
+          0.5586034912718204,
+          0.5660377358490566,
+          0.517115804806992
+        ]
+      },
+      "mit_restaurant": {
+        "settings": {
+          "epochs": 3,
+          "batch_size": 4,
+          "learning_rate": 3e-05
+        },
+        "validation_f1_of_candidates": [
+          0.8439306358381503,
+          0.8402187120291617
+        ],
+        "validation_f1_by_seed": [
+          0.8439306358381503,
+          0.8324687213915166,
+          0.8356411800120409
+        ]
+      }
+    }
+  }
+}

@@ -141,18 +141,18 @@ python -B -m eval.result_tables export-a             # results/A.csv
 
 ## 6. Neural models
 
-Environment: `requirements-neural.txt`. The scripts pick CUDA, then Apple MPS, then the CPU, and they refuse to overwrite an existing output file or directory. `DATASET` is `conll2003`, `wnut17` or `mit_restaurant`, and the reported runs use seeds 0, 1 and 2. Each model has two candidate settings, and the one with the higher validation F1 at seed 0 is used.
+Environment: `requirements-neural.txt`. The scripts pick CUDA, then Apple MPS, then the CPU, and they refuse to overwrite an existing output file or directory. `DATASET` is `conll2003`, `wnut17` or `mit_restaurant`, and the reported runs use seeds 0, 1 and 2. Each model has two candidate settings, and the one with the higher validation F1 at seed 0 is used. The commands show the selected one, which is the same on all three datasets. `results/b/hyperparameter_selection.json` holds the validation scores of both.
 
 ```bash
-# BiLSTM-CRF (M3). Candidates: lr 0.001, hidden 128, dropout 0.3, or lr 0.0005, hidden 96, dropout 0.5
+# BiLSTM-CRF (M3). The other candidate: lr 0.0005, hidden 96, dropout 0.5
 python -B -m models.neural.bilstm_crf --dataset conll2003 --epochs 5 --batch-size 16 \
   --learning-rate 0.001 --hidden-size 128 --dropout 0.3 --seed 0 --output-dir output/bilstm_conll2003_seed0
 
-# BERT tagger (M4). Candidates: batch 8, lr 3e-5, or batch 16, lr 2e-5
+# BERT tagger (M4). The other candidate: batch 8, lr 3e-5
 python -B -m models.neural.bert_extended --task native --dataset conll2003 --train-size 1.0 --dev-size 0 \
   --epochs 3 --batch-size 16 --learning-rate 2e-5 --seed 0 --output-dir output/bert_conll2003_seed0
 
-# Span classifier. Candidates: batch 4, lr 3e-5, or batch 2, lr 2e-5
+# Span classifier. The other candidate: batch 2, lr 2e-5
 python -B -m models.neural.span_bert --dataset conll2003 --epochs 3 --batch-size 4 --learning-rate 3e-5 \
   --max-span-length 14 --negative-ratio 10 --seed 0 --output-dir output/span_conll2003_seed0
 ```
@@ -164,7 +164,7 @@ Further BERT experiments:
 python -B -m models.neural.bert_extended --task native --dataset wnut17 --train-size 50 --epochs 20 \
   --eval-every 5 --batch-size 8 --seed 0 --output-dir output/bert_wnut17_50_seed0
 # Transfer on PER, LOC and ORG. SOURCE is conll2003, wnut17 or merged
-python -B -m models.neural.bert_extended --task transfer --source merged --epochs 3 --batch-size 8 \
+python -B -m models.neural.bert_extended --task transfer --source merged --epochs 3 --batch-size 16 --learning-rate 2e-5 \
   --seed 0 --output-dir output/bert_transfer_merged_seed0
 # Training on labels written by the LLM (section 7) or on gold labels of the same queries
 python -B -m models.neural.bert_extended --task distill --label-source pseudo \
