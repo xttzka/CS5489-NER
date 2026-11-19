@@ -1,6 +1,8 @@
-"""Generate F9: prompt variables on the validation subset and LLM error types with and without annotation rules."""
+"""Generate F8, the label-budget curves of BERT and the LLM, and F9, the prompt variables and LLM error types."""
 
+import csv
 import json
+from statistics import mean, pstdev
 
 import matplotlib
 
@@ -99,6 +101,49 @@ def figure_9():
     save(fig, "f9")
 
 
+def llm_f1(name):
+    report = json.loads((RESULTS / f"{name}.json").read_text(encoding="utf-8"))
+    return 100 * report["scores"]["f1"]
+
+
+def figure_8():
+    """F1 on the fixed test subsets against the number of labelled training sentences."""
+    best = "qwen7b_k10_similar_plain"
+    budgets = (("50", (0, 1, 2)), ("100", (0, 1, 2)), ("0.01", (0,)), ("0.1", (0,)), ("1.0", (0,)))
+    bert = {}
+    with (ROOT / "results" / "b" / "bert_learning_curve_by_seed.csv").open(encoding="utf-8-sig") as source:
+        for row in csv.DictReader(source):
+            point = bert.setdefault((row["dataset"], row["budget"]), [int(row["train_sentences"]), []])
+            point[1].append(100 * float(row["f1"]))
+    names = {"conll2003": "CoNLL-03", "wnut17": "WNUT-17", "mit_restaurant": "MIT Rest."}
+    fig, axes = plt.subplots(1, 3, figsize=(TEXT_WIDTH, 2.5), sharey=True, layout="constrained")
+    for ax, (dataset, name) in zip(axes, names.items(), strict=True):
+        curves = {"M4": [], "LLM": []}
+        for budget, seeds in budgets:
+            count, scores = bert[dataset, budget]
+            curves["M4"].append((count, mean(scores), pstdev(scores)))
+            pool = "" if budget == "1.0" else f"_pool{budget}"
+            scores = [llm_f1(f"{best}{pool}_test_300_{dataset}_test_seed{seed}") for seed in seeds]
+            curves["LLM"].append((count, mean(scores), pstdev(scores)))
+        for method, marker, label in (("M4", "s", "BERT trained on the sentences"),
+                                      ("LLM", "o", "7B LLM with the sentences as examples")):
+            x, y, sd = zip(*sorted(curves[method]), strict=True)
+            ax.errorbar(x, y, yerr=sd, marker=marker, markersize=4, color=METHOD[method], capsize=2,
+                        elinewidth=0.7, label=label)
+        ax.axhline(llm_f1(f"qwen7b_k0_plain_test_300_{dataset}_test_seed0"), color=METHOD["LLM"],
+                   linestyle="--", linewidth=1, label="7B LLM, no labels")
+        ax.axhline(llm_f1(f"gliner_{dataset}_test_test_300"), color=METHOD["GLiNER"],
+                   linestyle=":", linewidth=1.2, label="GLiNER, no labels")
+        ax.set_xscale("log")
+        ax.set_xlabel(f"{name}: labelled sentences")
+    axes[0].set_ylabel("Test F1 (%)")
+    axes[0].set_ylim(0, 95)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="outside upper center", ncols=2)
+    save(fig, "f8")
+
+
 if __name__ == "__main__":
     setup()
+    figure_8()
     figure_9()

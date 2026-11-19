@@ -1,5 +1,6 @@
 """Generate member C's tables: zero-shot rows of T3, the LoRA comparison of T4 and the robustness results."""
 
+import csv
 import json
 from statistics import mean, pstdev
 
@@ -62,13 +63,40 @@ def pool_table():
                  "Load booktabs.")
 
 
+def team_f1(**keys):
+    """Read one F1 of member B's result table."""
+    with (ROOT / "results" / "B.csv").open(encoding="utf-8-sig") as source:
+        rows = [row for row in csv.DictReader(source) if row["metric"] == "f1" and row["entity_type"] == "all"
+                and row["entity_group"] == "all" and all(row[key] == value for key, value in keys.items())]
+    if len(rows) != 1:
+        raise ValueError(f"expected one F1 row for {keys}, found {len(rows)}")
+    return f"{100 * float(rows[0]['value']):.1f}"
+
+
+def distill_table():
+    """BERT trained on 2,000 MIT Restaurant queries with gold labels and with the LLM's labels."""
+    labels = json.loads((RESULTS / "qwen7b_k0_plain_train_2000_v1_mit_restaurant_validation_seed0.json")
+                        .read_text(encoding="utf-8"))["scores"]
+    keys = dict(experiment="distill", dataset="mit_restaurant", scope="test_300")
+    rows = [
+        ("7B LLM, no examples", "--", llm("qwen7b_k0_plain", "mit_restaurant")),
+        ("BERT on the LLM's labels", f"{100 * labels['f1']:.1f}", team_f1(condition="pseudo", **keys)),
+        ("BERT on gold labels", "100.0", team_f1(condition="gold", **keys)),
+    ]
+    return table("lrr", ("Extractor", "Training label F1", "Test F1"), rows,
+                 "T4, members B and C. Entity F1 (%) on 300 MIT Restaurant test queries. Both BERT taggers train "
+                 "on the same 2,000 queries. Load booktabs.")
+
+
 def lora_table():
     targets = (("conll2003", ""), ("conllpp", ""), ("wikigold", ""), ("btc", "_as_conll2003"), ("wnut17", "_as_conll2003"))
     rows = [
-        ("Prompt, no examples", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
-        ("LoRA, 10\\% CoNLL-03", *(llm(f"lora1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("Qwen2.5-1.5B prompt, no examples", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("Qwen2.5-1.5B LoRA, 10\\% CoNLL-03", *(llm(f"lora1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("BERT, 10\\% CoNLL-03", *(team_f1(experiment="lora_match", dataset=dataset, scope="test_300")
+                                    for dataset, _ in targets)),
     ]
-    return table("lrrrrr", ("Qwen2.5-1.5B", *(DATASETS[dataset] for dataset, _ in targets)), rows,
+    return table("lrrrrr", ("Extractor", *(DATASETS[dataset] for dataset, _ in targets)), rows,
                  "T4, member C. Entity F1 (%) on the fixed 300-sentence test subsets. BTC and WNUT-17 are scored "
                  "on the shared PER, LOC and ORG types with CoNLL-03 output labels. Load booktabs.")
 
@@ -108,7 +136,7 @@ def wording_table():
 
 def main():
     tables = {"t3_c": zero_shot_table(), "t4_c": lora_table(), "robustness_c": robustness_table(),
-              "pool_c": pool_table(), "wording_c": wording_table()}
+              "pool_c": pool_table(), "wording_c": wording_table(), "distill_c": distill_table()}
     for key, content in tables.items():
         (OUTPUT / f"{key}.tex").write_text(content, encoding="utf-8", newline="\n")
         print(OUTPUT / f"{key}.tex")
