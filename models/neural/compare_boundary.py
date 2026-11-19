@@ -1,10 +1,6 @@
-"""Compare BERT and Span boundary errors with the team's overlap matching.
+"""Compare the share of boundary errors between models, with a paired sentence bootstrap.
 
-Boundary error fractions use paired error events (not FP+FN) as denominator.
-An event with both a boundary and type error is reported separately and also
-included in ``boundary_involved``. Perfect predictions have an undefined
-fraction, represented by null; bootstrap ignores such replicates and reports
-the number of usable replicates.
+The share is boundary plus boundary-and-type events over all overlap-matched error events; null if there are none.
 """
 
 import argparse
@@ -17,10 +13,11 @@ import numpy as np
 from eval.analyze_ner_errors import KINDS, sentence_errors
 from eval.baseline_statistics import bootstrap_counts
 from eval.score_ner import bio_to_spans, read_subset_ids, read_tags_by_id, score_ner
-from models.neural.score_b import named_predictions
+from models.neural.score_neural import named_predictions
 
 
 def boundary_comparison(gold, predictions, resamples=1000, seed=42):
+    """Count error events per model and bootstrap the boundary-involved fraction and its differences."""
     if not gold or not predictions or resamples < 1:
         raise ValueError("nonempty gold/predictions and positive resamples are required")
     names = tuple(predictions)

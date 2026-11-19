@@ -1,9 +1,6 @@
-"""Score B's NER predictions with entity-level and paired sentence bootstrap.
+"""Score NER predictions with entity-level P/R/F1 and sentence-bootstrap 95% intervals.
 
-This wraps the team's strict IOB2 evaluator without changing ``eval/``. Each
-prediction must cover exactly the requested IDs. Optional transfer projection
-uses the team's label maps before any spans are counted. Bootstrap intervals
-are 95% percentile intervals; paired comparisons resample the same sentences.
+Several predictions are compared with a paired bootstrap; tags can first be projected to the three shared types.
 """
 
 import argparse
@@ -25,6 +22,7 @@ METRICS = ("precision", "recall", "f1")
 
 
 def named_predictions(items):
+    """Parse repeated NAME=PATH arguments into an ordered dict of paths."""
     predictions = {}
     for item in items:
         name, separator, path = item.partition("=")
@@ -98,6 +96,7 @@ def score_models(gold, predictions, *, types=None, resamples=1000, seed=42):
 
 
 def output_rows(result, args, source):
+    """Yield one results-CSV row per method, entity type and metric, including interval bounds."""
     config = json.dumps({"bootstrap": result["bootstrap"], "scoring": args.scoring},
                         ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     label_space = "+".join(sorted(result["entity_types"]))
@@ -124,7 +123,7 @@ def output_rows(result, args, source):
 
 
 def append_csv(path, new_rows):
-    """Append B records, refusing duplicates and malformed prior CSVs."""
+    """Validate the new rows together with the existing CSV rows, then append them."""
     old = list(read_csv(path)) if path.exists() else []
     list(validate_rows([*old, *new_rows]))
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -147,7 +146,7 @@ def main():
     parser.add_argument("--resamples", type=int, default=1000)
     parser.add_argument("--bootstrap-seed", type=int, default=42)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--csv", type=Path, help="Append model scores to B's shared-schema CSV")
+    parser.add_argument("--csv", type=Path, help="Append model scores to this results CSV")
     parser.add_argument("--experiment", default="baseline")
     parser.add_argument("--condition", default="standard")
     parser.add_argument("--train-source", default="")

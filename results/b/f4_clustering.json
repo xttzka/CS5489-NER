@@ -6,7 +6,6 @@
       "nmi": 0.21896846661838923,
       "source": {
         "input": "data/external/glove/glove.6B.100d.txt",
-        "sha256": "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6",
         "dimensions": 100,
         "partially_out_of_vocabulary_spans": 137,
         "fully_out_of_vocabulary_spans": 102,
@@ -17,8 +16,7 @@
       "ari": 0.21283662160449107,
       "nmi": 0.19582430649695765,
       "source": {
-        "input": "output/b_finish_v2/vectors/base_validation.jsonl",
-        "sha256": "7a36a745ea001f8a94fcb2dd62a0f7562404442a466fe1a81c9b23a0cecf340a",
+        "input": "output/vectors/base_validation.jsonl",
         "dimensions": 768
       }
     },
@@ -26,8 +24,7 @@
       "ari": 0.8897358953088201,
       "nmi": 0.8363851132906085,
       "source": {
-        "input": "output/b_finish_v2/vectors/finetuned_validation.jsonl",
-        "sha256": "88c1f10af674480fd8006b2db765c36705c652318005080e9189f71a1bc4d37e",
+        "input": "output/vectors/finetuned_validation.jsonl",
         "dimensions": 768
       }
     }

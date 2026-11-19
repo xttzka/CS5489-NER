@@ -1,9 +1,6 @@
-"""Export mean BERT subword vectors for gold entity spans to project JSONL.
+"""Export the mean BERT subword vector of every gold entity span to JSONL.
 
-Use a base BERT model ID/path or a local fine-tuned token-classification
-checkpoint. A span's start/end index original tokens with an exclusive end;
-all subword vectors belonging to words in the span are averaged. Model choice,
-data split and entity annotations must be specified before final evaluation.
+The encoder is a base BERT model or a fine-tuned token-classification checkpoint; span ends are exclusive.
 """
 
 import argparse
@@ -19,6 +16,7 @@ from models.neural.token_alignment import tokenize_with_unknown_fallback
 
 
 def read_rows(path, ids_path=None):
+    """Read and validate tagged sentences, optionally restricted to and ordered by a subset file."""
     rows = []
     seen = set()
     with path.open(encoding="utf-8-sig") as source:
@@ -48,6 +46,7 @@ def read_rows(path, ids_path=None):
 
 
 def load_encoder(model_path, fine_tuned, offline):
+    """Load a BERT encoder, taking it from the token classifier when the model is fine-tuned."""
     if fine_tuned:
         # Loading the same class as training makes the encoder weights explicit.
         classifier = AutoModelForTokenClassification.from_pretrained(
@@ -79,8 +78,8 @@ def main():
         rows = read_rows(args.input, args.subset_ids)
         choice = args.device
         if choice == "auto":
-            choice = "mps" if torch.backends.mps.is_available() else (
-                "cuda" if torch.cuda.is_available() else "cpu"
+            choice = "cuda" if torch.cuda.is_available() else (
+                "mps" if torch.backends.mps.is_available() else "cpu"
             )
         if choice == "mps" and not torch.backends.mps.is_available():
             raise ValueError("MPS was requested but is not available")

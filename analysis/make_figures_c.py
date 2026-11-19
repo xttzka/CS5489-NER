@@ -111,7 +111,7 @@ def figure_8():
     best = "qwen7b_k10_similar_plain"
     budgets = (("50", (0, 1, 2)), ("100", (0, 1, 2)), ("0.01", (0,)), ("0.1", (0,)), ("1.0", (0,)))
     bert = {}
-    with (ROOT / "results" / "b" / "bert_learning_curve_by_seed.csv").open(encoding="utf-8-sig") as source:
+    with (ROOT / "results" / "b" / "bert_learning_curve.csv").open(encoding="utf-8-sig") as source:
         for row in csv.DictReader(source):
             point = bert.setdefault((row["dataset"], row["budget"]), [int(row["train_sentences"]), []])
             point[1].append(100 * float(row["f1"]))

@@ -1,11 +1,7 @@
-"""Predict word-level BIO tags with saved BERT, BiLSTM-CRF or Span checkpoints.
-
-Input JSONL only needs sample_id and tokens; gold tags, if present, are ignored.
-"""
+"""Predict word-level BIO tags for a JSONL file with a saved BERT, BiLSTM-CRF or span checkpoint."""
 
 import argparse
 import json
-import time
 from pathlib import Path
 
 import torch
@@ -19,75 +15,6 @@ from models.neural.span_bert import prepare_batch, spans_to_bio
 from models.neural.token_alignment import tokenize_with_unknown_fallback
 
 
-class MPSMemorySampler:
-    """Report synchronized snapshots, not exact device or process peaks."""
-
-    def __init__(self, device):
-        self.device = device
-        self.is_mps = device.type == "mps"
-        self.before_model_load = None
-        self.after_model_load = None
-        self.batch_sample_attempts = 0
-        self.successful_samples = {"current_allocated_bytes": 0, "driver_allocated_bytes": 0}
-        self.maxima = {"current_allocated_bytes": None, "driver_allocated_bytes": None}
-        self.maxima_stage = {"current_allocated_bytes": None, "driver_allocated_bytes": None}
-        self.errors = {}
-
-    def snapshot(self, stage, *, batch=False):
-        values = {"current_allocated_bytes": None, "driver_allocated_bytes": None}
-        if not self.is_mps:
-            return values
-        if batch:
-            self.batch_sample_attempts += 1
-        try:
-            torch.mps.synchronize()
-        except Exception as error:
-            self.errors.setdefault("synchronize", f"{type(error).__name__}: {error}")
-            return values
-        for key, api in (("current_allocated_bytes", "current_allocated_memory"),
-                         ("driver_allocated_bytes", "driver_allocated_memory")):
-            try:
-                values[key] = int(getattr(torch.mps, api)())
-            except Exception as error:
-                self.errors.setdefault(api, f"{type(error).__name__}: {error}")
-                continue
-            if batch:
-                self.successful_samples[key] += 1
-                if self.maxima[key] is None or values[key] > self.maxima[key]:
-                    self.maxima[key] = values[key]
-                    self.maxima_stage[key] = stage
-        return values
-
-    def report(self):
-        return {
-            "device_type": self.device.type,
-            "units": "bytes",
-            "mps_apis_applicable": self.is_mps,
-            "reason_unavailable": None if self.is_mps else "MPS metrics are not applicable on CPU",
-            "sampling_method": (
-                "Synchronized snapshots before and after model load, and after model forward "
-                "and decoding for each batch; maxima below cover batch snapshots only."
-            ),
-            "baseline_before_model_load": self.before_model_load,
-            "baseline_after_model_load": self.after_model_load,
-            "batch_sample_attempts": self.batch_sample_attempts,
-            "successful_batch_samples": self.successful_samples,
-            "sampled_max_current_allocated_bytes": self.maxima["current_allocated_bytes"],
-            "sampled_max_driver_allocated_bytes": self.maxima["driver_allocated_bytes"],
-            "sampled_max_locations": self.maxima_stage,
-            "api_errors": self.errors,
-            "is_exact_peak": False,
-            "limitations": (
-                "Snapshots may miss transient batch-internal allocation peaks. Current allocation "
-                "counts live tensor memory but excludes allocator pool cache; Metal driver allocation "
-                "is process-level and includes cached pools and MPS/MPSGraph allocations. On Apple "
-                "Silicon the CPU and GPU share unified memory; neither measurement is dedicated "
-                "physical VRAM nor total system memory. Synchronizing twice per batch adds profiling "
-                "overhead to the reported inference duration."
-            ),
-        }
-
-
 class RestoredSpan(nn.Module):
     """Recreate the saved Span architecture without loading pretrained weights."""
 
@@ -99,8 +26,8 @@ class RestoredSpan(nn.Module):
         try:
             encoder_config = AutoConfig.from_pretrained(model_name, local_files_only=True)
         except OSError:
-            # The original script uses the standard bert-base-cased architecture.
-            # Its tokenizer is saved in the checkpoint, but not the encoder config.
+            # The checkpoint does not store the encoder config; without a cached copy,
+            # rebuild the standard bert-base-cased architecture from the weight shapes.
             vocab_size, hidden_size = state["encoder.embeddings.word_embeddings.weight"].shape
             if hidden_size != 768:
                 raise ValueError("Cannot reconstruct a nonstandard BERT encoder without its config")
@@ -125,6 +52,7 @@ class RestoredSpan(nn.Module):
 
 
 def input_rows(path, subset):
+    """Read sample_id and tokens from JSONL, optionally restricted to and ordered by a subset file."""
     rows = []
     by_id = {}
     with Path(path).open(encoding="utf-8-sig") as source:
@@ -154,8 +82,11 @@ def input_rows(path, subset):
 
 
 def choose_device(name):
+    """Resolve auto to cuda, then mps, then cpu; reject an unavailable device."""
     if name == "auto":
-        return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        name = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+    if name == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
     if name == "mps" and not torch.backends.mps.is_available():
         raise RuntimeError("MPS was requested but is not available")
     return torch.device(name)
@@ -175,21 +106,22 @@ def restore_bilstm(checkpoint, device):
 
 
 def restore_bert(model_path, device):
-    """Load the local Hugging Face classifier and tokenizer without network access."""
+    """Load the saved token classifier and its tokenizer from a local directory."""
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, local_files_only=True)
     model = AutoModelForTokenClassification.from_pretrained(model_path, local_files_only=True)
     return model.to(device).eval(), tokenizer
 
 
-def bert_predict(model, rows, tokenizer, batch_size, device, memory_sampler=None, alignment_audit=None):
+def bert_predict(model, rows, tokenizer, batch_size, device):
+    """Tag rows with the token classifier, reading each word's label at its first subword."""
     inverse = {int(index): label for index, label in model.config.id2label.items()}
     results = []
     with torch.no_grad():
         for start in range(0, len(rows), batch_size):
             batch = rows[start:start + batch_size]
             _, encoding, affected = tokenize_with_unknown_fallback(batch, tokenizer)
-            if alignment_audit is not None:
-                alignment_audit.extend(affected)
+            if affected:
+                print(json.dumps({"token_alignment_fallback": affected}, ensure_ascii=False), flush=True)
             if encoding["input_ids"].shape[1] > model.config.max_position_embeddings:
                 raise ValueError("A tokenized sentence exceeds the BERT limit; refusing truncation")
             positions = []
@@ -205,11 +137,7 @@ def bert_predict(model, rows, tokenizer, batch_size, device, memory_sampler=None
                 positions.append(first)
             encoding = encoding.to(device)
             logits = model(**encoding).logits
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_forward", batch=True)
             predicted = logits.argmax(dim=-1).cpu().tolist()
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_decode", batch=True)
             for i, row in enumerate(batch):
                 tags = fix_iob2([inverse[predicted[i][position]] for position in positions[i]])
                 results.append({"sample_id": row["sample_id"], "tags": tags})
@@ -219,22 +147,19 @@ def bert_predict(model, rows, tokenizer, batch_size, device, memory_sampler=None
     return results
 
 
-def bilstm_predict(model, rows, state, batch_size, device, memory_sampler=None, alignment_audit=None):
+def bilstm_predict(model, rows, state, batch_size, device):
+    """Tag rows with the BiLSTM-CRF using Viterbi decoding."""
     words, chars, labels = state
     inverse = {index: tag for tag, index in labels.items()}
     results = []
     with torch.no_grad():
         for start in range(0, len(rows), batch_size):
             batch = rows[start:start + batch_size]
-            # encode_batch expects tags; dummy O labels are never passed to the model.
+            # encode_batch requires tags; placeholders suffice because the tag ids are discarded.
             encoded_rows = [{**row, "tags": ["O"] * len(row["tokens"])} for row in batch]
             word_ids, char_ids, _, mask, lengths = encode_batch(encoded_rows, words, chars, labels, device)
             emissions = model.emissions(word_ids, char_ids, lengths)
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_forward", batch=True)
             sequences = model.crf.decode(emissions, mask=mask)
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_decode", batch=True)
             for row, sequence in zip(batch, sequences, strict=True):
                 if len(sequence) != len(row["tokens"]):
                     raise ValueError(f'{row["sample_id"]}: decoded length mismatch')
@@ -246,6 +171,7 @@ def bilstm_predict(model, rows, state, batch_size, device, memory_sampler=None, 
 
 
 def restore_span(checkpoint, model_path, tokenizer_path, device):
+    """Rebuild the span classifier and load its tokenizer from the directory beside the checkpoint."""
     config, state = checkpoint["config"], checkpoint["state_dict"]
     labels = checkpoint["label_to_id"]
     if set(labels.values()) != set(range(1, len(labels) + 1)):
@@ -257,7 +183,8 @@ def restore_span(checkpoint, model_path, tokenizer_path, device):
     return model.to(device).eval(), tokenizer, labels, config
 
 
-def span_predict(model, rows, state, batch_size, device, memory_sampler=None, alignment_audit=None):
+def span_predict(model, rows, state, batch_size, device):
+    """Tag rows with the span classifier, resolving overlapping spans by confidence."""
     tokenizer, labels, config = state
     inverse = {index: label for label, index in labels.items()}
     results = []
@@ -265,20 +192,16 @@ def span_predict(model, rows, state, batch_size, device, memory_sampler=None, al
         for start in range(0, len(rows), batch_size):
             batch = rows[start:start + batch_size]
             corrected, _, affected = tokenize_with_unknown_fallback(batch, tokenizer)
-            if alignment_audit is not None:
-                alignment_audit.extend(affected)
+            if affected:
+                print(json.dumps({"token_alignment_fallback": affected}, ensure_ascii=False), flush=True)
             encoding, tensors, _, metadata = prepare_batch(
                 corrected, tokenizer, labels, int(config["max_span_length"]),
                 int(config["negative_ratio"]), None, device, False,
             )
             logits = model(encoding, **tensors)
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_forward", batch=True)
             probabilities = torch.softmax(logits, dim=-1)
             confidence, predicted = probabilities.max(dim=-1)
             confidence, predicted = confidence.cpu().tolist(), predicted.cpu().tolist()
-            if memory_sampler is not None:
-                memory_sampler.snapshot("after_decode", batch=True)
             proposals = [[] for _ in batch]
             for i, (batch_id, left, right) in enumerate(metadata):
                 label_id = predicted[i]
@@ -302,18 +225,13 @@ def main():
     parser.add_argument("--subset-ids", help="Optional file with one sample_id per line")
     parser.add_argument("--tokenizer", help="Span tokenizer directory; defaults to sibling tokenizer/")
     parser.add_argument("--batch-size", type=int, default=4)
-    parser.add_argument("--device", choices=("auto", "cpu", "mps"), default="auto")
-    parser.add_argument("--report", help="Optional run metadata JSON; must not already exist")
+    parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
     output = Path(args.output)
-    report = Path(args.report) if args.report else None
-    for destination in (output, report):
-        if destination is not None and destination.exists():
-            raise FileExistsError(f"Refusing to overwrite {destination}")
-    if report is not None and output.resolve() == report.resolve():
-        raise ValueError("Prediction and report destinations must differ")
+    if output.exists():
+        raise FileExistsError(f"Refusing to overwrite {output}")
     model_path = Path(args.model)
     if args.method == "bert" and model_path.is_dir() and not (model_path / "config.json").is_file():
         model_path = model_path / "best_model"
@@ -321,9 +239,6 @@ def main():
         model_path = model_path / "best_model.pt"
     rows = input_rows(args.input, args.subset_ids)
     device = choose_device(args.device)
-    memory_sampler = MPSMemorySampler(device) if report is not None else None
-    if memory_sampler is not None:
-        memory_sampler.before_model_load = memory_sampler.snapshot("before_model_load")
     print(f"Device: {device}", flush=True)
     print(f"Loading {args.method} from {model_path} on {device}; sentences={len(rows)}", flush=True)
     if args.method == "bert":
@@ -340,38 +255,12 @@ def main():
         model, tokenizer, labels, config = restore_span(checkpoint, model_path, args.tokenizer, device)
         state = (tokenizer, labels, config)
         predictor = span_predict
-    if memory_sampler is not None:
-        memory_sampler.after_model_load = memory_sampler.snapshot("after_model_load")
-    parameter_count = sum(p.numel() for p in model.parameters())
-    trainable_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    if device.type == "mps":
-        torch.mps.synchronize()
-    started = time.perf_counter()
-    alignment_audit = []
-    predictions = predictor(model, rows, state, args.batch_size, device, memory_sampler, alignment_audit)
-    if device.type == "mps":
-        torch.mps.synchronize()
-    seconds = time.perf_counter() - started
+    predictions = predictor(model, rows, state, args.batch_size, device)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as target:
         for prediction in predictions:
             target.write(json.dumps(prediction, ensure_ascii=False) + "\n")
-    if report:
-        report.parent.mkdir(parents=True, exist_ok=True)
-        info = {"method": args.method, "model": str(model_path), "input": args.input,
-                "subset_ids": args.subset_ids, "output": str(output), "device": str(device),
-                "batch_size": args.batch_size, "sentences": len(rows), "seconds": seconds,
-                "sentences_per_second": len(rows) / seconds if seconds else None,
-                "parameter_count": parameter_count, "trainable_parameter_count": trainable_count,
-                "inference_timing_note": (
-                    "Synchronized inference only; excludes model load and output writing, includes batch memory-sampling overhead."
-                ),
-                "memory_sampling": memory_sampler.report(),
-                "token_alignment_fallback": {"replacement": "model unknown token; original token and BIO positions preserved",
-                                              "count": len(alignment_audit), "affected": alignment_audit}}
-        with report.open("x", encoding="utf-8") as target:
-            json.dump(info, target, ensure_ascii=False, indent=2)
-    print(f"Saved {len(predictions)} predictions to {output}; inference seconds={seconds:.2f}; unknown-token fallbacks={len(alignment_audit)}")
+    print(f"Saved {len(predictions)} predictions to {output}")
 
 
 if __name__ == "__main__":

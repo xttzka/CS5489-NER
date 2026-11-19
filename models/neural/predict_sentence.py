@@ -1,7 +1,6 @@
-"""Extract entities and character offsets from raw strings using a local neural checkpoint.
+"""Extract entities and their character offsets from raw text with a saved neural checkpoint.
 
-Offsets are zero-based Python Unicode code-point indices with exclusive ends.
-The tokenizer/model matches the project's existing raw-text prediction path.
+Offsets are zero-based Unicode code-point indices with exclusive ends.
 """
 
 import argparse
@@ -20,6 +19,7 @@ PROJECT = Path(__file__).resolve().parents[2]
 
 
 def run_child(command, *, data=None, environment=None):
+    """Run a project module in a subprocess, forward its stderr and return its stdout."""
     result = subprocess.run(
         command, input=data, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         cwd=PROJECT, env=environment, check=False,
@@ -33,6 +33,7 @@ def run_child(command, *, data=None, environment=None):
 
 
 def tokenize_texts(texts, interpreter):
+    """Split each text into tokens with character offsets and check the offsets against the text."""
     data = json.dumps(texts, ensure_ascii=False).encode("utf-8")
     raw = run_child([str(interpreter), "-B", "-m", "data.add_pos_tags", "--text-json"], data=data)
     rows = json.loads(raw)
@@ -57,6 +58,7 @@ def tokenize_texts(texts, interpreter):
 
 
 def extract(rows, answers):
+    """Convert predicted BIO tags into entities with character offsets in the input text."""
     if set(answers) != {row["sample_id"] for row in rows}:
         raise ValueError("prediction IDs do not match the input IDs")
     output = []
@@ -77,7 +79,7 @@ def main():
     parser.add_argument("--method", required=True, choices=("bert", "bilstm", "span"))
     parser.add_argument("--model", required=True, help="Local training output directory or checkpoint")
     parser.add_argument("--text", action="append", required=True, help="Original text; repeat for multiple inputs")
-    parser.add_argument("--device", required=True, choices=("cpu", "mps"), help="Explicit inference device")
+    parser.add_argument("--device", required=True, choices=("cpu", "mps", "cuda"), help="Inference device")
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--pos-python", type=Path, help="Python with the project's pinned POS model")
     parser.add_argument("--tokenizer", help="Local Span tokenizer directory if not beside checkpoint")
@@ -86,12 +88,11 @@ def main():
         parser.error("--batch-size must be positive")
     try:
         rows = tokenize_texts(args.text, pos_python(args.pos_python))
-        with TemporaryDirectory(prefix="ner_sentence_b_") as directory:
+        with TemporaryDirectory(prefix="ner_sentence_") as directory:
             work = Path(directory)
             input_path, output_path = work / "input.jsonl", work / "prediction.jsonl"
             with input_path.open("x", encoding="utf-8") as target:
                 for row in rows:
-                    # No gold labels, POS tags or offsets are passed into the NER model.
                     target.write(json.dumps({"sample_id": row["sample_id"], "tokens": row["tokens"]}, ensure_ascii=False) + "\n")
             command = [sys.executable, "-B", "-m", "models.neural.predict_neural", "--method", args.method,
                        "--model", args.model, "--input", str(input_path), "--output", str(output_path),

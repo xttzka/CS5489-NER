@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-import time
 from pathlib import Path
 
 import torch
@@ -30,22 +29,22 @@ def parse_args():
     )
     parser.add_argument(
         "--train-size",
-        default="50",
+        default="1.0",
         help='Sentence count such as "100", or proportion such as "1.0".',
     )
     parser.add_argument(
         "--dev-size",
         type=int,
-        default=64,
+        default=0,
         help="Validation sentence count; 0 means the full validation set.",
     )
-    parser.add_argument("--epochs", type=int, default=1)
+    parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--learning-rate", type=float, default=3e-5)
     parser.add_argument("--max-span-length", type=int, default=14)
     parser.add_argument("--negative-ratio", type=int, default=10)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--output-dir", default="output/span_smoke")
+    parser.add_argument("--output-dir", default="output/span")
 
     return parser.parse_args()
 
@@ -96,7 +95,7 @@ def prepare_batch(
     device,
     training,
 ):
-    """Create candidates from tokens; use gold tags only during training."""
+    """Enumerate candidate spans; when training, label them and subsample the negatives."""
 
     encoding = tokenizer(
         [row["tokens"] for row in rows],
@@ -177,7 +176,6 @@ def prepare_batch(
 
             selected = positive + rng.sample(negative, negative_count)
         else:
-            # Prediction candidates are generated only from tokens.
             gold = None
             selected = candidates
 
@@ -257,6 +255,7 @@ def evaluate(
     args,
     device,
 ):
+    """Classify all candidate spans of every row and score the resulting tags."""
     model.eval()
 
     gold_by_id = {}
@@ -307,7 +306,6 @@ def evaluate(
                     proposals_by_row[batch_id],
                 )
 
-                # Gold labels are read here only for evaluation.
                 gold_by_id[sample_id] = row["tags"]
 
     scores = score_ner(gold_by_id, predictions_by_id)
@@ -337,9 +335,12 @@ def main():
     torch.manual_seed(args.seed)
     negative_rng = random.Random(args.seed)
 
-    device = torch.device(
-        "mps" if torch.backends.mps.is_available() else "cpu"
-    )
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
     entity_types = sorted(TYPE_DESCRIPTIONS[args.dataset])
     label_to_id = {
@@ -414,7 +415,6 @@ def main():
 
     for epoch in range(1, args.epochs + 1):
         model.train()
-        started = time.time()
         epoch_loss = 0.0
 
         for batch_number, rows in enumerate(train_loader, start=1):
@@ -458,7 +458,7 @@ def main():
         )
 
         print(
-            f"Epoch {epoch} finished in {time.time() - started:.1f}s | "
+            f"Epoch {epoch} finished | "
             f"mean loss: {epoch_loss / len(train_loader):.4f}"
         )
         print("Validation scores:")

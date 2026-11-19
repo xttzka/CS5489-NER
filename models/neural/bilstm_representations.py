@@ -1,9 +1,6 @@
-"""Compare four inputs with the same BiLSTM-CRF architecture on validation.
+"""Train or apply one BiLSTM-CRF on four inputs: random, GloVe, GloVe + char CNN or frozen BERT.
 
-Static 100-dimensional inputs are zero-padded to BERT's 768 dimensions. The
-additional 30 character dimensions are zero except in glove_char mode. Random
-and GloVe embeddings are frozen, as is the pretrained BERT encoder; the LSTM,
-classification layer, and CRF always have the same shape and optimizer settings.
+Static 100d vectors are zero-padded to 768d so the LSTM, classifier and CRF have the same shape in every mode.
 """
 
 import argparse
@@ -13,7 +10,6 @@ import os
 import random
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 import numpy as np
@@ -23,12 +19,12 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 from torch.utils.data import DataLoader
 from torchcrf import CRF
 from transformers import AutoModel, AutoTokenizer
-from models.neural.token_alignment import tokenize_with_unknown_fallback
 
 from eval.score_ner import read_subset_ids, score_ner
 from models.llm.common import TYPE_DESCRIPTIONS, load_rows, sample_train
 from models.neural.bert_baseline import fix_iob2
 from models.neural.bilstm_crf import GLOVE_PATH, load_glove, make_character_vocab
+from models.neural.token_alignment import tokenize_with_unknown_fallback
 
 
 BERT_NAME = "bert-base-cased"
@@ -38,15 +34,18 @@ CHAR_DIM = 30
 
 
 def select_device(choice):
+    """Resolve auto to cuda, then mps, then cpu; reject an unavailable device."""
     if choice == "auto":
-        return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        choice = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+    if choice == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
     if choice == "mps" and not torch.backends.mps.is_available():
         raise RuntimeError("MPS was requested but is not available")
     return torch.device(choice)
 
 
 def fingerprint(rows):
-    """Identify exactly the token input without using gold labels."""
+    """Hash the BERT revision, sample IDs and tokens that a feature cache belongs to."""
     digest = hashlib.sha256()
     digest.update(f"{BERT_NAME}@{BERT_REVISION}\n".encode())
     for row in rows:
@@ -56,6 +55,7 @@ def fingerprint(rows):
 
 
 def read_cached_features(path, digest, rows):
+    """Load cached BERT features and check that they match these rows."""
     saved = torch.load(path, map_location="cpu", weights_only=True)
     if saved.get("fingerprint") != digest or saved.get("model") != BERT_NAME:
         raise ValueError(f"{path}: cached frozen features do not match the token input")
@@ -69,7 +69,7 @@ def read_cached_features(path, digest, rows):
 
 
 def encode_frozen(rows, tokenizer, encoder, device, batch_size):
-    """First-subword representations from frozen BERT; only input tokens are read."""
+    """Return one tensor per row holding the first-subword BERT vector of each word."""
     features = []
     encoder.eval()
     with torch.no_grad():
@@ -100,6 +100,7 @@ def encode_frozen(rows, tokenizer, encoder, device, batch_size):
 
 
 def features_for_sets(splits, device, batch_size, cache_dir):
+    """Return BERT features for each named split, reading or writing the cache when one is given."""
     found = {}
     missing = []
     for split, rows in splits:
@@ -112,11 +113,9 @@ def features_for_sets(splits, device, batch_size, cache_dir):
             missing.append((split, rows, digest, cache_path))
     if missing:
         tokenizer = AutoTokenizer.from_pretrained(
-            BERT_NAME, revision=BERT_REVISION, local_files_only=True, use_fast=True,
+            BERT_NAME, revision=BERT_REVISION, use_fast=True,
         )
-        encoder = AutoModel.from_pretrained(
-            BERT_NAME, revision=BERT_REVISION, local_files_only=True,
-        ).to(device)
+        encoder = AutoModel.from_pretrained(BERT_NAME, revision=BERT_REVISION).to(device)
         encoder.eval()
         for parameter in encoder.parameters():
             parameter.requires_grad_(False)
@@ -142,12 +141,15 @@ def features_for_sets(splits, device, batch_size, cache_dir):
                         temp_path.unlink(missing_ok=True)
                 print(f"Saved frozen BERT cache: {cache_path}", flush=True)
         del encoder
-        if device.type == "mps":
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
+        elif device.type == "mps":
             torch.mps.empty_cache()
     return found
 
 
 def batch_tensors(rows, word_to_id, char_to_id, label_to_id, device, mode):
+    """Pad a batch into id tensors, a mask, lengths and, in bert mode, the precomputed features."""
     batch_size = len(rows)
     max_words = max(len(row["tokens"]) for row in rows)
     max_chars = max(len(token) for row in rows for token in row["tokens"])
@@ -218,6 +220,7 @@ class RepresentationTagger(nn.Module):
 
 
 def evaluate(model, loader, words, chars, labels, inverse, device, mode):
+    """Decode every row with the CRF and score the tags against the gold tags."""
     model.eval()
     gold, predictions = {}, {}
     with torch.no_grad():
@@ -234,6 +237,7 @@ def evaluate(model, loader, words, chars, labels, inverse, device, mode):
 
 
 def main():
+    """Train one representation mode and keep the best validation checkpoint."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", required=True, choices=("random", "glove", "glove_char", "bert"))
     parser.add_argument("--dataset", default="conll2003", choices=("conll2003", "wnut17", "mit_restaurant"))
@@ -246,8 +250,8 @@ def main():
     parser.add_argument("--hidden-size", type=int, default=128)
     parser.add_argument("--dropout", type=float, default=0.3)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--device", choices=("auto", "mps", "cpu"), default="auto")
-    parser.add_argument("--bert-cache-dir", help="Optional directory for reusable token-only frozen features")
+    parser.add_argument("--device", choices=("auto", "cuda", "mps", "cpu"), default="auto")
+    parser.add_argument("--bert-cache-dir", help="Optional directory for cached BERT features")
     parser.add_argument("--output-dir", required=True)
     args = parser.parse_args()
     if args.epochs < 1 or args.batch_size < 1 or args.bert_batch_size < 1 or args.dev_size < 0 or args.hidden_size < 1 or not 0 <= args.dropout < 1:
@@ -315,7 +319,7 @@ def main():
     best_f1 = -1.0
     for epoch in range(1, args.epochs + 1):
         model.train()
-        started, loss_sum = time.perf_counter(), 0.0
+        loss_sum = 0.0
         for number, rows in enumerate(train_loader, 1):
             word_ids, char_ids, targets, mask, lengths, features = batch_tensors(
                 rows, words, chars, label_to_id, device, args.mode,
@@ -330,7 +334,7 @@ def main():
             if number == 1 or number % 100 == 0:
                 print(f"Epoch {epoch}/{args.epochs} | batch {number}/{len(train_loader)} | loss {loss.item():.4f}", flush=True)
         scores, predictions = evaluate(model, dev_loader, words, chars, label_to_id, inverse, device, args.mode)
-        print(f"Epoch {epoch} | seconds={time.perf_counter()-started:.1f} | mean_loss={loss_sum/len(train_loader):.4f}", flush=True)
+        print(f"Epoch {epoch} | mean_loss={loss_sum/len(train_loader):.4f}", flush=True)
         print(json.dumps(scores, indent=2), flush=True)
         if scores["f1"] > best_f1:
             best_f1 = scores["f1"]
@@ -346,6 +350,7 @@ def main():
 
 
 def predict_main():
+    """Handle the predict subcommand: tag a JSONL file with a saved checkpoint."""
     parser = argparse.ArgumentParser(description="Predict from a saved input-representation checkpoint.")
     parser.add_argument("--model", required=True, help="Checkpoint .pt or directory containing best_model.pt")
     parser.add_argument("--input", required=True, help="JSONL with sample_id and tokens; gold tags are ignored")
@@ -353,8 +358,8 @@ def predict_main():
     parser.add_argument("--subset-ids", help="Optional file listing exactly the sample IDs to predict")
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--bert-batch-size", type=int, default=8)
-    parser.add_argument("--bert-cache-dir", help="Optional frozen feature cache directory")
-    parser.add_argument("--device", choices=("auto", "mps", "cpu"), default="auto")
+    parser.add_argument("--bert-cache-dir", help="Optional directory for cached BERT features")
+    parser.add_argument("--device", choices=("auto", "cuda", "mps", "cpu"), default="auto")
     args = parser.parse_args(sys.argv[2:])
     if args.batch_size < 1 or args.bert_batch_size < 1:
         parser.error("batch sizes must be positive")

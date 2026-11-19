@@ -1,16 +1,18 @@
-% Neural seed variability: mean and sample SD on the same native full test.
+% Entity F1 (%) on the full test split of each dataset, mean and sample SD over 3 training seeds.
+\begingroup\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}llrr@{}}
 \toprule
-Dataset & Method & Mean F1 & Sample SD \\
+Dataset & Method & Mean F1 & SD \\
 \midrule
-CoNLL-03 & M3 & 89.5 & 0.1 \\
-CoNLL-03 & M4 & 90.6 & 0.2 \\
-CoNLL-03 & Span & 90.3 & 0.2 \\
-WNUT-17 & M3 & 23.7 & 5.0 \\
-WNUT-17 & M4 & 42.3 & 1.7 \\
-WNUT-17 & Span & 46.8 & 2.0 \\
-MIT Rest. & M3 & 77.7 & 0.2 \\
-MIT Rest. & M4 & 77.7 & 0.5 \\
-MIT Rest. & Span & 79.1 & 0.7 \\
+CoNLL-03 & BiLSTM-CRF & 89.5 & 0.1 \\
+ & BERT & 90.6 & 0.2 \\
+ & Span classifier & 90.3 & 0.2 \\
+WNUT-17 & BiLSTM-CRF & 23.7 & 5.0 \\
+ & BERT & 42.3 & 1.7 \\
+ & Span classifier & 46.8 & 2.0 \\
+MIT Rest. & BiLSTM-CRF & 77.7 & 0.2 \\
+ & BERT & 77.7 & 0.5 \\
+ & Span classifier & 79.1 & 0.7 \\
 \bottomrule
 \end{tabular}
+\endgroup

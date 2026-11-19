@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-import time
 from pathlib import Path
 
 import numpy as np
@@ -30,23 +29,23 @@ def parse_args():
     )
     parser.add_argument(
         "--train-size",
-        default="100",
+        default="1.0",
         help='Sentence count, e.g. "100", or proportion, e.g. "0.1" or "1.0".',
     )
     parser.add_argument(
         "--dev-size",
         type=int,
-        default=64,
+        default=0,
         help="Number of validation sentences. Use 0 for the full validation set.",
     )
-    parser.add_argument("--epochs", type=int, default=1)
+    parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--eval-every", type=int, default=1)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--learning-rate", type=float, default=3e-5)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
         "--output-dir",
-        default="output/bert_smoke",
+        default="output/bert",
         help="Directory for the model, validation predictions and configuration.",
     )
 
@@ -126,6 +125,7 @@ def encode_batch(rows, tokenizer, label_to_id, max_positions):
 
 
 def evaluate(model, loader, tokenizer, label_to_id, id_to_label, device):
+    """Predict first-subword tags for every row and score them against the gold tags."""
     model.eval()
     gold_by_id = {}
     predictions_by_id = {}
@@ -171,7 +171,9 @@ def main():
         )
     set_seed(args.seed)
 
-    if torch.backends.mps.is_available():
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
         device = torch.device("mps")
     else:
         device = torch.device("cpu")
@@ -195,7 +197,6 @@ def main():
     label_to_id = {label: index for index, label in enumerate(labels)}
     id_to_label = {index: label for label, index in label_to_id.items()}
 
-    # This sampler is shared with member C's few-shot example pools.
     train_rows = sample_train(args.dataset, args.train_size, args.seed)
     dev_rows = load_rows(args.dataset, "validation")
 
@@ -255,7 +256,6 @@ def main():
     for epoch in range(1, args.epochs + 1):
         model.train()
         epoch_loss = 0.0
-        started = time.time()
 
         for batch_number, rows in enumerate(train_loader, start=1):
             encoding, aligned_labels, _ = encode_batch(
@@ -286,7 +286,7 @@ def main():
 
         if epoch % args.eval_every != 0 and epoch != args.epochs:
             print(
-                f"Epoch {epoch} finished in {time.time() - started:.1f}s | "
+                f"Epoch {epoch} finished | "
                 f"mean loss: {epoch_loss / len(train_loader):.4f} | "
                 "validation skipped"
             )
@@ -302,7 +302,7 @@ def main():
         )
 
         print(
-            f"Epoch {epoch} finished in {time.time() - started:.1f}s | "
+            f"Epoch {epoch} finished | "
             f"mean loss: {epoch_loss / len(train_loader):.4f}"
         )
         print("Validation scores:")

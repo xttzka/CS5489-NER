@@ -838,12 +838,12 @@
   "inputs": {
     "gold": "data/processed/conll2003/test.jsonl",
     "predictions": {
-      "M0": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M0__full/predictions.jsonl",
-      "M1": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M1__full/predictions.jsonl",
-      "M2": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M2__full/predictions.jsonl",
-      "M3": "output/b_finish_v2/evaluation/tasks/domain__M3__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "M4": "output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "Span": "output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
+      "M0": "conll2003__M0__full",
+      "M1": "conll2003__M1__full",
+      "M2": "conll2003__M2__full",
+      "M3": "domain__M3__conll2003__conll2003__full__standard__seed0",
+      "M4": "domain__M4__conll2003__conll2003__full__standard__seed0",
+      "Span": "domain__Span__conll2003__conll2003__full__standard__seed0"
     },
     "subset_ids": null,
     "scoring": "native",

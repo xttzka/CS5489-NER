@@ -1,12 +1,8 @@
-"""Preserve original word indexes when a fast tokenizer drops a whole token.
-
-This inference-only fallback is label-independent: any original word that
-produces no subword is represented by the tokenizer's own unknown-token ID.
-No original words or BIO labels are removed or reordered.
-"""
+"""Tokenize pre-split words, replacing any word the tokenizer drops with its unknown token."""
 
 
 def tokenize_with_unknown_fallback(rows, tokenizer):
+    """Return (rows, encoding, replaced words) such that every input word keeps at least one subword."""
     if not getattr(tokenizer, 'is_fast', False) or not tokenizer.unk_token:
         raise ValueError('a fast tokenizer with an unknown-token marker is required')
     batches = [list(row['tokens']) for row in rows]

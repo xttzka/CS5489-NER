@@ -1,14 +1,9 @@
-"""BERT training for native labels, transfer and matched-label distillation.
-
-This is separate from the existing BERT baseline so the original experiments
-remain reproducible. Only training and validation splits are read.
-"""
+"""Train BERT taggers for native labels, cross-dataset transfer or pseudo-label distillation."""
 
 import argparse
 import hashlib
 import json
 import random
-import time
 from pathlib import Path
 
 import numpy as np
@@ -52,6 +47,7 @@ def parse_args():
 
 
 def transfer_rows(source, split, size, seed):
+    """Load the source datasets with their tags projected to the three shared types."""
     settings = json.loads(MAPPING_PATH.read_text(encoding="utf-8"))["transfer_three_types"]
     combined = []
     for dataset in SOURCES[source]:
@@ -66,7 +62,7 @@ def transfer_rows(source, split, size, seed):
 
 
 def distillation_rows(prediction_path, label_source):
-    """Use identical original MIT training IDs for pseudo and gold controls."""
+    """Return the MIT training rows named in the prediction file, with pseudo or gold tags."""
     if prediction_path is None:
         raise ValueError("--pseudo-predictions is required for either distillation condition")
     if label_source not in ("gold", "pseudo"):
@@ -87,7 +83,7 @@ def distillation_rows(prediction_path, label_source):
         invalid = {kind for _, _, kind in spans} - allowed_types
         if invalid:
             raise ValueError(f"{sample_id}: unexpected pseudo-label types {sorted(invalid)}")
-    # Retain original corpus order, identically in both matched conditions.
+    # Keep corpus order so both label sources train on the same sequence of rows.
     return [
         {**row, "tags": predictions[row["sample_id"]] if label_source == "pseudo" else row["tags"]}
         for row in train_rows if row["sample_id"] in predictions
@@ -95,6 +91,7 @@ def distillation_rows(prediction_path, label_source):
 
 
 def get_device(requested):
+    """Resolve auto to cuda, then mps, then cpu; reject an unavailable device."""
     availability = {
         "cpu": True,
         "mps": torch.backends.mps.is_available(),
@@ -191,14 +188,12 @@ def main():
             "\n".join(json.dumps([r["sample_id"], r["tokens"], r["tags"]], ensure_ascii=False)
                       for r in train_rows).encode()
         ).hexdigest(),
-        "trainable_parameters": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad),
         "selection_metric": "validation_entity_micro_f1",
     })
     (args.output_dir / "run_config.json").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     (args.output_dir / "train_ids.txt").write_text("\n".join(train_ids) + "\n", encoding="utf-8")
     best_f1 = -1.0
     for epoch in range(1, args.epochs + 1):
-        started = time.monotonic()
         model.train()
         losses = []
         for batch_number, rows in enumerate(train_loader, start=1):
@@ -223,11 +218,10 @@ def main():
                     for sample_id, tags in predictions.items():
                         file.write(json.dumps({"sample_id": sample_id, "tags": tags}, ensure_ascii=False) + "\n")
                 (args.output_dir / "best_epoch.json").write_text(json.dumps({"epoch": epoch, "validation_f1": best_f1}) + "\n", encoding="utf-8")
-        elapsed = time.monotonic() - started
-        record = {"epoch": epoch, "elapsed_seconds": elapsed, "mean_training_loss": sum(losses) / len(losses), "validation": scores}
+        record = {"epoch": epoch, "mean_training_loss": sum(losses) / len(losses), "validation": scores}
         with (args.output_dir / "epoch_metrics.jsonl").open("a", encoding="utf-8") as file:
             file.write(json.dumps(record) + "\n")
-        print(f"Epoch {epoch} completed in {elapsed:.1f}s; mean loss {record['mean_training_loss']:.4f}", flush=True)
+        print(f"Epoch {epoch} completed; mean loss {record['mean_training_loss']:.4f}", flush=True)
     print(f"Done. Best validation F1: {best_f1:.4f}", flush=True)
 
 

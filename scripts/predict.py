@@ -26,7 +26,7 @@ def predict_with_bert(texts, checkpoint, device, python):
     """Run the saved BERT tagger on raw sentences and return its entity phrases."""
     if not checkpoint.is_dir():
         raise ValueError(f"no trained BERT model at {checkpoint}. Train it first with: {BERT_TRAINING}")
-    command = [sys.executable, "-B", "-m", "models.neural.predict_sentence_b", "--method", "bert",
+    command = [sys.executable, "-B", "-m", "models.neural.predict_sentence", "--method", "bert",
                "--model", str(checkpoint), "--device", device, "--pos-python", str(python)]
     for text in texts:
         command += ["--text", text]
@@ -92,7 +92,7 @@ def main():
     parser.add_argument("--dataset", choices=DATASETS, default="conll2003", help="Training source of m0 to m2")
     parser.add_argument("--checkpoint", type=Path, default=BERT_CHECKPOINT,
                         help="Training output directory of the BERT tagger used by m4")
-    parser.add_argument("--device", choices=("cpu", "mps"), default="cpu", help="Device for m4")
+    parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="cpu", help="Device for m4")
     parser.add_argument("--text", action="append", required=True, help="Repeat for multiple inputs in the same fit")
     parser.add_argument("--pos-python", type=Path, help="Interpreter with the pinned spaCy model")
     args = parser.parse_args()

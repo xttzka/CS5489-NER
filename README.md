@@ -1,182 +1,282 @@
-# CS5489 多领域命名实体识别
+# Multi-Domain Named Entity Recognition from CRF to LLMs
 
-这个仓库整理了 A 的数据准备、M0–M2 经典基线、M2 分析实验，以及供 B、C 共用的评分和错误分析脚本。命令中的路径从项目根目录算起。汇总 JSON 记录分数、输入和答卷的位置。完整数据、逐条答卷和人工检查表由下列命令在各自电脑上生成。
+CS5489 course project, Group 59. The project builds named entity extractors of four kinds and compares them on six datasets: a dictionary, logistic regression and a CRF, a BiLSTM-CRF, a fine-tuned BERT tagger and a span classifier, and zero-shot and few-shot extraction with GLiNER and Qwen2.5.
 
-- [B、C 的数据准备与评测任务单](README_BC.md)可直接交给能操作本地仓库的 AI。
-- [A 的任务与复现说明](README_A.md)记录 A 已完成的实验、运行顺序和结果位置。
+All commands run from the repository root with Python 3.11.
 
-## 1. 安装环境
+## 1. Repository layout
 
-实测环境为 Windows x64、Python 3.11.16，经典模型在 CPU 上运行。实验和 POS 标注分别使用两个虚拟环境，以复用原实验的依赖版本。两份依赖清单分别是 [requirements.txt](requirements.txt) 和 [requirements-pos.txt](requirements-pos.txt)。先在项目根目录打开 PowerShell。
+| Path | Content |
+|---|---|
+| `data/` | Download, conversion and preparation scripts, the label mapping and the fixed 300-sentence ID lists |
+| `models/classic/` | Dictionary (M0), logistic regression (M1), CRF (M2) and their analyses |
+| `models/neural/` | BiLSTM-CRF (M3), BERT tagger (M4), span classifier and their analyses |
+| `models/llm/` | GLiNER, Qwen2.5 prompting, LoRA fine-tuning |
+| `eval/` | Entity-level scoring, bootstrap intervals, error typing, voting |
+| `analysis/` | Data exploration, entity clustering, figures and tables |
+| `scripts/predict.py` | Entity extraction from raw text |
+| `results/` | Scores of every experiment. `A.csv`, `B.csv` and `C.csv` hold all of them in one schema |
+| `report/` | Figures and LaTeX tables generated from `results/` |
 
-```powershell
-py -3.11 -m venv .venv
-& ./.venv/Scripts/python.exe -m pip install -r requirements.txt
-py -3.11 -m venv .venv-pos
-& ./.venv-pos/Scripts/python.exe -m pip install -r requirements-pos.txt
-$exp = "./.venv/Scripts/python.exe"
-$pos = "./.venv-pos/Scripts/python.exe"
+Datasets, model weights and prediction files are not part of the repository. The commands below create them under `data/`, `output/` and `preds/`.
+
+## 2. Environments
+
+Each requirements file is one virtual environment, because they pin different versions of NumPy and PyTorch.
+
+| File | Used for | Hardware |
+|---|---|---|
+| `requirements.txt` | Data preparation, classic models, scoring, figures and tables | CPU |
+| `requirements-pos.txt` | spaCy part-of-speech tags | CPU |
+| `requirements-neural.txt` | `models/neural/` | GPU or Apple MPS recommended |
+| `requirements-llm.txt` | `models/llm/` | CUDA GPU, 24 GB for the 7B model |
+
+```bash
+python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt
+python3.11 -m venv .venv-pos && .venv-pos/bin/pip install -r requirements-pos.txt
 ```
 
-每次新开 PowerShell 时重新设置 `$exp` 和 `$pos`。已有 3.11 解释器时也可以用它执行 `python -m venv`。macOS 或 Linux 上用 `python3.11 -m venv` 创建环境，解释器分别在 `.venv/bin/python` 和 `.venv-pos/bin/python`。手头已有 `data/processed_pos/` 时，评分和模型实验只用第一套环境。
+On Windows the interpreters are `.venv\Scripts\python.exe` and `.venv-pos\Scripts\python.exe`. Below, `python` is the interpreter of the environment named in each section, and `$POS` is the interpreter of the part-of-speech environment.
 
-在已经跑过 A 的实验的原项目目录里，可以直接设置 `$exp = "./.venv-m2/Scripts/python.exe"` 和 `$pos = "./.venv-pos/Scripts/python.exe"`，沿用本机原有环境。
+## 3. Data
 
-## 2. 下载、转换并准备六套数据
+### Download and placement
 
-统一入口按顺序下载或核对原始文件，转换六套语料，再生成评分所需的固定子集、索引、统一词性、替换和扰动数据。CoNLL-2003 的转换保留原文件中的文档边界。[统一入口](data/prepare.py) · [CoNLL-2003 加载脚本](https://huggingface.co/datasets/eriktks/conll2003/blob/main/conll2003.py#L152)
+One command downloads the six corpora into `data/raw/`, converts them and builds every derived set.
 
-```powershell
-& $exp -B -m data.prepare --all --download --pos-python $pos
+```bash
+python -B -m data.prepare --all --download --pos-python $POS
 ```
 
-原始文件齐备时可去掉 `--download`。CoNLL-2003 ZIP 的预期 SHA-256 是 `96a104d174ddae7558bab603f19382c5fe02ff1da5c077a7f3ce2ced1578a2c3`。若下载地址不可达，从组内资料取得相同 ZIP 放到下表所示路径后重试。其余五套的文件名和校验值由转换脚本维护。
+If a download fails, place the files by hand at the paths below and run the command without `--download`.
 
-| 数据集目录 | 训练／验证／测试条数 | 原始文件 | 来源 |
+| Dataset | Train / validation / test sentences | Files under `data/raw/` | Source |
 |---|---:|---|---|
-| `conll2003` | 14,041／3,250／3,453 | `data/raw/conll2003/conll2003.zip` | [加载脚本](https://huggingface.co/datasets/eriktks/conll2003/blob/main/conll2003.py#L152) |
-| `wnut17` | 3,394／1,009／1,287 | `data/raw/wnut17/` 下的 `wnut17train.conll`、`emerging.dev.conll`、`emerging.test.annotated` | [WNUT-17 数据仓库](https://github.com/leondz/emerging_entities_17) |
-| `mit_restaurant` | 6,894／766／1,521 | `data/raw/mit_restaurant/` 下的 `restauranttrain.bio`、`restauranttest.bio` | [MIT 下载页](https://sls.csail.mit.edu/downloads/restaurant/) |
-| `conllpp` | 测试 1,840 | `data/raw/conllpp/conllpp.txt` | [CoNLL++ 数据仓库](https://github.com/ShuhengL/acl2023_conllpp) |
-| `wikigold` | 测试 1,696 | `data/raw/wikigold/wikigold.conll.txt` | [WikiGold 数据目录](https://github.com/juand-r/entity-recognition-datasets/tree/master/data/wikigold) |
-| `btc` | 测试 2,000 | `data/raw/btc/f.json` | [Broad Twitter Corpus 数据仓库](https://github.com/GateNLP/broad_twitter_corpus) |
+| CoNLL-2003 | 14,041 / 3,250 / 3,453 | `conll2003/conll2003.zip` | <https://huggingface.co/datasets/eriktks/conll2003> |
+| WNUT-17 | 3,394 / 1,009 / 1,287 | `wnut17/wnut17train.conll`, `emerging.dev.conll`, `emerging.test.annotated` | <https://github.com/leondz/emerging_entities_17> |
+| MIT Restaurant | 6,894 / 766 / 1,521 | `mit_restaurant/restauranttrain.bio`, `restauranttest.bio` | <https://sls.csail.mit.edu/downloads/restaurant/> |
+| CoNLL++ | test 1,840 | `conllpp/conllpp.txt` | <https://github.com/ShuhengL/acl2023_conllpp> |
+| WikiGold | test 1,696 | `wikigold/wikigold.conll.txt` | <https://github.com/juand-r/entity-recognition-datasets/tree/master/data/wikigold> |
+| Broad Twitter Corpus | test 2,000 | `btc/f.json` | <https://github.com/GateNLP/broad_twitter_corpus> |
 
-MIT Restaurant 的 766 条验证数据由原训练文件按项目预处理规则划出。数据清单、下载地址和校验值见 [prepare_external_ner.py](data/prepare_external_ner.py)。
+MIT Restaurant has no validation split, so the conversion holds out 766 training queries.
 
-已生成 `data/processed/` 时，可运行 `& $exp -B -m data.prepare --derived --pos-python $pos` 重建派生数据。下表也列出各步骤的单独调用方式。
+Two experiments need extra resources.
 
-| 文件 | 作用及运行方式 | 输出位置 |
+| Resource | Place at | Source |
 |---|---|---|
-| [prepare_conll2003.py](data/prepare_conll2003.py) | `python -m data.prepare_conll2003`。将原始 ZIP 转成 JSONL，保留文档号、词性和短语标签。可用 `--archive`、`--output-dir` 改路径。 | `data/processed/conll2003/{train,validation,test}.jsonl` |
-| [prepare_external_ner.py](data/prepare_external_ner.py) | `python -m data.prepare_external_ner --download` 下载。去掉 `--download` 后转换其他五套数据。 | `data/raw/<数据集>/`、`data/processed/<数据集>/` |
-| [make_eval_subsets.py](data/make_eval_subsets.py) | `python -m data.make_eval_subsets`。用种子 42 生成或核对六套测试集的固定 300 条，以及 C 选提示词用的 CoNLL-2003 验证集 300 条。 | 各数据集的 `test_300.txt` 和 [CoNLL-2003 验证清单](data/subsets/conll2003/validation_300.txt) |
-| [make_entity_index.py](data/make_entity_index.py) | `python -m data.make_entity_index`。记录测试实体的范围、类别和见过／没见过。查找时将完整实体名忽略大小写，与 CoNLL-2003 训练实体比较。 | `data/derived/entity_index/<数据集>/test_v1.jsonl` |
-| [add_pos_tags.py](data/add_pos_tags.py) | 用 POS 环境执行 `python -m data.add_pos_tags`。在原分词上补 spaCy 词性。可用 `--dataset` 只处理一套。 | `data/processed_pos/<数据集>/<划分>.jsonl` |
-| [make_entity_replacement.py](data/make_entity_replacement.py) | `python -m data.make_entity_replacement`。读取统一 POS 的 CoNLL-2003 和 CoNLL++ 测试数据，生成 500 对 v2 实体替换样本。 | `data/derived/entity_replacement/conll2003/` 下的 `original_v2.jsonl`、`replaced_v2.jsonl`、`replacements_v2.jsonl` |
-| [make_perturbation_sets.py](data/make_perturbation_sets.py) | `python -m data.make_perturbation_sets`。用统一 POS 的 CoNLL-2003 测试集生成全小写、5% 英文字母替换、去标点三个版本。 | `data/derived/perturbations/conll2003/` 下的 `lowercase_v1.jsonl`、`spelling_noise_v1.jsonl`、`no_punctuation_v1.jsonl`、`changes_v1.jsonl`、`manifest_v1.json` |
-| [ner_label_mapping.json](data/ner_label_mapping.json) | 评分器读取的标签映射。CoNLL-2003 与 CoNLL++ 的年代对照用四类，共有标签迁移评测用 `PER`、`LOC`、`ORG`。 | 该 JSON 文件本身 |
+| GloVe 6B, 100 dimensions | `data/external/glove/glove.6B.100d.txt` | <https://huggingface.co/stanfordnlp/glove/blob/main/glove.6B.zip> |
+| GeoNames cities and countries | `data/external/gazetteers/cities15000.zip`, `countryInfo.txt` | <https://download.geonames.org/export/dump/> |
 
-## 3. 运行正式基线
+### What the preparation writes
 
-M0 用训练集实体词典做精确匹配。M1 用逻辑回归逐词预测。M2 用 CRF 联合预测整句标签。CoNLL-2003 的多轮 `c1`、`c2` 调参已经归到 `tune_crf`。最早的五折与补充候选报告用于复用已有分数，最终选参以 [m2_cv_grid.json](results/m2_cv_grid.json) 为准。
-
-```powershell
-& $exp -B -m models.classic.tune_crf --jobs 3
-& $exp -B -m models.classic.m2_native_cv --jobs 3
-& $exp -B -m models.classic.run_baselines --jobs 1
-```
-
-CoNLL-2003 的历史调参用原 POS 和 chunk，以文档为单位按训练集五折平均 F1 选出 `c1=0.0001`、`c2=0.1`。该配置的五折平均实体 F1 为 **87.7603%**，全量重训后的验证集 F1 为 **88.8190%**。`tune_crf` 可复用已提交的 20 组网格分数，并重建缺少的验证答卷。正式基线在三套域内数据上统一使用 spaCy POS、关闭 chunk，M1 与 M2 共用 ±1 窗口。CoNLL-2003 的 M2 固定沿用历史五折的正则化系数。M1 在各自验证集从 `C=0.1, 1, 10` 选参，L-BFGS 使用 `tol=1e-5`、最多 2,000 次迭代。若选参报告及训练数据已经齐备，可直接运行 `run_baselines`。
-
-| 文件 | 作用及运行方式 | 报告和答卷 |
+| Output | Content | Script |
 |---|---|---|
-| [features.py](models/classic/features.py) | M1、M2 和消融脚本导入的共用特征代码。 | 通过调用它的实验产生结果 |
-| [m0_dictionary.py](models/classic/m0_dictionary.py) | `python -m models.classic.m0_dictionary`。单独生成 M0 验证集答卷。 | `preds/conll2003/m0/0.jsonl` |
-| [m1_logistic.py](models/classic/m1_logistic.py) | `python -m models.classic.m1_logistic`。默认在验证集选 `C` 并生成该验证集答卷，也可用 `--c` 固定系数。用 `--train` 和 `--validation` 指定输入。 | `preds/conll2003/m1/0.jsonl` |
-| [m2_crf.py](models/classic/m2_crf.py) | `python -m models.classic.m2_crf`。默认参数的 M2 验证集实验，也是从头调参时的参照。 | `preds/conll2003/m2/0.jsonl` |
-| [tune_crf.py](models/classic/tune_crf.py) | `python -m models.classic.tune_crf --jobs 3`。CoNLL-2003 调参入口，补齐缺少的前序报告和答卷后运行最终网格。 | [m2_cv_grid.json](results/m2_cv_grid.json)、`preds/conll2003/m2_cv_grid/0.jsonl` |
-| [m2_cross_validate.py](models/classic/m2_cross_validate.py) | `python -m models.classic.m2_cross_validate` 做最早的五折。加 `--extend` 做补充候选。两阶段均由 `tune_crf` 在需要时调用。 | [m2_cv.json](results/m2_cv.json)、[m2_cv_extra.json](results/m2_cv_extra.json)，及 `preds/conll2003/{m2_cv,m2_cv_extra}/0.jsonl` |
-| [m2_grid_search.py](models/classic/m2_grid_search.py) | `python -m models.classic.m2_grid_search` 汇合前两阶段候选，完成最终网格。直接调用时须备齐前序报告及需要的验证答卷。 | 同 `tune_crf` 的最终报告与答卷 |
-| [m2_native_cv.py](models/classic/m2_native_cv.py) | `python -m models.classic.m2_native_cv --jobs 3`。为 WNUT-17 和 MIT Restaurant 分别做各自训练集上的五折调参。 | [m2_native_cv.json](results/m2_native_cv.json) |
-| [run_baselines.py](models/classic/run_baselines.py) | `python -m models.classic.run_baselines --jobs 1`。生成三套完整域内测试和六套固定 300 条的 M0–M2 基线，含实体级指标和 bootstrap。 | [m0_m2_baselines.json](results/m0_m2_baselines.json)、`preds/<数据集>/{m0,m1,m2}_baseline/0.jsonl` |
-| [baseline_statistics.py](eval/baseline_statistics.py) | `run_baselines` 导入的实体级指标、置信区间和三对模型的配对差值计算。 | 写入正式基线报告 |
+| `data/processed/<dataset>/<split>.jsonl` | One sentence per line with `sample_id`, `tokens` and IOB2 `tags` | `data/prepare_conll2003.py`, `data/prepare_external_ner.py` |
+| `data/processed_pos/<dataset>/<split>.jsonl` | The same sentences with spaCy part-of-speech tags | `data/add_pos_tags.py` |
+| `data/subsets/<dataset>/test_300.txt` | Fixed 300 test sentences per dataset, seed 42 | `data/make_eval_subsets.py` |
+| `data/derived/entity_index/` | Each test entity marked as seen or unseen in CoNLL-2003 training data | `data/make_entity_index.py` |
+| `data/derived/entity_replacement/conll2003/` | 500 sentence pairs before and after each entity is replaced by an unseen name | `data/make_entity_replacement.py` |
+| `data/derived/perturbations/conll2003/` | The CoNLL-2003 test set in lowercase, with 5% spelling noise, and without punctuation | `data/make_perturbation_sets.py` |
 
-### 训练集交叉验证补充对照
+`python -B -m data.prepare --derived --pos-python $POS` rebuilds the derived sets from existing `data/processed/` files.
 
-```powershell
-& $exp -B -m models.classic.m2_cv_controls --jobs 3
-```
+## 4. Prediction format and scoring
 
-[m2_cv_controls.py](models/classic/m2_cv_controls.py) 固定各数据集已选出的 `c1`、`c2`，沿用其五折，比较左右各看 1 个词和各看 2 个词。CoNLL-2003 的对照使用原 POS 和 chunk，另比较按文档、按连续句子块和随机句子分折，并记录每折重叠文档数。五折只读取训练集。窗口对照及验证结果写在 [m2_cv_controls.json](results/m2_cv_controls.json)。
-
-## 4. 运行迁移、年代和鲁棒性分析
-
-下列命令承接第 2、3 节。从统一词性迁移答卷开始，再跑读取这些答卷的分析。正式基线、年代对照和鲁棒性实验使用统一 spaCy 词性并关闭短语标签。历史词性对照和 G1–G5 消融的原 POS 与 chunk 设置在对应报告中标出。
-
-```powershell
-& $exp -B -m models.classic.m2_pos_transfer
-& $exp -B -m eval.score_m2_familiarity
-& $exp -B -m models.classic.run_temporal_baselines
-& $exp -B -m eval.analyze_transfer_recall
-& $exp -B -m models.classic.m2_transfer_matrix
-& $exp -B -m eval.analyze_m2_transfer_overlap
-& $exp -B -m models.classic.m2_g2_transfer
-& $exp -B -m models.classic.m2_feature_ablation --jobs 3
-& $exp -B -m models.classic.m2_pos_validation
-& $exp -B -m models.classic.m2_pos_casing
-& $exp -B -m models.classic.run_robustness --replacement-version v2
-```
-
-| 文件 | 输入和作用 | 报告和答卷 |
-|---|---|---|
-| [m2_pos_transfer.py](models/classic/m2_pos_transfer.py) | 用 CoNLL-2003 统一 POS 训练，评测五个完整测试集的共有三类。 | [m2_pos_transfer.json](results/m2_pos_transfer.json)、`preds/<数据集>/m2_pos_transfer/0.jsonl` |
-| [score_m2_familiarity.py](eval/score_m2_familiarity.py) | 用迁移答卷和实体索引算见过／没见过的 F1。保留两套新闻的四类分数及五套迁移的三类分数。 | [m2_seen_unseen_f1.json](results/m2_seen_unseen_f1.json) |
-| [run_temporal_baselines.py](models/classic/run_temporal_baselines.py) | 在两套完整新闻测试集上用同一个 M1 预测，生成 M0/M1 的完整答卷，并与已有 M2 统一 POS 答卷一起按见过／没见过评分。 | [m0_m2_temporal.json](results/m0_m2_temporal.json)、`preds/{conll2003,conllpp}/{m0,m1}_temporal/0.jsonl` |
-| [analyze_transfer_recall.py](eval/analyze_transfer_recall.py) | 从迁移答卷拆出实体熟悉度、大小写和 BTC 账号等分组召回率。 | [m2_transfer_recall_groups.json](results/m2_transfer_recall_groups.json) |
-| [m2_transfer_matrix.py](models/classic/m2_transfer_matrix.py) | 各训练来源先映射为共有三类，再对比 CoNLL-2003、WNUT-17 和两者合并训练。四类训练的独立参照见 `m2_pos_transfer.json`。 | [m2_transfer_matrix.json](results/m2_transfer_matrix.json)、`preds/<数据集>/m2_pos_transfer_<训练来源>/0.jsonl` |
-| [analyze_m2_transfer_overlap.py](eval/analyze_m2_transfer_overlap.py) | 读取迁移矩阵，计算训练与测试实体名称重叠和迁移分数下降的关系。 | [m2_transfer_overlap.json](results/m2_transfer_overlap.json) |
-| [m2_g2_transfer.py](models/classic/m2_g2_transfer.py) | 用统一 POS 比较移除 G2 书写形式特征前后的域内结果及 CoNLL-2003 到 BTC 的迁移。 | [m2_g2_transfer.json](results/m2_g2_transfer.json)、`preds/<数据集>/m2_g2_<训练源>_<条件>/0.jsonl`，部分参照复用迁移答卷 |
-| [m2_feature_ablation.py](models/classic/m2_feature_ablation.py) | 读取最终网格报告，在相同五折上分别移除 G1–G5 特征组。 | [m2_feature_ablation.json](results/m2_feature_ablation.json) |
-| [m2_pos_validation.py](models/classic/m2_pos_validation.py) | 用最终网格的验证集答卷作参照，检查统一词性的三类验证集表现。 | [m2_pos_validation.json](results/m2_pos_validation.json)、`preds/conll2003/m2_pos/0.jsonl` |
-| [m2_pos_casing.py](models/classic/m2_pos_casing.py) | 比较同一模型在原始验证句和全小写验证句上的表现。 | [m2_pos_casing.json](results/m2_pos_casing.json)、`preds/conll2003/m2_pos_casing_<条件>/0.jsonl` |
-| [run_robustness.py](models/classic/run_robustness.py) | 每个模型只拟合一次，统一比较 500 对实体替换和原文、全小写、拼写噪声、去标点四个条件。报告配对区间和共有三类的全小写／BTC 对照。 | [m0_m2_robustness.json](results/m0_m2_robustness.json)、`preds/conll2003/<模型>_robustness_<实验>_<条件>/0.jsonl` |
-
-### 地名词典和 GloVe 聚类
-
-额外特征实验还读取 `m2_pos_transfer`、`score_m2_familiarity` 的结果及答卷。将三个资源放在下列位置后，执行 `& $exp -B -m models.classic.m2_extra_features`。
-
-| 资源 | 放置位置 | 来源 |
-|---|---|---|
-| 城市列表压缩包 | `data/external/gazetteers/cities15000.zip` | [GeoNames 下载目录](https://download.geonames.org/export/dump/) |
-| 国家信息 | `data/external/gazetteers/countryInfo.txt` | [GeoNames 下载目录](https://download.geonames.org/export/dump/) |
-| GloVe 100 维词向量 | 从 `glove.6B.zip` 解出 `glove.6B.100d.txt`，放到 `data/external/glove/` | [Stanford GloVe 文件](https://huggingface.co/stanfordnlp/glove/blob/main/glove.6B.zip) |
-
-[m2_extra_features.py](models/classic/m2_extra_features.py) 比较词典特征及预设的 100、500、1,000 个 GloVe 簇，聚类中心只用训练集词型拟合，三个条件均报告。结果写到 [m2_extra_features.json](results/m2_extra_features.json)，答卷位于 `preds/{conll2003,conllpp}/m2_extra_<条件>/0.jsonl`。脚本校验每个资源的 SHA-256。GeoNames 地址会滚动更新，复跑原实验使用组内保留的 2026-11-10 文件快照。资源校验值见结果文件的 `resources` 字段。
-
-### 从原始句子抽取实体
-
-```powershell
-& $exp -B -m scripts.predict --model m2 --text "John Smith visited London."
-```
-
-[predict.py](scripts/predict.py) 支持 `m0`、`m1`、`m2`，默认训练来源为 CoNLL-2003。它会拟合指定模型、用 spaCy 处理原句，再返回实体短语、类别和字符区间。重复传 `--text` 可在同一次拟合中处理多句。POS 环境位置不同可用 `--pos-python` 指向对应解释器。M1 读取已完成的正式基线选参报告。
-
-### 数据探索和报告素材
-
-```powershell
-& $exp -B -m analysis.data_exploration
-& $exp -B -m analysis.make_tables
-& $exp -B -m analysis.make_figures
-```
-
-[data_exploration.py](analysis/data_exploration.py) 读取六套数据的原生标注，统计实体类别、大小写、名称重叠、句子和实体长度，并保留可按样本编号核对的标注差异例子。输出为 [results/data_exploration.json](results/data_exploration.json)。[make_tables.py](analysis/make_tables.py) 生成 [T1 数据概况](report/tables/t1.tex)、[T2 成员 A 的调参记录](report/tables/t2.tex) 和 [T4 成员 A 的投票对照](report/tables/t4_a.tex)。[make_figures.py](analysis/make_figures.py) 使用 Times New Roman 生成 PDF 和 PNG，图表复现和各图含义见 [A 的实验说明](README_A.md#报告图表和原句预测)。
-
-实体向量聚类和同范式投票的实际结果、复现命令，以及接入 B、C 结果的方式，见 [A 的扩展实验](README_A.md#实体向量聚类和集成)。
-
-## 5. B、C 的共用接口
-
-人工答案每行含 `sample_id`、`tokens`、`tags` 等字段。模型答卷每行含相同的 `sample_id` 和逐词 BIO `tags`，沿用人工答案的分词顺序。完整测试要覆盖全部样本。固定 300 条实验只写清单里的 ID，并用 `--subset-ids` 核对覆盖范围。
+Every extractor writes `preds/<dataset>/<method>/<seed>.jsonl` with one line per sentence.
 
 ```json
-{"sample_id":"conll2003:train:90","tags":["O","O","O","O","B-LOC","O","B-ORG","O","O"]}
+{"sample_id": "conll2003:test:0", "tags": ["O", "B-LOC", "O"]}
 ```
 
-下面第一条命令用仓库自带的一句答卷演示评分，预期 F1 为 **0.5**。其余命令用前面生成的真实答卷演示不同任务。B、C 可把 `--pred` 换成自己的答卷路径。
+An entity counts as correct when its span and its type both match the gold annotation.
 
-```powershell
-& $exp -B -m eval.score_ner --gold data/processed/conll2003/train.jsonl --pred preds/conll2003/demo/0.jsonl --allow-subset
-& $exp -B -m eval.score_ner --gold data/processed/conllpp/test.jsonl --pred preds/conllpp/m1_baseline/0.jsonl --subset-ids data/subsets/conllpp/test_300.txt
-& $exp -B -m eval.score_transfer --gold data/processed/wnut17/test.jsonl --pred preds/wnut17/m2_pos_transfer/0.jsonl --target-dataset wnut17 --prediction-schema conll2003
-& $exp -B -m eval.score_familiarity --dataset conllpp --pred preds/conllpp/m1_temporal/0.jsonl
-& $exp -B -m eval.analyze_ner_errors --gold data/processed/conll2003/test.jsonl --pred preds/conll2003/m2_baseline/0.jsonl --output-dir results/error_analysis/conll2003_m2_rerun --sample-size 60 --seed 42
+```bash
+# Exact-match precision, recall and F1. Add --subset-ids for the fixed 300 sentences.
+python -B -m eval.score_ner --gold data/processed/conll2003/test.jsonl --pred preds/conll2003/m2_baseline/0.jsonl
+# Scoring on the shared PER, LOC and ORG types across label schemes
+python -B -m eval.score_transfer --gold data/processed/wnut17/test.jsonl --pred preds/wnut17/m2_pos_transfer/0.jsonl --target-dataset wnut17 --prediction-schema conll2003
+# Seen and unseen entities
+python -B -m eval.score_familiarity --dataset conllpp --pred preds/conllpp/m1_temporal/0.jsonl
+# Error types: missed, spurious, boundary, type
+python -B -m eval.analyze_ner_errors --gold data/processed/conll2003/test.jsonl --pred preds/conll2003/m2_baseline/0.jsonl --output-dir results/error_analysis/conll2003_m2_rerun
 ```
 
-| 文件 | 评分方式 | 输出位置 |
-|---|---|---|
-| [score_ner.py](eval/score_ner.py) | `python -m eval.score_ner`。范围与类别均对才算实体正确。固定子集传 `--subset-ids`。单句演示用 `--allow-subset`。 | 终端 JSON |
-| [score_transfer.py](eval/score_transfer.py) | `python -m eval.score_transfer`。按目标数据集和预测的原标签体系映射共有三类。 | 终端 JSON |
-| [score_familiarity.py](eval/score_familiarity.py) | `python -m eval.score_familiarity`。输入 CoNLL-2003 或 CoNLL++ 的完整四类答卷，计算总体及两组熟悉度分数。 | 终端 JSON |
-| [analyze_ner_errors.py](eval/analyze_ner_errors.py) | `python -m eval.analyze_ner_errors`。按样本 ID 对照同标签体系的答卷，列出漏圈、误圈、范围错、类别错和两者皆错。从类别错和误圈中固定种子抽样。每次指定一个新的 `--output-dir`。 | 指定目录下的 `errors.jsonl`、`review.csv`、`summary.json`。示例为 [M2 错误汇总](results/error_analysis/conll2003_m2/summary.json) |
+## 5. Classic models
 
-人工检查时，两人各复制一份 `review.csv`，按相同的 `error_id` 独立填写。新版 M2 示例在 762 条候选错误里用种子 42 抽了 60 条。C 可分别运行两版提示词的答卷。若每版需要把多套数据汇成一个抽样池，可在 `--gold`、`--pred` 和 `--subset-ids` 后各传多个对应文件，保证样本 ID 唯一。LLM 生成的句外实体需要从 C 保留的原始输出单独核查，BIO 答卷只标原句中的词。
+Environment: `requirements.txt`.
 
+```bash
+# Hyperparameter selection: 5-fold cross-validation on the training split
+python -B -m models.classic.tune_crf --jobs 3
+python -B -m models.classic.m2_native_cv --jobs 3
+# M0, M1 and M2 on the three full test sets and the six fixed subsets
+python -B -m models.classic.run_baselines --jobs 1
+# Cross-validation controls: context window, fold grouping, part-of-speech source
+python -B -m models.classic.m2_cv_controls --jobs 3
+python -B -m models.classic.m2_pos_cv_check --jobs 5
+```
+
+Analyses, in this order because later ones read the predictions of earlier ones:
+
+```bash
+python -B -m models.classic.m2_pos_transfer          # CoNLL-2003 model on five test sets
+python -B -m eval.score_m2_familiarity               # seen and unseen entities
+python -B -m models.classic.run_temporal_baselines   # CoNLL-2003 against CoNLL++
+python -B -m eval.analyze_transfer_recall            # recall by familiarity and casing
+python -B -m models.classic.m2_transfer_matrix       # three training sources, five targets
+python -B -m eval.analyze_m2_transfer_overlap        # entity overlap against the F1 drop
+python -B -m models.classic.m2_feature_ablation --jobs 3
+python -B -m models.classic.m2_g2_transfer           # word-shape features removed
+python -B -m models.classic.m2_pos_validation
+python -B -m models.classic.m2_pos_casing
+python -B -m models.classic.run_robustness --replacement-version v2
+python -B -m models.classic.m2_extra_features        # gazetteer and GloVe cluster features
+python -B -m analysis.cluster_entities               # clustering of entity vectors
+python -B -m eval.ensemble_ner --gold data/processed/conll2003/test.jsonl --subset-ids data/subsets/conll2003/test_300.txt \
+  --pred M0=preds/conll2003/m0_baseline/0.jsonl --pred M1=preds/conll2003/m1_baseline/0.jsonl --pred M2=preds/conll2003/m2_baseline/0.jsonl \
+  --group classical=M0,M1,M2 --output results/m0_m2_ensemble.json
+python -B -m eval.result_tables export-a             # results/A.csv
+```
+
+## 6. Neural models
+
+Environment: `requirements-neural.txt`. The scripts pick CUDA, then Apple MPS, then the CPU, and they refuse to overwrite an existing output file or directory. `DATASET` is `conll2003`, `wnut17` or `mit_restaurant`, and the reported runs use seeds 0, 1 and 2. Each model has two candidate settings, and the one with the higher validation F1 at seed 0 is used.
+
+```bash
+# BiLSTM-CRF (M3). Candidates: lr 0.001, hidden 128, dropout 0.3, or lr 0.0005, hidden 96, dropout 0.5
+python -B -m models.neural.bilstm_crf --dataset conll2003 --epochs 5 --batch-size 16 \
+  --learning-rate 0.001 --hidden-size 128 --dropout 0.3 --seed 0 --output-dir output/bilstm_conll2003_seed0
+
+# BERT tagger (M4). Candidates: batch 8, lr 3e-5, or batch 16, lr 2e-5
+python -B -m models.neural.bert_extended --task native --dataset conll2003 --train-size 1.0 --dev-size 0 \
+  --epochs 3 --batch-size 16 --learning-rate 2e-5 --seed 0 --output-dir output/bert_conll2003_seed0
+
+# Span classifier. Candidates: batch 4, lr 3e-5, or batch 2, lr 2e-5
+python -B -m models.neural.span_bert --dataset conll2003 --epochs 3 --batch-size 4 --learning-rate 3e-5 \
+  --max-span-length 14 --negative-ratio 10 --seed 0 --output-dir output/span_conll2003_seed0
+```
+
+Further BERT experiments:
+
+```bash
+# Learning curve. Sizes 50, 100 and 0.01 train for 20 epochs, 0.1 and 1.0 for 3 epochs
+python -B -m models.neural.bert_extended --task native --dataset wnut17 --train-size 50 --epochs 20 \
+  --eval-every 5 --batch-size 8 --seed 0 --output-dir output/bert_wnut17_50_seed0
+# Transfer on PER, LOC and ORG. SOURCE is conll2003, wnut17 or merged
+python -B -m models.neural.bert_extended --task transfer --source merged --epochs 3 --batch-size 8 \
+  --seed 0 --output-dir output/bert_transfer_merged_seed0
+# Training on labels written by the LLM (section 7) or on gold labels of the same queries
+python -B -m models.neural.bert_extended --task distill --label-source pseudo \
+  --pseudo-predictions preds/mit_restaurant/qwen7b_k0_plain_train_2000_v1/0.jsonl \
+  --epochs 3 --batch-size 8 --seed 0 --output-dir output/bert_distill_pseudo_seed0
+# BiLSTM-CRF input representations. MODE is random, glove, glove_char or bert
+python -B -m models.neural.bilstm_representations --mode glove --dataset conll2003 --train-size 1.0 --dev-size 0 \
+  --epochs 5 --batch-size 16 --hidden-size 128 --learning-rate 0.001 --dropout 0.3 --seed 0 \
+  --output-dir output/bilstm_repr_glove_seed0
+```
+
+Prediction and scoring:
+
+```bash
+# METHOD is bert, bilstm or span. Add --subset-ids data/subsets/conll2003/test_300.txt for the fixed subset.
+python -B -m models.neural.predict_neural --method bert --model output/bert_conll2003_seed0 \
+  --input data/processed/conll2003/test.jsonl --output preds/conll2003/bert_full/0.jsonl
+# F1 with 95% bootstrap intervals and paired differences between methods
+python -B -m models.neural.score_neural --gold data/processed/conll2003/test.jsonl \
+  --pred M3=preds/conll2003/bilstm_full/0.jsonl --pred M4=preds/conll2003/bert_full/0.jsonl --pred Span=preds/conll2003/span_full/0.jsonl \
+  --entity-types LOC MISC ORG PER --output results/b/paired_bootstrap_conll2003_test.json
+# Boundary errors of the tagger against the span classifier
+python -B -m models.neural.compare_boundary --gold data/processed/conll2003/test.jsonl \
+  --pred M4=preds/conll2003/bert_full/0.jsonl --pred Span=preds/conll2003/span_full/0.jsonl \
+  --output results/b/boundary_errors_conll2003_test.json
+```
+
+## 7. Zero-shot and LLM extraction
+
+Environment: `requirements-llm.txt`. The models download from the Hugging Face Hub on first use: `urchade/gliner_medium-v2.1`, `Qwen/Qwen2.5-1.5B-Instruct`, `Qwen/Qwen2.5-7B-Instruct` and `sentence-transformers/all-MiniLM-L6-v2`.
+
+```bash
+ALL="conll2003 conllpp wikigold btc wnut17 mit_restaurant"
+
+# GLiNER on the six fixed subsets
+python -B -m models.llm.gliner_zero
+
+# Qwen2.5 with no examples
+python -B -m models.llm.prompt_llm --model 1.5b --dataset $ALL --split test --subset test_300
+python -B -m models.llm.prompt_llm --model 7b --dataset $ALL --split test --subset test_300
+
+# Qwen2.5-7B with 10 examples retrieved from the training split
+python -B -m models.llm.prompt_llm --model 7b --shots 10 --selection similar --dataset $ALL --split test --subset test_300
+```
+
+The other experiments change one option of the same script.
+
+| Experiment | Options |
+|---|---|
+| Prompt selection on 300 CoNLL-2003 validation sentences | `--shots {0,1,5,10}`, `--selection {random,similar}`, `--guideline`, `--model {1.5b,7b}` with the default split and subset |
+| Label budget | `--pool-size {50,100}` with `--seed {0,1,2}`, or `--pool-size {0.01,0.1}` |
+| Instruction wording | `--wording {1,2}` |
+| Annotation rules | `--guideline` on `conll2003` and `wnut17` |
+| Full test set | `--dataset conll2003 --split test --subset full` |
+| Edited test sets | `--dataset conll2003 --split test --input data/derived/perturbations/conll2003/lowercase_v1.jsonl --scope lowercase_v1` |
+| Labels for distillation | `--model 7b --dataset mit_restaurant --train-sample 2000 --scope train_2000_v1` |
+
+LoRA fine-tuning of the 1.5B model on 10% of CoNLL-2003:
+
+```bash
+python -B -m models.llm.lora_llm
+python -B -m models.llm.prompt_llm --model 1.5b --adapter output/lora/qwen1.5b_conll2003_n0.1_seed0 \
+  --dataset conll2003 conllpp wikigold --split test --subset test_300
+python -B -m models.llm.prompt_llm --model 1.5b --adapter output/lora/qwen1.5b_conll2003_n0.1_seed0 \
+  --dataset btc wnut17 --schema conll2003 --split test --subset test_300
+```
+
+Each run writes its predictions and a score report under `results/c/`. Two CPU steps collect them.
+
+```bash
+python -B -m models.llm.error_types   # error types of the 7B model with and without annotation rules
+python -B -m models.llm.summarize     # results/C.csv
+```
+
+## 8. Figures and tables
+
+Environment: `requirements.txt`. The scripts read `results/` and write `report/figures/` and `report/tables/`. The figures use the Times New Roman font.
+
+```bash
+python -B -m analysis.data_exploration
+python -B -m analysis.make_figures        # F1, F3a, F5, F6b, F7
+python -B -m analysis.make_figures_c      # F8, F9
+python -B -m analysis.make_tables         # T1, T2, T4 voting
+python -B -m analysis.make_tables_c       # zero-shot, label budget, wording, robustness, LoRA, distillation
+python -B -m analysis.make_tables_team    # T3 for all methods
+# plot_scores and plot_entity need a new output path, so remove the old PDF first
+python -B -m models.neural.plot_scores f2  --csv results/A.csv results/B.csv --output report/figures/f2.pdf
+python -B -m models.neural.plot_scores f3b --csv results/B.csv --output report/figures/f3b.pdf
+python -B -m models.neural.plot_scores f6a --csv results/B.csv --output report/figures/f6a.pdf
+```
+
+F4 compares entity vectors of GloVe, pretrained BERT and fine-tuned BERT, and needs a trained BERT tagger.
+
+```bash
+python -B -m models.neural.export_bert_entities --input data/processed/conll2003/validation.jsonl \
+  --model bert-base-cased --output output/vectors/base_validation.jsonl
+python -B -m models.neural.export_bert_entities --input data/processed/conll2003/validation.jsonl \
+  --model output/bert_conll2003_seed0/best_model --fine-tuned --output output/vectors/finetuned_validation.jsonl
+python -B -m models.neural.plot_entity --gold data/processed/conll2003/validation.jsonl \
+  --glove data/external/glove/glove.6B.100d.txt --base-bert output/vectors/base_validation.jsonl \
+  --fine-tuned-bert output/vectors/finetuned_validation.jsonl --max-samples 1000 --seed 42 \
+  --output report/figures/f4.pdf --metrics results/b/f4_clustering.json
+```
+
+## 9. Entity extraction from raw text
+
+`scripts/predict.py` returns the entities of a sentence with their type and character span. `m2` is the CRF and is fitted on each call. `m4` is the fine-tuned BERT tagger, the main extractor of the project, and needs one training run first.
+
+```bash
+python -B -m scripts.predict --model m2 --text "John Smith visited London." --pos-python $POS
+
+python -B -m models.neural.bert_baseline --dataset conll2003 --train-size 1.0 --dev-size 0 --epochs 3 \
+  --batch-size 16 --learning-rate 2e-5 --output-dir output/bert_main
+python -B -m scripts.predict --model m4 --text "John Smith visited London." --pos-python $POS
+```

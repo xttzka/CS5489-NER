@@ -80,8 +80,8 @@
   "inputs": {
     "gold": "data/processed/conll2003/test.jsonl",
     "predictions": {
-      "M4": "output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "Span": "output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
+      "M4": "domain__M4__conll2003__conll2003__full__standard__seed0",
+      "Span": "domain__Span__conll2003__conll2003__full__standard__seed0"
     },
     "subset_ids": null
   }

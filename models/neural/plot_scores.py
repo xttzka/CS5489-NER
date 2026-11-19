@@ -1,8 +1,6 @@
-"""Draw B's F2, F3(b), or F6(a) report figures from team CSVs.
+"""Draw report figures from the results CSVs: f2 main results, f3b input representations, f6a transfer matrix.
 
-The caller must select the intended split, evaluation scope and random seed.
-F2 requires per-method 95% bootstrap bounds; F6 requires all 15 matrix cells.
-No missing value is silently replaced by zero.
+A required value that is missing or duplicated in the CSVs is an error.
 """
 
 import argparse
@@ -49,6 +47,7 @@ def load_rows(paths):
 
 
 def one_metric(rows, metric, description):
+    """Return the value of the single row with this metric; fail otherwise."""
     matches = [row for row in rows if row["metric"] == metric]
     if len(matches) != 1:
         raise ValueError(f"{description}: expected one {metric} row, found {len(matches)}")
@@ -56,6 +55,7 @@ def one_metric(rows, metric, description):
 
 
 def f1_bounds(rows, description):
+    """Return the lower and upper 95% bootstrap bounds of F1."""
     for lower, upper in (("f1_ci95_lower", "f1_ci95_upper"),
                          ("bootstrap_ci95.f1.0", "bootstrap_ci95.f1.1")):
         if any(row["metric"] == lower for row in rows):
@@ -64,6 +64,7 @@ def f1_bounds(rows, description):
 
 
 def save_figure(fig, path):
+    """Write the figure to a new PDF, refusing to overwrite an existing file."""
     if path.suffix.lower() != ".pdf":
         raise ValueError("--output must be a vector PDF path")
     if path.exists():
@@ -78,6 +79,7 @@ def save_figure(fig, path):
 
 
 def draw_main(rows, args):
+    """f2: bar chart of F1 per method with intervals and the gain over the previous method."""
     selected = [row for row in rows if row["experiment"] == args.experiment
                 and row["dataset"] == args.dataset and row["split"] == args.split
                 and row["scope"] == args.scope and row["entity_type"] == "all"
@@ -116,6 +118,7 @@ def draw_main(rows, args):
 
 
 def draw_transfer(rows, args):
+    """f6a: heat map of BERT F1 for each training source and test dataset."""
     selected = [row for row in rows if row["experiment"] == args.experiment
                 and row["split"] == args.split and row["scope"] == args.scope
                 and row["entity_type"] == "all" and row["entity_group"] in {"", "all"}
@@ -145,6 +148,7 @@ def draw_transfer(rows, args):
 
 
 def draw_representations(rows, args):
+    """f3b: bar chart of BiLSTM-CRF F1 for the four input representations."""
     selected = [row for row in rows if row["experiment"] == args.experiment
                 and row["dataset"] == args.dataset and row["split"] == args.split
                 and row["scope"] == args.scope and row["entity_type"] == "all"

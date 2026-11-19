@@ -1,8 +1,8 @@
-"""Generate T3 for all methods from results/A.csv, B.csv and C.csv."""
+"""Generate the T3 tables for all methods from results/A.csv, B.csv and C.csv."""
 
 import csv
 import json
-from statistics import mean
+from statistics import mean, stdev
 
 from analysis.data_exploration import ROOT
 from analysis.make_tables import OUTPUT, table
@@ -94,9 +94,19 @@ def full_table(rows):
                  "dataset, with the sentence-bootstrap 95% interval of F1. Neural methods show seed 0.")
 
 
+def seed_table(rows):
+    lines = []
+    for dataset in NATIVE:
+        for name, member, method, condition, _ in METHODS[3:6]:
+            scores = values(rows, member, method, condition, dataset, "full", "f1")
+            lines.append((DATASETS[dataset] if method == "M3" else "", name, f"{mean(scores):.1f}", f"{stdev(scores):.1f}"))
+    return table("llrr", ("Dataset", "Method", "Mean F1", "SD"), lines,
+                 "Entity F1 (%) on the full test split of each dataset, mean and sample SD over 3 training seeds.")
+
+
 def main():
     rows = load()
-    for key, content in {"t3_300": subset_table(rows), "t3_full": full_table(rows)}.items():
+    for key, content in {"t3_300": subset_table(rows), "t3_full": full_table(rows), "t3_seeds": seed_table(rows)}.items():
         (OUTPUT / f"{key}.tex").write_text(content, encoding="utf-8", newline="\n")
         print(OUTPUT / f"{key}.tex")
 

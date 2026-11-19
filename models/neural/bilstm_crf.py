@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-import time
 from hashlib import file_digest
 from pathlib import Path
 
@@ -37,16 +36,16 @@ def parse_args():
     )
     parser.add_argument(
         "--train-size",
-        default="200",
+        default="1.0",
         help='Sentence count such as "200", or proportion such as "1.0".',
     )
     parser.add_argument(
         "--dev-size",
         type=int,
-        default=100,
+        default=0,
         help="Validation sentence count; 0 means the full validation set.",
     )
-    parser.add_argument("--epochs", type=int, default=2)
+    parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--learning-rate", type=float, default=0.001)
     parser.add_argument("--hidden-size", type=int, default=128)
@@ -54,14 +53,14 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
         "--output-dir",
-        default="output/bilstm_conll2003_smoke",
+        default="output/bilstm_crf",
     )
 
     return parser.parse_args()
 
 
 def load_glove(path):
-    """Load the complete GloVe vocabulary and its frozen 100d vectors."""
+    """Check the GloVe file hash, then load its vocabulary and 100d vectors."""
 
     if not path.is_file():
         raise FileNotFoundError(f"GloVe file not found: {path}")
@@ -136,6 +135,7 @@ def make_character_vocab(rows):
 
 
 def encode_batch(rows, word_to_id, char_to_id, label_to_id, device):
+    """Pad a batch into word, character and tag id tensors plus a mask and lengths."""
     batch_size = len(rows)
     max_words = max(len(row["tokens"]) for row in rows)
 
@@ -306,6 +306,7 @@ def evaluate(
     id_to_label,
     device,
 ):
+    """Decode every row with the CRF and score the tags against the gold tags."""
     model.eval()
 
     gold_by_id = {}
@@ -361,9 +362,12 @@ def main():
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
 
-    device = torch.device(
-        "mps" if torch.backends.mps.is_available() else "cpu"
-    )
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
     train_rows = sample_train(args.dataset, args.train_size, args.seed)
     dev_rows = load_rows(args.dataset, "validation")
@@ -448,7 +452,6 @@ def main():
 
     for epoch in range(1, args.epochs + 1):
         model.train()
-        started = time.time()
         epoch_loss = 0.0
 
         for batch_number, rows in enumerate(train_loader, start=1):
@@ -501,7 +504,7 @@ def main():
         )
 
         print(
-            f"Epoch {epoch} finished in {time.time() - started:.1f}s | "
+            f"Epoch {epoch} finished | "
             f"mean loss: {epoch_loss / len(train_loader):.4f}"
         )
         print("Validation scores:")

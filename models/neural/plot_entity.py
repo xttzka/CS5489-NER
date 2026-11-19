@@ -1,8 +1,6 @@
-"""Make F4's matched GloVe/base-BERT/fine-tuned-BERT t-SNE figure.
+"""Draw t-SNE panels of gold entity vectors from GloVe, base BERT and fine-tuned BERT on the same spans.
 
-All panels use the identical intersection of gold span IDs for which each
-representation is available. K-means and ARI/NMI use the original vectors,
-not the two-dimensional t-SNE coordinates. No supervised model is fitted.
+K-means ARI and NMI are computed on the full vectors, not on the t-SNE coordinates.
 """
 
 import argparse
