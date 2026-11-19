@@ -1,0 +1,35 @@
+{
+  "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/validation.jsonl",
+  "gold_sha256": "c45e0853c89b28c3acf22eebabc6d4145b76fdba32e6a7fc175ce6a799b01902",
+  "total_gold_entities": 5942,
+  "representations": {
+    "glove": {
+      "input": "output/b_finish_v2/vectors/glove_validation.jsonl",
+      "sha256": "2556909816aaa61b53974e680c0ce2f7d046175f796df3076e3b245270816e3a",
+      "dimensions": 100,
+      "entities": 5840,
+      "missing_entities": 102,
+      "missing_fraction": 0.01716593739481656
+    },
+    "base_bert": {
+      "input": "output/b_finish_v2/vectors/base_validation.jsonl",
+      "sha256": "7a36a745ea001f8a94fcb2dd62a0f7562404442a466fe1a81c9b23a0cecf340a",
+      "dimensions": 768,
+      "entities": 5942,
+      "missing_entities": 0,
+      "missing_fraction": 0.0
+    },
+    "fine_tuned_bert": {
+      "input": "output/b_finish_v2/vectors/finetuned_validation.jsonl",
+      "sha256": "88c1f10af674480fd8006b2db765c36705c652318005080e9189f71a1bc4d37e",
+      "dimensions": 768,
+      "entities": 5942,
+      "missing_entities": 0,
+      "missing_fraction": 0.0
+    }
+  },
+  "common_entities": 5840,
+  "common_fraction": 0.9828340626051835,
+  "key": "sample_id,start,end (end exclusive)",
+  "note": "Entity vectors are derived from the explicitly named input split; no held-out results are inferred."
+}

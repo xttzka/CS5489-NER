@@ -1,0 +1,16 @@
+{
+  "input": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/results/m2_transfer_overlap.json",
+  "input_sha256": "41117b8352b18c3e3055e8ababb07deea71f965f7a6678ef22a82a235c0c4c9b",
+  "frozen_manifest_sha256": "cc20216cd9a430153e9d344eecb3b340bbe3ed46d559c4081ca5885300189d01",
+  "source": "conll2003",
+  "method": "M2 (A analysis)",
+  "label_space": "LOC+ORG+PER",
+  "points": 12,
+  "pearson_r": -0.568616155249259,
+  "ols_slope_loss_pp_per_overlap_pp": -0.4816585804237991,
+  "ols_intercept_pp": 45.83500168409292,
+  "overlap_definition": "Fraction of target gold mentions whose full case-folded name and mapped type occur in source training.",
+  "loss_definition": "Same-source test F1 minus target F1, per type. For merged training, reference F1 is the mean of its two source-domain test F1s.",
+  "interpretation": "Descriptive association; points share datasets and entity types and do not establish causality.",
+  "figure_sha256": "46165d282bf7d8dfd9a1488f56d5dd422e4f0240cf590a58ffcf681412393638"
+}

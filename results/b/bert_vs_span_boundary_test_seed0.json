@@ -1,0 +1,88 @@
+{
+  "sentence_count": 3453,
+  "models": {
+    "M4": {
+      "exact_match": {
+        "gold_records": 3453,
+        "scored_records": 3453,
+        "tp": 5183,
+        "fp": 614,
+        "fn": 465,
+        "precision": 0.8940831464550629,
+        "recall": 0.9176699716713881,
+        "f1": 0.9057230231542158
+      },
+      "error_event_counts": {
+        "missed": 73,
+        "spurious": 222,
+        "boundary": 98,
+        "type": 229,
+        "boundary_and_type": 65
+      },
+      "total_error_events": 687,
+      "boundary_only_fraction_of_events": 0.14264919941775836,
+      "boundary_or_boundary_and_type_fraction_of_events": 0.23726346433770015,
+      "boundary_involved_bootstrap": {
+        "ci95": [
+          0.21000469964198906,
+          0.26694391768836484
+        ],
+        "valid_resamples": 1000
+      }
+    },
+    "Span": {
+      "exact_match": {
+        "gold_records": 3453,
+        "scored_records": 3453,
+        "tp": 5127,
+        "fp": 563,
+        "fn": 521,
+        "precision": 0.901054481546573,
+        "recall": 0.9077549575070821,
+        "f1": 0.9043923090492151
+      },
+      "error_event_counts": {
+        "missed": 131,
+        "spurious": 173,
+        "boundary": 69,
+        "type": 269,
+        "boundary_and_type": 52
+      },
+      "total_error_events": 694,
+      "boundary_only_fraction_of_events": 0.0994236311239193,
+      "boundary_or_boundary_and_type_fraction_of_events": 0.17435158501440923,
+      "boundary_involved_bootstrap": {
+        "ci95": [
+          0.1473193744522349,
+          0.2020521346460418
+        ],
+        "valid_resamples": 1000
+      }
+    }
+  },
+  "paired_differences": {
+    "Span_minus_M4": {
+      "boundary_involved_fraction_difference": -0.06291187932329093,
+      "ci95": [
+        -0.086749526395343,
+        -0.03987027578710493
+      ],
+      "valid_resamples": 1000
+    }
+  },
+  "bootstrap": {
+    "resamples": 1000,
+    "seed": 42,
+    "unit": "sentence",
+    "interval": "95% percentile"
+  },
+  "definition": "One-to-one overlapping-span error events; boundary_involved is boundary plus boundary_and_type divided by all error events.",
+  "inputs": {
+    "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/test.jsonl",
+    "predictions": {
+      "M4": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
+      "Span": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
+    },
+    "subset_ids": null
+  }
+}
