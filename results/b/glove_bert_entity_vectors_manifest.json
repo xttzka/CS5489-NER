@@ -1,5 +1,5 @@
 {
-  "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/validation.jsonl",
+  "gold": "data/processed/conll2003/validation.jsonl",
   "gold_sha256": "c45e0853c89b28c3acf22eebabc6d4145b76fdba32e6a7fc175ce6a799b01902",
   "total_gold_entities": 5942,
   "representations": {

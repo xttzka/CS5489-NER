@@ -836,14 +836,14 @@
     "interval": "95% percentile"
   },
   "inputs": {
-    "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/test.jsonl",
+    "gold": "data/processed/conll2003/test.jsonl",
     "predictions": {
-      "M0": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/classic/conll2003/tasks/conll2003__M0__full/predictions.jsonl",
-      "M1": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/classic/conll2003/tasks/conll2003__M1__full/predictions.jsonl",
-      "M2": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/classic/conll2003/tasks/conll2003__M2__full/predictions.jsonl",
-      "M3": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__M3__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "M4": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "Span": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
+      "M0": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M0__full/predictions.jsonl",
+      "M1": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M1__full/predictions.jsonl",
+      "M2": "output/b_finish_v2/classic/conll2003/tasks/conll2003__M2__full/predictions.jsonl",
+      "M3": "output/b_finish_v2/evaluation/tasks/domain__M3__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
+      "M4": "output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
+      "Span": "output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
     },
     "subset_ids": null,
     "scoring": "native",

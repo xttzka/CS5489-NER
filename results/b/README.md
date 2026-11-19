@@ -11,12 +11,11 @@
 | `span_bert_results.csv` | Span / BERT Span | 同一原表精确筛选 `method=Span` 的全部指标行。 |
 | `all_models_results.csv` | 三个神经模型 | `results/B.csv` 的逐字节副本，保留所有原字段；权威兼容路径仍是 `results/B.csv`。 |
 
-三个模型的表是原始指标明细的分组视图，包含 precision、recall、F1、各类指标及置信区间等；一行不是一次独立实验。不要把这三份分表再追加回总表，否则会重复统计。`source_ref` 和部分 JSON 指向这台 Mac 的绝对路径和 `output/`：代码库不含这些被 Git 忽略的模型、预测、数据和完整日志，队友需要另行获取并处理路径；不可直接修改已签名的冻结清单冒充原始证据。
+三个模型的表是原始指标明细的分组视图，包含 precision、recall、F1、各类指标及置信区间等；一行不是一次独立实验。不要把这三份分表再追加回总表，否则会重复统计。`source_ref` 和部分 JSON 用相对仓库根目录的路径指向 `output/`：代码库不含这些被 Git 忽略的模型、预测、数据和完整日志，队友需要另行获取并处理路径；不可直接修改已签名的冻结清单冒充原始证据。
 
-## 学习曲线与成本
+## 学习曲线
 
 - `bert_learning_curve_by_seed.csv`、`bert_learning_curve_summary.csv`、`bert_learning_curve_notes.md`：BERT 学习曲线，给 C；其中历史训练 ID 的部分记录只是按规则重建，不能证明与 C 的 LoRA 数据逐条相同。
-- `all_models_costs.csv`、`all_models_costs_README.md`、`all_models_costs_manifest.json`：全部模型成本和溯源，给 A。MPS 内存数据是采样值，不是精确峰值；缺失项保留为空。
 
 ## 统计、图和可追溯记录
 

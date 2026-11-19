@@ -35,5 +35,4 @@
 - F8 有 11 条历史运行的训练样本 ID 仅能按规则重建，不能据此断言 B 与 C 训练样本完全一致。
 - v1 测试过程中发现 BTC 的 U+200E 子词对齐问题；v2 保留模型/参数，记录修复后重新评测。v1 已完成的 48 项与 v2 预测一致，相关对照保存在 `results/b/all_models_alignment_version_comparison.json`。A/C 测试结果在本次选择前已存在，不能声称整个团队完全未接触测试信息。
 - F4 原数值库发出警告，独立 OpenBLAS 重绘后指标及聚类成员经核验一致；`report/b/figures/f4_entity_representations_checked.pdf` 是复核图。MISC 的 144 条样例由助手辅助检查，独立人类复核仍待完成。
-- `results/b/all_models_costs.csv` 部分条件无独立 profile；内存仅为 MPS 采样最大值，不是精确峰值或独立显存。
 - B 的报告和结果是在本地整理，不能视为已经向 A/C 实际交接，也不能代替团队合稿、复现验证、人工判断及视频录制。

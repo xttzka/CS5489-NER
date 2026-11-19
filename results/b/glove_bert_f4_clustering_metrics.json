@@ -1,5 +1,5 @@
 {
-  "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/validation.jsonl",
+  "gold": "data/processed/conll2003/validation.jsonl",
   "representations": {
     "GloVe": {
       "ari": 0.2227324809661151,

@@ -3,42 +3,42 @@
   "purpose": "Independent single-thread OpenBLAS redraw of the frozen F4 figure, no GPU.",
   "inputs": {
     "gold": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/validation.jsonl",
+      "path": "data/processed/conll2003/validation.jsonl",
       "sha256": "c45e0853c89b28c3acf22eebabc6d4145b76fdba32e6a7fc175ce6a799b01902"
     },
     "glove": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/external/glove/glove.6B.100d.txt",
+      "path": "data/external/glove/glove.6B.100d.txt",
       "sha256": "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6"
     },
     "base_bert": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/vectors/base_validation.jsonl",
+      "path": "output/b_finish_v2/vectors/base_validation.jsonl",
       "sha256": "7a36a745ea001f8a94fcb2dd62a0f7562404442a466fe1a81c9b23a0cecf340a"
     },
     "fine_tuned_bert": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/vectors/finetuned_validation.jsonl",
+      "path": "output/b_finish_v2/vectors/finetuned_validation.jsonl",
       "sha256": "88c1f10af674480fd8006b2db765c36705c652318005080e9189f71a1bc4d37e"
     },
     "original_figure": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/latex_handoff/figures/f4_b.pdf",
+      "path": "output/b_finish_v2/latex_handoff/figures/f4_b.pdf",
       "sha256": "b561d779dfbc38460ee28c8d8296a7845008067e16554086d818f21491f6f967"
     },
     "original_metrics": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/analysis/f4_metrics.json",
-      "sha256": "6726a555ad7b5ae32b596621879d59d172a26387093042d489a556dfa365476e"
+      "path": "output/b_finish_v2/analysis/f4_metrics.json",
+      "sha256": "75717ed54d25ebf3898e9ef9c56b29e1abaed1f704614f7b4375cfb669e1bafd"
     },
     "plot_code": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/models/neural/plot_entity_b.py",
+      "path": "models/neural/plot_entity_b.py",
       "sha256": "171ba9940d283a7ea4b0c6f19691373421dcec5480318d8498e04013086e665b"
     },
     "frozen_manifest": {
-      "path": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/frozen.json",
+      "path": "output/b_finish_v2/frozen.json",
       "sha256": "bd5992e04d3a5251e4a9ec5b563a2a4427cb803661b5420c0f7238e4eaa12312"
     }
   },
   "outputs": {
-    "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_f4_checked_v1/f4_openblas_single_thread.pdf": "8506a0b905ed4e8f15f90199195cb9931cea334d991619c98d4b066b6b4a19c4",
-    "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_f4_checked_v1/f4_openblas_single_thread_metrics.json": "6726a555ad7b5ae32b596621879d59d172a26387093042d489a556dfa365476e",
-    "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_f4_checked_v1/f4_openblas_single_thread.log": "5bf8580ba6489208dbd02d753e69dd320abb94e230fcf8dae038d6a51969afcd"
+    "output/b_f4_checked_v1/f4_openblas_single_thread.pdf": "8506a0b905ed4e8f15f90199195cb9931cea334d991619c98d4b066b6b4a19c4",
+    "output/b_f4_checked_v1/f4_openblas_single_thread_metrics.json": "75717ed54d25ebf3898e9ef9c56b29e1abaed1f704614f7b4375cfb669e1bafd",
+    "output/b_f4_checked_v1/f4_openblas_single_thread.log": "5bf8580ba6489208dbd02d753e69dd320abb94e230fcf8dae038d6a51969afcd"
   },
   "script_sha256": "da2ea699ab07657fdf641e41beaf30a5a8c1dc296b1af53cba589673a59701ae",
   "environment": {

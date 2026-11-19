@@ -1,0 +1,20 @@
+% T3, all members. Entity F1 (%) on the fixed 300-sentence test subsets. BiLSTM-CRF, BERT and the span classifier show the mean of 3 seeds. Supervised extractors train on CoNLL-03 for the first four datasets and on each dataset's own training split for the last two. BTC uses the person, location and organization types. A dash marks a test set whose types the extractor was not trained to output. Load booktabs.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Method & Labelled sentences & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
+\midrule
+Dictionary & Full training split & 60.2 & 47.0 & 24.0 & 10.8 & 0.0 & 43.6 \\
+Logistic regression & Full training split & 69.9 & 65.4 & 41.4 & 26.1 & 16.7 & 67.7 \\
+CRF & Full training split & 81.0 & 70.3 & 57.8 & 25.2 & 20.3 & 77.8 \\
+BiLSTM-CRF & Full training split & 88.0 & 79.1 & 70.6 & 32.9 & 26.1 & 78.9 \\
+BERT & Full training split & 89.2 & 82.8 & 78.5 & 38.1 & 46.4 & 79.0 \\
+Span classifier & Full training split & 89.3 & 82.4 & 79.0 & 36.3 & 51.0 & 79.2 \\
+Qwen2.5-1.5B with LoRA & 10\% of CoNLL-03 & 85.7 & 83.7 & 73.4 & 35.5 & -- & -- \\
+Qwen2.5-7B & 10 retrieved examples & 84.5 & 81.2 & 76.3 & 55.9 & 54.8 & 71.0 \\
+GLiNER & None & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
+Qwen2.5-1.5B & None & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
+Qwen2.5-7B & None & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
+\bottomrule
+\end{tabular}
+\endgroup

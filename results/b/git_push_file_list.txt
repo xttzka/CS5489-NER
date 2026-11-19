@@ -25,7 +25,6 @@ models/neural/collect_b_evaluations.py
 models/neural/collect_b_results.py
 models/neural/compare_boundary_b.py
 models/neural/compare_evaluation_versions_b.py
-models/neural/costs_b.py
 models/neural/deliver_b.py
 models/neural/export_bert_entities.py
 models/neural/export_glove_entities_b.py
@@ -75,9 +74,6 @@ report/b/video_script.md
 results/B.csv
 results/b/README.md
 results/b/all_models_alignment_version_comparison.json
-results/b/all_models_costs.csv
-results/b/all_models_costs_README.md
-results/b/all_models_costs_manifest.json
 results/b/all_models_experiment_protocol.json
 results/b/all_models_original_delivery_manifest.json
 results/b/all_models_paired_test_seed0.json

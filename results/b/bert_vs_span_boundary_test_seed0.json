@@ -78,10 +78,10 @@
   },
   "definition": "One-to-one overlapping-span error events; boundary_involved is boundary plus boundary_and_type divided by all error events.",
   "inputs": {
-    "gold": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/data/processed/conll2003/test.jsonl",
+    "gold": "data/processed/conll2003/test.jsonl",
     "predictions": {
-      "M4": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
-      "Span": "/Users/malinyao/Documents/Course/5489/project/CS5489-NER/output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
+      "M4": "output/b_finish_v2/evaluation/tasks/domain__M4__conll2003__conll2003__full__standard__seed0/predictions.jsonl",
+      "Span": "output/b_finish_v2/evaluation/tasks/domain__Span__conll2003__conll2003__full__standard__seed0/predictions.jsonl"
     },
     "subset_ids": null
   }
