@@ -131,7 +131,12 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     schema = args.schema or dataset
     descriptions = TYPE_DESCRIPTIONS[schema]
     types = set(descriptions)
-    rows = load_input(args.input) if args.input else load_rows(dataset, args.split, subset)
+    if args.train_sample:
+        rows = sample_train(dataset, args.train_sample, args.seed)
+    elif args.input:
+        rows = load_input(args.input)
+    else:
+        rows = load_rows(dataset, args.split, subset)
     texts = [" ".join(row["tokens"]) for row in rows]
     source = EXAMPLE_SOURCE.get(schema, schema)
     pool = []
@@ -180,9 +185,9 @@ def run_dataset(args, model, tokenizer, dataset, scope, subset):
     parsed_rows = [row for row in rows if row["sample_id"] not in failed]
     report = {
         "method": "LoRA-LLM" if args.adapter else "LLM prompt", "model": args.model_name, "adapter": args.adapter,
-        "dataset": dataset, "split": None if args.input else args.split, "scope": scope,
-        "label_scheme": schema, "input": args.input,
-        "subset_ids": (None if subset is None or args.input
+        "dataset": dataset, "split": args.split, "scope": scope,
+        "label_scheme": schema, "input": args.input, "train_sample": args.train_sample,
+        "subset_ids": (None if subset is None or args.input or args.train_sample
                        else subset_path(dataset, subset).relative_to(PROJECT).as_posix()),
         "shots": args.shots, "selection": args.selection if args.shots else None,
         "example_source": f"{source}:train" if args.shots else None,
@@ -223,8 +228,10 @@ def main():
     parser.add_argument("--dataset", nargs="+", default=["conll2003"], choices=list(TYPE_DESCRIPTIONS))
     parser.add_argument("--split", default="validation")
     parser.add_argument("--subset", default="validation_300", help="ID list name under data/subsets, or 'full'")
-    parser.add_argument("--input", help="Derived test file to label instead of a split; needs --scope and one dataset")
-    parser.add_argument("--scope", help="Name of the --input test set in method names and reports")
+    parser.add_argument("--input", help="Derived file to label; needs --scope, one dataset and the --split it comes from")
+    parser.add_argument("--scope", help="Name of the --input or --train-sample set in method names and reports")
+    parser.add_argument("--train-sample", help="Label this many sentences of the training split, drawn with --seed; "
+                                                "needs --scope and one dataset")
     parser.add_argument("--schema", help="Dataset whose labels the model outputs; the target dataset by default")
     parser.add_argument("--adapter", help="Directory of a LoRA adapter to load on the base model")
     parser.add_argument("--shots", type=int, default=0)
@@ -240,9 +247,11 @@ def main():
     args = parser.parse_args()
     args.model_name = MODELS[args.model]
 
+    if (args.input or args.train_sample) and (not args.scope or len(args.dataset) != 1):
+        parser.error("--input and --train-sample need --scope and exactly one --dataset")
+    if args.train_sample:
+        args.split = "train"
     tokenizer = AutoTokenizer.from_pretrained(args.model_name, padding_side="left")
-    if args.input and (not args.scope or len(args.dataset) != 1):
-        parser.error("--input needs --scope and exactly one --dataset")
     model = AutoModelForCausalLM.from_pretrained(args.model_name, dtype=torch.bfloat16, device_map="cuda")
     if args.adapter:
         from peft import PeftModel

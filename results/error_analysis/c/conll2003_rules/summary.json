@@ -1,12 +1,12 @@
 {
   "gold": [
-    "/data/lyf/cs5489_ner/CS5489-NER/data/processed/conll2003/test.jsonl"
+    "data/processed/conll2003/test.jsonl"
   ],
   "predictions": [
-    "/data/lyf/cs5489_ner/CS5489-NER/preds/conll2003/qwen7b_k0_guide_test_300/0.jsonl"
+    "preds/conll2003/qwen7b_k0_guide_test_300/0.jsonl"
   ],
   "subset_ids": [
-    "/data/lyf/cs5489_ner/CS5489-NER/data/subsets/conll2003/test_300.txt"
+    "data/subsets/conll2003/test_300.txt"
   ],
   "exact_match": {
     "gold_records": 300,

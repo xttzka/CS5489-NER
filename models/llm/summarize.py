@@ -1,4 +1,4 @@
-"""Collect member C's result reports into results/C.csv with the team schema."""
+"""Collect the extraction reports of models/llm into results/C.csv with the team schema."""
 
 import json
 
@@ -56,8 +56,7 @@ def rows_for(path):
     base = {
         "member": "C", "method": method, "condition": condition, "train_source": source,
         "dataset": report["dataset"],
-        # Derived inputs come from the CoNLL-2003 test split, the labelling sample from MIT training data.
-        "split": "train" if scope.startswith("train_") else "test" if report.get("input") else report["split"],
+        "split": report["split"],
         "scope": scope, "label_space": SHARED if shared else label_space(TYPE_DESCRIPTIONS[schema]),
         "entity_group": "all", "seed": report.get("seed", 0), "fold": "",
         "config_json": json.dumps({**config, "label_scheme": schema}, sort_keys=True, separators=(",", ":")),

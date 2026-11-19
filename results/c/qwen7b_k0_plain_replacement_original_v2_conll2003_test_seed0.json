@@ -3,7 +3,7 @@
   "model": "Qwen/Qwen2.5-7B-Instruct",
   "adapter": null,
   "dataset": "conll2003",
-  "split": "validation",
+  "split": "test",
   "scope": "replacement_original_v2",
   "label_scheme": "conll2003",
   "input": "data/derived/entity_replacement/conll2003/original_v2.jsonl",

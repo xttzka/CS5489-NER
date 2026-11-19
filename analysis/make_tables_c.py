@@ -1,4 +1,4 @@
-"""Generate member C's tables: zero-shot rows of T3, the LoRA comparison of T4 and the robustness results."""
+"""Generate the tables of the zero-shot, few-shot, LoRA and distillation experiments."""
 
 import csv
 import json
@@ -38,9 +38,8 @@ def zero_shot_table():
         ("Qwen2.5-7B", "10 retrieved examples", *(llm(BEST, dataset) for dataset in DATASETS)),
     ]
     return table("ll" + "r" * len(DATASETS), ("Method", "Labelled sentences", *DATASETS.values()), rows,
-                 "T3, member C. Entity F1 (%) on the fixed 300-sentence test subsets, native labels. "
-                 "Few-shot retrieves 10 examples per sentence from the full training split of the label scheme. "
-                 "Load booktabs.")
+                 "Entity F1 (%) on the fixed 300-sentence test subsets, native labels. "
+                 "Few-shot retrieves 10 examples per sentence from the full training split of the label scheme.")
 
 
 def pool_table():
@@ -57,14 +56,13 @@ def pool_table():
             cells.append(f"{mean(values):.1f}" + (f" $\\pm$ {pstdev(values):.1f}" if len(values) > 1 else ""))
         rows.append((DATASETS[dataset], *cells, llm(BEST, dataset)))
     return table("lrrrrrr", ("Dataset", "0", *(label for _, _, label in sizes), "100\\%"), rows,
-                 "Member C. Entity F1 (%) of Qwen2.5-7B on the fixed 300-sentence test subsets by the number of "
+                 "Entity F1 (%) of Qwen2.5-7B on the fixed 300-sentence test subsets by the number of "
                  "labelled training sentences available as examples. Column 0 uses no examples. The other columns "
-                 "retrieve 10 examples per sentence from the pool. 50 and 100 show mean and SD over 3 pools. "
-                 "Load booktabs.")
+                 "retrieve 10 examples per sentence from the pool. 50 and 100 show mean and SD over 3 pools.")
 
 
 def team_f1(**keys):
-    """Read one F1 of member B's result table."""
+    """Read one F1 from results/B.csv."""
     with (ROOT / "results" / "B.csv").open(encoding="utf-8-sig") as source:
         rows = [row for row in csv.DictReader(source) if row["metric"] == "f1" and row["entity_type"] == "all"
                 and row["entity_group"] == "all" and all(row[key] == value for key, value in keys.items())]
@@ -75,7 +73,7 @@ def team_f1(**keys):
 
 def distill_table():
     """BERT trained on 2,000 MIT Restaurant queries with gold labels and with the LLM's labels."""
-    labels = json.loads((RESULTS / "qwen7b_k0_plain_train_2000_v1_mit_restaurant_validation_seed0.json")
+    labels = json.loads((RESULTS / "qwen7b_k0_plain_train_2000_v1_mit_restaurant_train_seed0.json")
                         .read_text(encoding="utf-8"))["scores"]
     keys = dict(experiment="distill", dataset="mit_restaurant", scope="test_300")
     rows = [
@@ -84,8 +82,8 @@ def distill_table():
         ("BERT on gold labels", "100.0", team_f1(condition="gold", **keys)),
     ]
     return table("lrr", ("Extractor", "Training label F1", "Test F1"), rows,
-                 "T4, members B and C. Entity F1 (%) on 300 MIT Restaurant test queries. Both BERT taggers train "
-                 "on the same 2,000 queries. Load booktabs.")
+                 "Entity F1 (%) on 300 MIT Restaurant test queries. Both BERT taggers train "
+                 "on the same 2,000 queries.")
 
 
 def lora_table():
@@ -97,15 +95,15 @@ def lora_table():
                                     for dataset, _ in targets)),
     ]
     return table("lrrrrr", ("Extractor", *(DATASETS[dataset] for dataset, _ in targets)), rows,
-                 "T4, member C. Entity F1 (%) on the fixed 300-sentence test subsets. BTC and WNUT-17 are scored "
-                 "on the shared PER, LOC and ORG types with CoNLL-03 output labels. Load booktabs.")
+                 "Entity F1 (%) on the fixed 300-sentence test subsets. BTC and WNUT-17 are scored "
+                 "on the shared PER, LOC and ORG types with CoNLL-03 output labels.")
 
 
 def robustness_table():
     scopes = (
-        ("full", "test", "Original"), ("lowercase_v1", "validation", "Lowercase"),
-        ("spelling_noise_v1", "validation", "5\\% spelling"), ("no_punctuation_v1", "validation", "No punct."),
-        ("replacement_original_v2", "validation", "Before"), ("replacement_replaced_v2", "validation", "After"),
+        ("full", "test", "Original"), ("lowercase_v1", "test", "Lowercase"),
+        ("spelling_noise_v1", "test", "5\\% spelling"), ("no_punctuation_v1", "test", "No punct."),
+        ("replacement_original_v2", "test", "Before"), ("replacement_replaced_v2", "test", "After"),
     )
     rows = [
         ("GLiNER", *(f1(f"gliner_conll2003_test_{scope}") for scope, _, _ in scopes)),
@@ -113,8 +111,8 @@ def robustness_table():
         ("Qwen2.5-7B, 10 retrieved", *(llm(BEST, "conll2003", scope, split) for scope, split, _ in scopes)),
     ]
     return table("lrrrrrr", ("Method", *(label for _, _, label in scopes)), rows,
-                 "Member C. Entity F1 (%) on the full CoNLL-03 test set, its three perturbed versions, and the 500 "
-                 "sentence pairs before and after entity replacement. Load booktabs.")
+                 "Entity F1 (%) on the full CoNLL-03 test set, its three perturbed versions, and the 500 "
+                 "sentence pairs before and after entity replacement.")
 
 
 def wording_table():
@@ -130,8 +128,8 @@ def wording_table():
             cells.append(f"{mean(values):.1f} $\\pm$ {pstdev(values):.1f}")
         rows.append((label, *cells))
     return table("lrrr", ("Qwen2.5-7B", DATASETS["conll2003"], DATASETS["wnut17"], DATASETS["mit_restaurant"]), rows,
-                 "Member C. Entity F1 (%) on the fixed 300-sentence test subsets, mean and SD over three "
-                 "equivalent phrasings of the instructions. Load booktabs.")
+                 "Entity F1 (%) on the fixed 300-sentence test subsets, mean and SD over three "
+                 "equivalent phrasings of the instructions.")
 
 
 def main():

@@ -17,16 +17,16 @@ def main():
     parser.add_argument("--dataset", nargs="+", default=list(TYPE_DESCRIPTIONS), choices=list(TYPE_DESCRIPTIONS))
     parser.add_argument("--split", default="test")
     parser.add_argument("--subset", default="test_300", help="ID list name under data/subsets, or 'full'")
-    parser.add_argument("--input", help="Derived test file to label instead of a split; needs --scope and one dataset")
+    parser.add_argument("--input", help="Derived file to label; needs --scope, one dataset and the --split it comes from")
     parser.add_argument("--scope", help="Name of the --input test set in method names and reports")
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
-    model = GLiNER.from_pretrained(MODEL).to(args.device).eval()
     if args.input and (not args.scope or len(args.dataset) != 1):
         parser.error("--input needs --scope and exactly one --dataset")
+    model = GLiNER.from_pretrained(MODEL).to(args.device).eval()
     subset = None if args.subset == "full" else args.subset
     scope = args.scope or args.subset
     for dataset in args.dataset:

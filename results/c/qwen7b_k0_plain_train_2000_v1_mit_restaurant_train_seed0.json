@@ -3,10 +3,10 @@
   "model": "Qwen/Qwen2.5-7B-Instruct",
   "adapter": null,
   "dataset": "mit_restaurant",
-  "split": "validation",
+  "split": "train",
   "scope": "train_2000_v1",
   "label_scheme": "mit_restaurant",
-  "input": "data/derived/distill/mit_restaurant/train_2000_v1.jsonl",
+  "input": null,
   "subset_ids": null,
   "shots": 0,
   "selection": null,
@@ -139,5 +139,6 @@
     "unknown_type": 17,
     "absent_from_sentence": 17,
     "absent_from_sentence_rate": 0.009274413529732678
-  }
+  },
+  "train_sample": "2000"
 }

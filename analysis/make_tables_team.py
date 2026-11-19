@@ -1,4 +1,4 @@
-"""Generate T3 for all methods from the three member result tables."""
+"""Generate T3 for all methods from results/A.csv, B.csv and C.csv."""
 
 import csv
 import json
@@ -13,7 +13,7 @@ DATASETS = {
     "btc": "BTC", "wnut17": "WNUT-17", "mit_restaurant": "MIT Rest.",
 }
 NATIVE = ("conll2003", "wnut17", "mit_restaurant")
-# Method, member table, method key, condition, label for the training data the extractor uses.
+# Method, result table, method key, condition, label for the training data the extractor uses.
 METHODS = (
     ("Dictionary", "A", "M0", "standard", "Full training split"),
     ("Logistic regression", "A", "M1", "standard", "Full training split"),
@@ -71,11 +71,11 @@ def subset_table(rows):
             cells.append(f"{mean(scores):.1f}" if scores else "--")
         lines.append((name, labels, *cells))
     return table("ll" + "r" * len(DATASETS), ("Method", "Labelled sentences", *DATASETS.values()), lines,
-                 "T3, all members. Entity F1 (%) on the fixed 300-sentence test subsets. BiLSTM-CRF, BERT and the "
+                 "Entity F1 (%) on the fixed 300-sentence test subsets. BiLSTM-CRF, BERT and the "
                  "span classifier show the mean of 3 seeds. Supervised extractors train on CoNLL-03 for the first "
                  "four datasets and on each dataset's own training split for the last two. BTC uses the person, "
                  "location and organization types. A dash marks a test set whose types the extractor was not "
-                 "trained to output. Load booktabs.")
+                 "trained to output.")
 
 
 def full_table(rows):
@@ -90,9 +90,8 @@ def full_table(rows):
             lines.append((DATASETS[dataset] if method == "M0" else "", name, f"{p:.1f}", f"{r:.1f}", f"{f:.1f}",
                           f"[{low:.1f}, {high:.1f}]"))
     return table("llrrrr", ("Dataset", "Method", "P", "R", "F1", "95\\% interval"), lines,
-                 "T3, members A and B. Entity precision, recall and F1 (%) on the full test split of each "
-                 "dataset, with the sentence-bootstrap 95% interval of F1. Neural methods show seed 0. "
-                 "Load booktabs.")
+                 "Entity precision, recall and F1 (%) on the full test split of each "
+                 "dataset, with the sentence-bootstrap 95% interval of F1. Neural methods show seed 0.")
 
 
 def main():
