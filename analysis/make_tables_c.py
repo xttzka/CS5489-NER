@@ -109,6 +109,7 @@ def robustness_table():
         ("GLiNER", *(f1(f"gliner_conll2003_test_{scope}") for scope, _, _ in scopes)),
         ("Qwen2.5-7B, no examples", *(llm("qwen7b_k0_plain", "conll2003", scope, split) for scope, split, _ in scopes)),
         ("Qwen2.5-7B, 10 retrieved", *(llm(BEST, "conll2003", scope, split) for scope, split, _ in scopes)),
+        ("Qwen2.5-1.5B, LoRA", *(llm("lora1.5b_k0_plain", "conll2003", scope, split) for scope, split, _ in scopes)),
     ]
     return table("lrrrrrr", ("Method", *(label for _, _, label in scopes)), rows,
                  "Entity F1 (%) on the full CoNLL-03 test set, its three perturbed versions, and the 500 "

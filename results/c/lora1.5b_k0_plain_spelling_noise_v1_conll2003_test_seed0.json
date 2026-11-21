@@ -1,0 +1,104 @@
+{
+  "method": "LoRA-LLM",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "adapter": "output/lora/qwen1.5b_conll2003_n0.1_seed0",
+  "dataset": "conll2003",
+  "split": "test",
+  "scope": "spelling_noise_v1",
+  "label_scheme": "conll2003",
+  "input": "data/derived/perturbations/conll2003/spelling_noise_v1.jsonl",
+  "train_sample": null,
+  "subset_ids": null,
+  "shots": 0,
+  "selection": null,
+  "example_source": null,
+  "example_pool_size": null,
+  "example_pool_sentences": 0,
+  "example_pool_with_entities": 0,
+  "guideline": false,
+  "wording": 0,
+  "seed": 0,
+  "max_new_tokens": 256,
+  "type_descriptions": {
+    "PER": "person",
+    "ORG": "organization",
+    "LOC": "location",
+    "MISC": "miscellaneous name such as a nationality, event, language or product"
+  },
+  "annotation_rules": [],
+  "predictions": "preds/conll2003/lora1.5b_k0_plain_spelling_noise_v1/0.jsonl",
+  "scores": {
+    "label_space": "native",
+    "gold_records": 3453,
+    "scored_records": 3453,
+    "tp": 4462,
+    "fp": 1858,
+    "fn": 1186,
+    "precision": 0.7060126582278481,
+    "recall": 0.7900141643059491,
+    "f1": 0.7456550802139037
+  },
+  "per_type": {
+    "LOC": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 1313,
+      "fp": 240,
+      "fn": 355,
+      "precision": 0.845460399227302,
+      "recall": 0.7871702637889688,
+      "f1": 0.8152747593914933
+    },
+    "MISC": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 419,
+      "fp": 683,
+      "fn": 283,
+      "precision": 0.38021778584392013,
+      "recall": 0.5968660968660968,
+      "f1": 0.46452328159645234
+    },
+    "ORG": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 1298,
+      "fp": 628,
+      "fn": 363,
+      "precision": 0.6739356178608515,
+      "recall": 0.7814569536423841,
+      "f1": 0.7237245609144132
+    },
+    "PER": {
+      "gold_records": 3453,
+      "scored_records": 3453,
+      "tp": 1432,
+      "fp": 307,
+      "fn": 185,
+      "precision": 0.8234617596319724,
+      "recall": 0.8855905998763142,
+      "f1": 0.8533969010727056
+    }
+  },
+  "scores_on_parsed_sentences": {
+    "label_space": "native",
+    "gold_records": 3448,
+    "scored_records": 3448,
+    "tp": 4462,
+    "fp": 1858,
+    "fn": 1169,
+    "precision": 0.7060126582278481,
+    "recall": 0.7923992186112591,
+    "f1": 0.7467157560036817
+  },
+  "output": {
+    "sentences": 3453,
+    "parse_failures_first_attempt": 8,
+    "parse_failures_after_retry": 5,
+    "parse_failure_rate": 0.0014480162177816392,
+    "entities": 6476,
+    "unknown_type": 13,
+    "absent_from_sentence": 120,
+    "absent_from_sentence_rate": 0.01852995676343422
+  }
+}

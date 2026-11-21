@@ -232,6 +232,9 @@ python -B -m models.llm.prompt_llm --model 1.5b --adapter output/lora/qwen1.5b_c
   --dataset btc wnut17 --schema conll2003 --split test --subset test_300
 ```
 
+The fine-tuned model reads the full test set and the edited test sets with the same `--adapter` option and the
+options of the table above.
+
 Each run writes its predictions and a score report under `results/c/`. Two CPU steps collect them.
 
 ```bash
