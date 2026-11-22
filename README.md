@@ -18,7 +18,7 @@ All commands run from the repository root with Python 3.11.
 | `results/` | Scores of every experiment. `A.csv`, `B.csv` and `C.csv` hold all of them in one schema |
 | `report/` | Figures and LaTeX tables generated from `results/` |
 
-Datasets, model weights and prediction files are not part of the repository. The commands below create them under `data/`, `output/` and `preds/`.
+Datasets and model weights are created locally under `data/` and `output/`. C's delivered predictions are included under `preds/`. B's delivered predictions are available in the `b-ner-delivery` branch and can be restored by the team analysis command below. Classic predictions are regenerated from the CPU scripts.
 
 ## 2. Environments
 
@@ -258,6 +258,39 @@ python -B -m models.neural.plot_scores f2  --csv results/A.csv results/B.csv --o
 python -B -m models.neural.plot_scores f3b --csv results/B.csv --output report/figures/f3b.pdf
 python -B -m models.neural.plot_scores f6a --csv results/B.csv --output report/figures/f6a.pdf
 ```
+
+### Voting, error overlap, T5 and all-method F5/F7
+
+This integration uses `main` at commit `b74eaa8`, including C's added LoRA replacement and perturbation answers, and B's delivered answers at `dc7c624`. Classic-model configurations are unchanged from `4560650`. The CPU scorer records the paths and SHA-256 hashes it actually reads. Prepare the data as in section 3. If the classic answers are absent, generate them with the existing scripts:
+
+```bash
+python -B -m models.classic.run_baselines --jobs 1
+python -B -m models.classic.m2_pos_transfer
+python -B -m models.classic.run_temporal_baselines
+python -B -m models.classic.run_robustness --replacement-version v2
+python -B -m eval.result_tables export-a
+```
+
+Fetch B's branch once, then run the shared scoring and report steps:
+
+```bash
+git fetch origin
+python -B -m analysis.team_results
+python -B -m analysis.make_figures
+python -B -m analysis.make_tables_team --include-analysis
+```
+
+`analysis.team_results` restores required missing B answers from the pinned Git revision. The branch must have been fetched before running it. It computes all scores from the gold data and predictions without loading neural or language-model weights. Results are written to `results/team_analysis.json`. T5's measured cells and annotation/adaptation descriptions are also saved in `results/team_method_comparison.json`.
+
+F5(a) uses the full 3,453-sentence CoNLL-2003 test, and F5(b) uses the same 500 replacement pairs for all ten methods, including LoRA. F5(c) restricts every method to the same 300 fixed sentences in each news dataset, because C supplies CoNLL++ at that scope. F5(d) retains the CRF feature experiments. F7 compares all ten methods on the same complete original and perturbed test sets. Seen/unseen refers to names in the labelled CoNLL-2003 training set, including when scoring pretrained models. All drawn intervals use 1,000 sentence-bootstrap resamples and the paired deltas resample the same sentence IDs in both conditions.
+
+The replacement comparison uses each method's delivered paired-original answer file. In particular, C's new LoRA paired-original file differs from its earlier full-test answer on two of the 500 sentences. The changed IDs are recorded in `replacement.lora_paired_original_vs_full_changed_ids`; the cause is not established by the delivery metadata. The original/replaced pair uses the new paired files consistently. The scorer checks that all five new LoRA reports use the same adapter and extraction settings as the full-original report.
+
+The four three-model voting groups are fixed in the scorer. They compare classical, neural and two cross-paradigm combinations using seed 0 for neural methods. Every group is reported. The best observed constituent is a descriptive reference for the group's F1 difference. Error overlap uses exact typed spans keyed by sentence ID and reports missed, spurious and combined Jaccard values for every model pair.
+
+The full-test M1 answers reconstructed on this machine differ slightly from the older committed score reports despite the same selected settings. The regenerated `A.csv`, team scores and tables use the reconstructed answers consistently, with environment details recorded in `team_analysis.json`. This integration uses `main`'s selected classic configurations.
+
+The table outputs are `report/tables/t4_team.tex` and `report/tables/t5.tex`. T5 records the evaluation scope, label requirements and adaptation needed for new types. Cost measurements and human annotation judgments were removed in the current project scope and are omitted from this matrix.
 
 F4 compares entity vectors of GloVe, pretrained BERT and fine-tuned BERT, and needs a trained BERT tagger.
 
