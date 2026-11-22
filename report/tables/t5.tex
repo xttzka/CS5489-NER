@@ -1,4 +1,4 @@
-% Entity F1 (%) on the full CoNLL-03 test set and on the fixed 300-sentence subsets of the other datasets. Neural methods show seed 0. BTC uses the person, location and organization types and the extractors trained on CoNLL-03. A dash marks a test set the extractor was not evaluated on.
+% Entity F1 (%) on the full CoNLL-03 test set and on the fixed 300-sentence subsets of the other datasets. BiLSTM-CRF, BERT and the span classifier show seed 0 on CoNLL-03 and the mean of 3 seeds on the subsets. BTC uses the person, location and organization types and the extractors trained on CoNLL-03. A dash marks a test set the extractor was not evaluated on.
 \begingroup\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
@@ -7,9 +7,9 @@ Method & \shortstack[l]{CoNLL-03 \\ full} & \shortstack[l]{WNUT-17 \\ 300} & \sh
 Dictionary & 56.7 & 0.0 & 43.6 & 10.8 \\
 Logistic regression & 73.3 & 16.3 & 67.7 & 25.5 \\
 CRF & 81.4 & 20.3 & 77.8 & 25.2 \\
-BiLSTM-CRF & 89.5 & 21.0 & 77.9 & 31.5 \\
-BERT & 90.6 & 45.7 & 80.3 & 36.6 \\
-Span classifier & 90.4 & 52.4 & 79.8 & 37.3 \\
+BiLSTM-CRF & 89.5 & 26.1 & 78.9 & 32.9 \\
+BERT & 90.6 & 46.4 & 79.0 & 38.1 \\
+Span classifier & 90.4 & 51.0 & 79.2 & 36.3 \\
 Qwen2.5-1.5B with LoRA & 87.9 & -- & -- & 35.5 \\
 Qwen2.5-7B, 10 retrieved & 86.3 & 54.8 & 71.0 & 55.9 \\
 GLiNER & 62.6 & 45.4 & 28.5 & 50.9 \\

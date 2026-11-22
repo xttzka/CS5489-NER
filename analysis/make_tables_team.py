@@ -142,10 +142,9 @@ def comparison_rows(rows, team):
                     "7b,k0": "Qwen2.5-7B, no examples"}[condition]
         cells = []
         for dataset, scope, _ in COMPARISON_COLUMNS:
-            selected = metric_rows(rows, member, method, condition, dataset, scope, "f1", "0")
-            if len(selected) > 1:
-                raise ValueError(f"expected one seed-0 result for {name}/{dataset}/{scope}")
-            cells.append(float(selected[0]["value"]) if selected else None)
+            # Seed 0 on the full test set, as in the full-test table; the mean of the seeds on the fixed subsets.
+            selected = metric_rows(rows, member, method, condition, dataset, scope, "f1", "0" if scope == "full" else None)
+            cells.append(mean(float(row["value"]) for row in selected) if selected else None)
         methods.append((name, cells))
 
     distillation = metric_rows(rows, "B", "M4", "pseudo", "mit_restaurant", "test_300", "f1", "0",
@@ -166,7 +165,7 @@ def method_comparison_table(methods):
     measured = table("lrrrr", ("Method", *(shortstack(*heading.rsplit(" ", 1))
                                             for _, _, heading in COMPARISON_COLUMNS)), rows,
                      "Entity F1 (%) on the full CoNLL-03 test set and on the fixed 300-sentence subsets of the other "
-                     "datasets. Neural methods show seed 0. BTC uses the person, location and organization types and "
+                     "datasets. BiLSTM-CRF, BERT and the span classifier show seed 0 on CoNLL-03 and the mean of 3 seeds on the subsets. BTC uses the person, location and organization types and "
                      "the extractors trained on CoNLL-03. A dash marks a test set the extractor was not evaluated on.")
     properties = (
         ("Dictionary", "Labelled training split", "Longest exact match against the entity names seen in training"),
