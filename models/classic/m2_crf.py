@@ -1,4 +1,4 @@
-"""Train the M2 linear-chain CRF and predict on the validation split."""
+"""Linear-chain CRF over word features: training and prediction on the validation split."""
 
 import argparse
 import json
@@ -25,7 +25,6 @@ def train_model(sentences, model_path, *, c1=0.1, c2=0.1):
             raise ValueError(f"{row['sample_id']}: token and tag counts differ")
         labels.append(row["tags"])
 
-    # Keep each sentence intact so the CRF learns transitions within sentences.
     classifier = CRF(
         algorithm="lbfgs",
         c1=c1,
@@ -45,7 +44,6 @@ def write_predictions(path, sentences, classifier):
     with path.open("w", encoding="utf-8", newline="\n") as target:
         for row in sentences:
             raw_tags = classifier.predict_single(sentence_features(row))
-            # Count and repair the same invalid transitions as M1 before scoring.
             tags, corrections = repair_iob2(raw_tags)
             prediction = {"sample_id": row["sample_id"], "tags": tags}
             target.write(json.dumps(prediction, ensure_ascii=False) + "\n")

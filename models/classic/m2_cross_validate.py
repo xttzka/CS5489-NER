@@ -1,4 +1,4 @@
-"""Select M2 regularization on document-grouped folds, then score the refit on validation."""
+"""Select the CRF regularization on folds grouped by document, then score the refit on validation."""
 
 import argparse
 import json
@@ -109,7 +109,7 @@ def read_incumbent(fold_sizes):
         or report["context_window"] != 1
         or report["fold_sizes"] != fold_sizes
     ):
-        raise ValueError(f"{RESULTS_PATH}: previous settings or fold sizes differ")
+        raise ValueError(f"{RESULTS_PATH}: saved settings or fold sizes differ")
     best_parameters = report["best_parameters"]
     for candidate in report["candidates"]:
         if (candidate["c1"], candidate["c2"]) == (best_parameters["c1"], best_parameters["c2"]):
@@ -121,7 +121,7 @@ def refit_and_score(training, directory, selected, previous_predictions):
     c1, c2 = selected["c1"], selected["c2"]
     print(f"Refitting the selected c1={c1:g}, c2={c2:g} on all training sentences", flush=True)
 
-    # Open validation only after train-only selection calls for a refit.
+    # The validation split is read only for the refit.
     validation = list(read_sentences(VALIDATION_PATH, "validation"))
     gold = {row["sample_id"]: row["tags"] for row in validation}
     previous = score_ner(gold, read_tags_by_id(previous_predictions))

@@ -1,6 +1,5 @@
 """Grid search of the CRF regularization on CoNLL-2003 by 5-fold cross-validation on the training split."""
 
-import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor
 from contextlib import nullcontext
@@ -143,14 +142,3 @@ def run_grid(jobs):
         validation = report["validation"]
         print(f"Validation F1: previous={validation['previous']['f1']:.4%}, refit={validation['refit']['f1']:.4%}")
     print(f"Results: {GRID_REPORT}")
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--jobs", type=int, choices=range(1, N_FOLDS + 1), default=5)
-    args = parser.parse_args()
-    run_grid(args.jobs)
-
-
-if __name__ == "__main__":
-    main()

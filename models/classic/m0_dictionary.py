@@ -1,6 +1,5 @@
-"""Build the M0 dictionary from training labels and predict on validation text."""
+"""Dictionary baseline: the entity names of the training split, matched longest first."""
 
-import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -11,7 +10,6 @@ from eval.score_ner import bio_to_spans
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_DIR / "data" / "processed" / "conll2003"
-DEFAULT_OUTPUT = PROJECT_DIR / "preds" / "conll2003" / "m0" / "0.jsonl"
 
 
 def read_sentences(path, split):
@@ -76,31 +74,6 @@ def write_predictions(path, sentences, dictionary):
                 target.write(json.dumps(prediction, ensure_ascii=False) + "\n")
                 count += 1
         if not count:
-            raise ValueError("validation file contains no sentences")
+            raise ValueError("input file contains no sentences")
         temporary_file.replace(path)
     return count
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--train", type=Path, default=DATA_DIR / "train.jsonl")
-    parser.add_argument("--validation", type=Path, default=DATA_DIR / "validation.jsonl")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    args = parser.parse_args()
-
-    output = args.output.resolve()
-    if output in {args.train.resolve(), args.validation.resolve()}:
-        parser.error("--output must differ from the training and validation files")
-
-    try:
-        dictionary, ambiguous = build_dictionary(read_sentences(args.train, "train"))
-        count = write_predictions(output, read_sentences(args.validation, "validation"), dictionary)
-    except (OSError, ValueError, KeyError) as error:
-        parser.exit(2, f"Error: {error}\n")
-
-    print(f"Dictionary: {len(dictionary):,} names kept, {ambiguous:,} ambiguous names excluded")
-    print(f"Wrote {count:,} validation predictions to {output}")
-
-
-if __name__ == "__main__":
-    main()

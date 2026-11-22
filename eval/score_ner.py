@@ -70,7 +70,7 @@ def bio_to_spans(tags):
     return spans
 
 
-def score_ner(gold_by_id, pred_by_id, *, allow_subset=False):
+def score_ner(gold_by_id, pred_by_id):
     """Align records by ID and sum exact-match TP, FP, and FN across sentences."""
     if not gold_by_id or not pred_by_id:
         raise ValueError("gold and prediction files must both contain records")
@@ -79,7 +79,7 @@ def score_ner(gold_by_id, pred_by_id, *, allow_subset=False):
     if unknown_ids:
         raise ValueError(f"{len(unknown_ids)} unknown prediction IDs, e.g. {min(unknown_ids)!r}")
     missing_ids = gold_by_id.keys() - pred_by_id.keys()
-    if missing_ids and not allow_subset:
+    if missing_ids:
         raise ValueError(f"{len(missing_ids)} missing prediction IDs, e.g. {min(missing_ids)!r}")
 
     tp = fp = fn = 0
@@ -118,17 +118,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--gold", type=Path, required=True, help="Processed dataset JSONL")
     parser.add_argument("--pred", type=Path, required=True, help="Model predictions JSONL")
-    coverage = parser.add_mutually_exclusive_group()
-    coverage.add_argument(
-        "--allow-subset",
-        action="store_true",
-        help="Score just the IDs in the prediction file, e.g. a one-sentence demo",
-    )
-    coverage.add_argument(
-        "--subset-ids",
-        type=Path,
-        help="Require predictions for exactly the IDs in this text file",
-    )
+    parser.add_argument("--subset-ids", type=Path, help="Require predictions for exactly the IDs in this text file")
     args = parser.parse_args()
     try:
         gold = read_tags_by_id(args.gold)
@@ -138,11 +128,7 @@ def main():
             if unknown_ids:
                 raise ValueError(f"subset ID {min(unknown_ids)!r} is absent from {args.gold}")
             gold = {sample_id: gold[sample_id] for sample_id in sample_ids}
-        scores = score_ner(
-            gold,
-            read_tags_by_id(args.pred),
-            allow_subset=args.allow_subset,
-        )
+        scores = score_ner(gold, read_tags_by_id(args.pred))
     except (OSError, ValueError) as error:
         parser.exit(2, f"Error: {error}\n")
     print(json.dumps(scores, indent=2))
