@@ -11,6 +11,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 
 from analysis.data_exploration import DATASETS, ROOT
 from analysis.style import DATASET, ENTITY, METHOD, TEXT_WIDTH, setup
@@ -19,6 +20,12 @@ from analysis.style import DATASET, ENTITY, METHOD, TEXT_WIDTH, setup
 RESULTS = ROOT / "results"
 OUTPUT = ROOT / "report" / "figures"
 METHODS = ("m0", "m1", "m2")
+TEAM_METHODS = ("M0", "M1", "M2", "M3", "M4", "Span", "GLiNER", "LLM-zero", "LLM", "LoRA-LLM")
+TEAM_LABELS = {
+    "M0": "M0 Dictionary", "M1": "M1 LogReg", "M2": "M2 CRF", "M3": "M3 BiLSTM-CRF",
+    "M4": "M4 BERT", "Span": "Span", "GLiNER": "GLiNER",
+    "LLM-zero": "Qwen 0-shot", "LLM": "Qwen 10-shot", "LoRA-LLM": "LoRA Qwen1.5B",
+}
 SHORT_DATASET = {
     "conll2003": "CoNLL-03", "wnut17": "WNUT-17", "mit_restaurant": "MIT Rest.",
     "conllpp": "CoNLL++", "wikigold": "WikiGold", "btc": "BTC", "merged": "Merged",
@@ -124,57 +131,71 @@ def figure_3a():
 
 
 def figure_5():
-    temporal = read("m0_m2_temporal")["datasets"]
+    team = read("team_analysis")
     extra = read("m2_extra_features")["conditions"]
-    replacement = read("m0_m2_robustness")["replacement"]["conditions"]
-    fig, axes = plt.subplots(2, 2, figsize=(TEXT_WIDTH, 4.6), layout="constrained")
+    replacement = team["replacement"]["conditions"]
+    temporal = team["temporal"]["datasets"]
+    fig, axes = plt.subplots(2, 2, figsize=(TEXT_WIDTH, 7.4), layout="constrained")
     first, second, third, fourth = axes.flat
-    for i, method in enumerate(METHODS):
-        row = temporal["conll2003"][method]
-        for x, group in ((i - 0.17, "seen"), (i + 0.17, "unseen")):
-            interval(first, x, *(100 * value for value in row[group]["f1_ci95"]))
-        first.bar(i - 0.17, 100 * row["seen"]["f1"], 0.32, color=METHOD[method.upper()], **EDGE,
-                  label="Seen" if i == 0 else None)
-        first.bar(i + 0.17, 100 * row["unseen"]["f1"], 0.32, color=METHOD[method.upper()], hatch="////", **EDGE,
-                  label="Unseen" if i == 0 else None)
-    first.set_xticks(range(len(METHODS)), [method.upper() for method in METHODS])
-    first.set_ylabel("F1 (%)")
-    first.set_ylim(0, 105)
-    first.legend(loc="lower center", bbox_to_anchor=(0.5, 1), ncols=2)
-
-    for i, method in enumerate(METHODS):
-        for j, condition in enumerate(("original", "replaced")):
-            x = i + (j - 0.5) * 0.34
+    for index, method in enumerate(TEAM_METHODS):
+        color = METHOD["LLM" if method == "LLM-zero" else method]
+        familiarity = team["familiarity"]["methods"][method]
+        for condition_index, group in enumerate(("seen", "unseen")):
+            location = index + (condition_index - 0.5) * 0.36
+            scores = familiarity[group]
+            first.barh(location, 100 * scores["f1"], 0.32, color=color,
+                       hatch="////" if condition_index else None, **EDGE)
+            horizontal_interval(first, location, *(100 * value for value in scores["bootstrap_ci95"]["f1"]))
+        for condition_index, condition in enumerate(("original", "replaced")):
+            location = index + (condition_index - 0.5) * 0.36
             scores = replacement[condition]["models"][method]["scores"]
-            second.bar(x, 100 * scores["f1"], 0.32,
-                       color=METHOD[method.upper()], hatch="////" if j else None, **EDGE,
-                       label=condition.capitalize() if i == 0 else None)
-            interval(second, x, *(100 * value for value in scores["bootstrap_ci95"]["f1"]))
-    second.set_xticks(range(len(METHODS)), [method.upper() for method in METHODS])
-    second.set_ylim(0, 105)
-    second.set_ylabel("F1 (%)")
-    second.legend(loc="lower center", bbox_to_anchor=(0.5, 1), ncols=2)
+            second.barh(location, 100 * scores["f1"], 0.32, color=color,
+                        hatch="////" if condition_index else None, **EDGE)
+            horizontal_interval(second, location, *(100 * value for value in scores["bootstrap_ci95"]["f1"]))
 
-    for method, marker in zip(METHODS, ("o", "s", "^"), strict=True):
-        third.plot([0, 1], [100 * temporal[dataset][method]["overall"]["f1"] for dataset in ("conll2003", "conllpp")],
-                   marker=marker, color=METHOD[method.upper()] if method != "m0" else "#777777", label=method.upper())
-    third.set_xticks([0, 1], ("CoNLL-2003", "CoNLL++"))
-    third.set_xlim(-0.08, 1.08)
-    third.set_ylabel("F1 (%)")
-    third.legend(loc="lower center", bbox_to_anchor=(0.5, 1), ncols=3)
+        news = [temporal[dataset]["models"][method]["scores"] for dataset in ("conll2003", "conllpp")]
+        values = [100 * scores["f1"] for scores in news]
+        third.plot(values, [index, index], color=color if method != "M0" else "#777777", linewidth=1.2)
+        for corpus_index, scores in enumerate(news):
+            horizontal_interval(third, index, *(100 * value for value in scores["bootstrap_ci95"]["f1"]))
+            third.scatter(values[corpus_index], index, marker="o" if corpus_index == 0 else "s", s=24,
+                          facecolor=color if corpus_index == 0 else "white", edgecolor="#444444", linewidth=0.65, zorder=4)
+
+    for ax, title in ((first, "(a) Familiarity: full CoNLL-2003"),
+                      (second, "(b) Name replacement: 500 pairs"),
+                      (third, "(c) News transfer: fixed 300 per corpus")):
+        ax.set_yticks(range(len(TEAM_METHODS)), [TEAM_LABELS[method] for method in TEAM_METHODS], fontsize=8)
+        ax.set_ylim(len(TEAM_METHODS) - 0.4, -0.6)
+        ax.set_xlim(-2, 102)
+        ax.set_xticks((0, 25, 50, 75, 100))
+        ax.set_xlabel("Entity-level F1 (%)")
+        ax.grid(axis="y", visible=False)
+        ax.set_title(title, fontsize=9, loc="left", pad=30)
+    solid = Patch(facecolor="#DDDDDD", **EDGE)
+    hatched = Patch(facecolor="#DDDDDD", hatch="////", **EDGE)
+    first.legend((solid, hatched), ("Seen", "Unseen"), loc="lower center", bbox_to_anchor=(0.5, 1.01), ncols=2)
+    second.legend((solid, hatched), ("Original", "Replaced"), loc="lower center", bbox_to_anchor=(0.5, 1.01), ncols=2)
+    third.legend((Line2D([0], [0], marker="o", linestyle="", color="#777777"),
+                  Line2D([0], [0], marker="s", linestyle="", markerfacecolor="white", color="#444444")),
+                 ("CoNLL-2003", "CoNLL++"), loc="lower center", bbox_to_anchor=(0.5, 1.01), ncols=2)
 
     conditions = ["gazetteer", "glove_100", "glove_500", "glove_1000"]
     x = np.arange(len(conditions))
     for j, (dataset, scope, label) in enumerate((("conll2003", "unseen", "CoNLL-03 unseen"), ("conllpp", "overall", "CoNLL++ all"))):
         values = [extra[condition][dataset]["f1_delta_vs_baseline_pp"][scope] for condition in conditions]
-        fourth.bar(x + (j - 0.5) * 0.36, values, 0.34, color=METHOD["M2"], hatch="////" if j == 0 else None, **EDGE, label=label)
+        fourth.bar(x + (j - 0.5) * 0.36, values, 0.34, color=METHOD["M2"], hatch="////" if j else None, **EDGE, label=label)
     fourth.set_xticks(x, ("Gazetteer", "$k=100$", "$k=500$", "$k=1000$"))
     fourth.set_ylabel("F1 change (pp)")
     fourth.axhline(0, color="#333333", linewidth=0.7)
-    fourth.legend(loc="lower center", bbox_to_anchor=(0.5, 1), ncols=2)
-    for ax, letter in zip(axes.flat, "abcd", strict=True):
-        panel(ax, letter)
+    fourth.legend(loc="lower center", bbox_to_anchor=(0.5, 1.01), ncols=1)
+    fourth.set_title("(d) CRF extra-feature gains", fontsize=9, loc="left", pad=41)
+    fig.supxlabel("Error bars: 95% intervals from 1,000 sentence bootstrap resamples.", fontsize=8)
     save(fig, "f5")
+
+
+def horizontal_interval(ax, y, low, high):
+    ax.errorbar((low + high) / 2, y, xerr=(high - low) / 2, fmt="none",
+                ecolor="#333333", linewidth=0.7, capsize=2, zorder=3)
 
 
 def figure_6b():
@@ -207,8 +228,10 @@ def figure_6b():
 
 def figure_7():
     g2 = read("m2_g2_transfer")["rows"]
-    conditions = read("m0_m2_robustness")["perturbations"]["conditions"]
-    fig, (first, second) = plt.subplots(1, 2, figsize=(TEXT_WIDTH, 2.95), layout="constrained")
+    conditions = read("team_analysis")["perturbations"]["conditions"]
+    fig = plt.figure(figsize=(TEXT_WIDTH, 6.0), layout="constrained")
+    grid = fig.add_gridspec(2, 3, height_ratios=(1, 2.2))
+    first = fig.add_subplot(grid[0, :])
     targets = (("conll2003", "conll2003"), ("wnut17", "wnut17"), ("mit_restaurant", "mit_restaurant"), ("conll2003", "btc"))
     deltas = [g2[source]["targets"][target]["without_G2_minus_full_f1_pp"] for source, target in targets]
     palette = matplotlib.colormaps["PuOr"]
@@ -218,21 +241,31 @@ def figure_7():
     first.axvline(0, color="#333333", linewidth=0.7)
     first.set_xlabel("F1 change without G2 (pp)")
     first.grid(axis="y", visible=False)
-    panel(first, "a")
+    first.set_title("(a) CRF spelling-feature ablation", fontsize=9, loc="left")
 
-    x = np.arange(len(PERTURBATIONS))
-    for i, method in enumerate(METHODS):
-        rows = [conditions[key]["models"][method] for key in PERTURBATIONS]
-        values = [row["delta_vs_original_pp"]["f1"] for row in rows]
-        locations = x + (i - (len(METHODS) - 1) / 2) * 0.23
-        second.bar(locations, values, 0.22, color=METHOD[method.upper()], label=method.upper())
-        for location, row in zip(locations, rows, strict=True):
-            interval(second, location, *row["delta_vs_original_ci95_pp"]["f1"])
-    second.set_xticks(x, list(PERTURBATIONS.values()), rotation=15, ha="right")
-    second.set_ylabel("F1 change (pp)")
-    second.axhline(0, color="#333333", linewidth=0.7)
-    second.legend(loc="lower center", bbox_to_anchor=(0.5, 1), ncols=3)
-    panel(second, "b")
+    facets = []
+    bounds = [value for condition in PERTURBATIONS for method in TEAM_METHODS
+              for value in conditions[condition]["models"][method]["delta_vs_original_ci95_pp"]["f1"]]
+    low = min(0, min(bounds)) - 3
+    high = max(0, max(bounds)) + 2
+    for column, (condition, title) in enumerate(PERTURBATIONS.items()):
+        ax = fig.add_subplot(grid[1, column], sharex=facets[0] if facets else None,
+                             sharey=facets[0] if facets else None)
+        facets.append(ax)
+        for index, method in enumerate(TEAM_METHODS):
+            row = conditions[condition]["models"][method]
+            color = METHOD["LLM" if method == "LLM-zero" else method]
+            ax.barh(index, row["delta_vs_original_pp"]["f1"], 0.62, color=color, **EDGE)
+            horizontal_interval(ax, index, *row["delta_vs_original_ci95_pp"]["f1"])
+        ax.set_ylim(len(TEAM_METHODS) - 0.4, -0.6)
+        ax.set_xlim(low, high)
+        ax.set_yticks(range(len(TEAM_METHODS)), [TEAM_LABELS[method] for method in TEAM_METHODS], fontsize=8)
+        ax.tick_params(axis="y", labelleft=column == 0)
+        ax.grid(axis="y", visible=False)
+        ax.axvline(0, color="#333333", linewidth=0.7)
+        ax.set_title(f"(b) {title}" if column == 0 else title, fontsize=9, loc="left")
+        ax.set_xlabel("F1 change (pp)")
+    fig.supxlabel("Error bars: paired 95% intervals from 1,000 sentence bootstrap resamples.", fontsize=8)
     save(fig, "f7")
 
 

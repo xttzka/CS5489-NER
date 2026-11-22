@@ -1,0 +1,47 @@
+% T5(a). Empirical accuracy on the stated full or fixed-300 test scope; seed 0 for neural methods.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & \shortstack[l]{CoNLL-03 \\ full} & \shortstack[l]{WNUT-17 \\ 300} & \shortstack[l]{MIT \\ 300} & \shortstack[l]{BTC \\ 300} \\
+\midrule
+M0 Dictionary & 56.7 & 0.0 & 43.6 & 10.8 \\
+M1 LogReg & 73.3 & 16.3 & 67.7 & 25.5 \\
+M2 CRF & 81.4 & 20.3 & 77.8 & 25.2 \\
+M3 BiLSTM-CRF & 89.5 & 21.0 & 77.9 & 31.5 \\
+M4 BERT & 90.6 & 45.7 & 80.3 & 36.6 \\
+Span BERT & 90.4 & 52.4 & 79.8 & 37.3 \\
+Qwen-1.5B + LoRA & 87.9 & -- & -- & 35.5 \\
+Qwen-7B 10-shot & 86.3 & 54.8 & 71.0 & 55.9 \\
+GLiNER & 62.6 & 45.4 & 28.5 & 50.9 \\
+Qwen-1.5B zero-shot & -- & 28.6 & 34.9 & 39.9 \\
+Qwen-7B zero-shot & 67.9 & 51.5 & 39.1 & 47.4 \\
+LLM-distilled BERT & -- & -- & 33.1 & -- \\
+CRF + BERT + LLM & 92.4 & -- & -- & -- \\
+BiLSTM + BERT + LLM & 93.2 & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\endgroup
+\par\smallskip{\footnotesize (a) Entity F1 (\%). The columns use their stated sentence sets and native types. BTC uses PER/LOC/ORG. Supervised WNUT and MIT rows train on each corpus's own labelled training split; the BTC rows transfer the CoNLL-trained model. LoRA is trained on 10\% of CoNLL only. Few-shot prompts retrieve 10 labelled examples per input from the corresponding training pool (CoNLL for BTC). Neural rows use seed 0. A dash indicates an unavailable evaluation. Each measured cell is traceable in \texttt{\detokenize{results/team_method_comparison.json}}.\par}
+\par\medskip
+% T5(b). Structural properties of the implemented extractors. Upstream pretrained models already use training data.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.21\linewidth}p{0.28\linewidth}p{0.43\linewidth}@{}}
+\toprule
+Method & Annotation supplied & Decision rule and type adaptation \\
+\midrule
+M0 Dictionary & Labelled names from training & Exact longest name match, with dictionary entries for each type \\
+M1 LogReg & Labelled training split & Per-token feature weights with types fixed by training labels \\
+M2 CRF & Labelled training split & Token and label-transition weights with trained output types \\
+M3 BiLSTM-CRF & Labelled training split & Contextual sequence decoding with trained output types \\
+M4 BERT & Labelled training split & Contextual token classification with trained output types \\
+Span BERT & Labelled training split & Classifies complete spans with trained output types \\
+GLiNER & Type descriptions at inference & Scores spans against supplied type names \\
+Qwen zero-shot & Type descriptions at inference & Generates entities in JSON for supplied types \\
+Qwen-7B 10-shot & Labelled retrieval pool & Uses 10 retrieved examples per input and supplied type names \\
+Qwen-1.5B + LoRA & 10\% labelled CoNLL split & Generative extraction after news-data adaptation \\
+LLM-distilled BERT & 2,000 LLM-labelled MIT sentences & Fixed MIT classifier after pseudo-label training \\
+Cross-paradigm voting & All constituent training inputs & Strict majority over identical typed spans in the common output types \\
+\bottomrule
+\end{tabular}
+\endgroup
+\par\smallskip{\footnotesize (b) Annotation refers to the project data supplied for fitting or prompting. These are properties of the implemented interfaces. Passing new type descriptions to GLiNER or Qwen makes those types available at inference. The measured MIT accuracy is in (a). Decoding and type interfaces are documented by the delivered implementations.\par}

@@ -1,0 +1,45 @@
+% T4 team ensemble results. CoNLL-2003 complete test; exact boundaries and four native types.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Method / group & Members & P & R & F1 & \shortstack[l]{Change (pp) \\ {[95\% interval]}} \\
+\midrule
+M0 Dictionary & Single & 72.10 & 46.76 & 56.73 & -- \\
+M1 LogReg & Single & 69.78 & 77.09 & 73.25 & -- \\
+M2 CRF & Single & 82.06 & 80.75 & 81.40 & -- \\
+M3 BiLSTM-CRF & Single & 89.39 & 89.66 & 89.53 & -- \\
+M4 BERT & Single & 89.41 & 91.77 & 90.57 & -- \\
+Span BERT & Single & 90.11 & 90.78 & 90.44 & -- \\
+GLiNER & Single & 61.62 & 63.56 & 62.58 & -- \\
+Qwen-7B zero-shot & Single & 68.17 & 67.63 & 67.90 & -- \\
+Qwen-7B 10-shot & Single & 86.33 & 86.24 & 86.29 & -- \\
+Qwen-1.5B + LoRA & Single & 87.94 & 87.78 & 87.86 & -- \\
+Classical & M0, M1, M2 & 86.45 & 75.48 & 80.59 & \shortstack[l]{-0.81 \\ {[-1.48, -0.18]}} \\
+Neural & M3, M4, Span & 92.78 & 91.75 & 92.26 & \shortstack[l]{+1.69 \\ {[+1.23, +2.11]}} \\
+\shortstack[l]{CRF \\ BERT \\ LLM} & M2, M4, LLM & 94.38 & 90.46 & 92.38 & \shortstack[l]{+1.81 \\ {[+1.26, +2.32]}} \\
+\shortstack[l]{BiLSTM \\ BERT \\ LLM} & M3, M4, LLM & 94.10 & 92.30 & 93.19 & \shortstack[l]{+2.62 \\ {[+2.11, +3.13]}} \\
+\bottomrule
+\end{tabular}
+\endgroup
+\par\smallskip{\footnotesize Entity P/R/F1 (\%) on all 3,453 CoNLL-2003 test sentences. Neural models use seed 0. The LLM uses the validation-selected 7B, 10-retrieved-example configuration. Groups are fixed before scoring; strict span-and-type majority is required. Changes compare each ensemble with its highest-scoring constituent on this test set. Intervals use 1,000 paired sentence-bootstrap draws. The observed best constituent is held fixed during resampling.\par}
+\par\medskip
+% T4 team lower-triangle error-overlap matrix. Exact typed-span missed and spurious errors are pooled.
+\begingroup\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\toprule
+Error Jaccard & M0 & M1 & M2 & M3 & M4 & Span & GLiNER & Q0 & Q10 & LoRA \\
+\midrule
+M0 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+M1 & 0.240 & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+M2 & 0.212 & 0.367 & -- & -- & -- & -- & -- & -- & -- & -- \\
+M3 & 0.110 & 0.153 & 0.251 & -- & -- & -- & -- & -- & -- & -- \\
+M4 & 0.098 & 0.126 & 0.199 & 0.309 & -- & -- & -- & -- & -- & -- \\
+Span & 0.105 & 0.138 & 0.228 & 0.336 & 0.432 & -- & -- & -- & -- & -- \\
+GLiNER & 0.153 & 0.103 & 0.133 & 0.101 & 0.095 & 0.099 & -- & -- & -- & -- \\
+Q0 & 0.149 & 0.093 & 0.117 & 0.095 & 0.092 & 0.097 & 0.313 & -- & -- & -- \\
+Q10 & 0.111 & 0.107 & 0.159 & 0.201 & 0.200 & 0.213 & 0.157 & 0.194 & -- & -- \\
+LoRA & 0.109 & 0.125 & 0.190 & 0.249 & 0.260 & 0.266 & 0.137 & 0.156 & 0.250 & -- \\
+\bottomrule
+\end{tabular}
+\endgroup
+\par\smallskip{\footnotesize Jaccard is the intersection divided by the union of two methods' exact typed-span error sets, including sample IDs. Lower values indicate less overlap. Q0 is zero-shot Qwen-7B. Q10 is the selected few-shot Qwen-7B. LoRA is adapted Qwen-1.5B. The JSON separately records missed-entity and spurious-entity overlap.\par}
