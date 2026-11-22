@@ -3,7 +3,6 @@
 import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -48,7 +47,6 @@ def folds_for(dataset):
     folds = list(KFold(n_splits=N_FOLDS, shuffle=False).split(rows))
     summary = {
         "training_input": train_path.relative_to(PROJECT_DIR).as_posix(),
-        "training_sha256": sha256(train_path.read_bytes()).hexdigest(),
         "training_records": len(rows),
         "selection_split": f"{dataset}:train",
         "fold_strategy": "Five contiguous, nearly equal held-out blocks in original training order.",

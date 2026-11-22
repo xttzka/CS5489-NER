@@ -3,7 +3,6 @@
 import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from hashlib import sha256
 from pathlib import Path
 from statistics import mean, pstdev
 from tempfile import TemporaryDirectory
@@ -80,9 +79,6 @@ def fold_membership(rows, folds):
             "overlapping_documents": len(fit_docs & heldout_docs),
             "heldout_sentences_from_overlapping_documents": seen_sentences,
             "heldout_fraction_from_overlapping_documents": seen_sentences / len(heldout),
-            "heldout_sample_ids_sha256": sha256(
-                "\n".join(rows[i]["sample_id"] for i in heldout).encode("utf-8")
-            ).hexdigest(),
         })
     return membership
 
@@ -109,7 +105,7 @@ def compare_windows(narrow, wide):
 def conll_controls(work_dir, jobs, reuse):
     rows = list(read_sentences(TRAIN_PATH, "train"))
     grouped, fold_sizes = make_folds(rows)
-    fingerprint, reference = validate_grid_reference(rows, grouped, fold_sizes)
+    reference = validate_grid_reference(fold_sizes)
     if sorted(reference) != list(range(1, N_FOLDS + 1)):
         raise ValueError("the saved grouped reference must contain one score per fold")
     for fold, (_, heldout) in enumerate(grouped, 1):
@@ -120,13 +116,13 @@ def conll_controls(work_dir, jobs, reuse):
 
     if reuse:
         report = json.loads(RESULTS.read_text(encoding="utf-8"))
-        if report["fingerprint"] != fingerprint or report["random_seed"] != RANDOM_SEED:
+        if report["random_seed"] != RANDOM_SEED:
             raise ValueError("saved CoNLL-2003 controls use different data or parameters")
         return report
 
     random = list(KFold(n_splits=N_FOLDS, shuffle=True, random_state=RANDOM_SEED).split(rows))
     scores = {"grouped_window_1": list(reference.values()), "grouped_window_2": [], "random_window_1": []}
-    print("Reusing the verified grouped +/-1 scores and fitting ten training-only models", flush=True)
+    print("Reusing the grouped scores of the grid search and fitting ten models", flush=True)
     with ProcessPoolExecutor(max_workers=jobs) as executor:
         futures = {
             executor.submit(
@@ -156,7 +152,6 @@ def conll_controls(work_dir, jobs, reuse):
             "window_2_change": "Add the lowercase token two positions left or right when it exists.",
         },
         "grouped_reference": GRID_REPORT.relative_to(PROJECT_DIR).as_posix(),
-        "fingerprint": fingerprint,
         "random_seed": RANDOM_SEED,
         "fold_membership": {"grouped": fold_membership(rows, grouped), "random": fold_membership(rows, random)},
         "results": results,

@@ -6,7 +6,6 @@
     "context_window": 1
   },
   "training_input": "data/processed_pos/conll2003/train.jsonl",
-  "training_sha256": "7f570ace54979dc8159325586614479202711e101fdc697d6eba942629c42070",
   "selection_split": "conll2003:train",
   "fold_strategy": "Five held-out folds grouped by doc_id.",
   "fold_sizes": [

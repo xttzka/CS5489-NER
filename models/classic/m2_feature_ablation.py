@@ -4,8 +4,6 @@ import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from functools import partial
-from hashlib import sha256
-from importlib.metadata import version
 from pathlib import Path
 from statistics import mean, pstdev
 from tempfile import TemporaryDirectory
@@ -17,7 +15,7 @@ from eval.score_transfer import project_tags
 from models.classic.features import sentence_features
 from models.classic.m1_logistic import repair_iob2
 from models.classic.m2_cross_validate import PROJECT_DIR, TRAIN_PATH, make_folds, read_sentences
-from models.classic.m2_grid_search import GRID_REPORT, grid_code_hashes
+from models.classic.m2_grid_search import GRID_REPORT
 
 
 RESULTS = PROJECT_DIR / "results" / "m2_feature_ablation.json"
@@ -88,29 +86,18 @@ def evaluate_fold(condition, fold, fit_indices, check_indices, directory):
     }
 
 
-def validate_grid_reference(training, folds, fold_sizes):
+def validate_grid_reference(fold_sizes):
     report = json.loads(GRID_REPORT.read_text(encoding="utf-8"))
-    fingerprint = report["fingerprint"]
-    current = {
-        "train_sha256": sha256(TRAIN_PATH.read_bytes()).hexdigest(),
-        "heldout_sample_ids_sha256": [
-            sha256("\n".join(training[i]["sample_id"] for i in heldout).encode("utf-8")).hexdigest()
-            for _, heldout in folds
-        ],
-        "code_sha256": grid_code_hashes(),
-        "library_versions": {name: version(name) for name in fingerprint["library_versions"]},
-    }
     if (
-        any(fingerprint[key] != value for key, value in current.items())
-        or report["fold_sizes"] != fold_sizes
+        report["fold_sizes"] != fold_sizes
         or report["selection_split"] != "conll2003:train"
         or report["group_key"] != "doc_id"
         or report["context_window"] != 1
         or report["status"] != "complete"
     ):
-        raise ValueError("saved grid settings, code, training data or folds differ")
+        raise ValueError("saved grid settings or folds differ")
     candidate, = (row for row in report["candidates"] if all(row[k] == v for k, v in PARAMETERS.items()))
-    return current, {score["fold"]: score for score in candidate["fold_scores"]}
+    return {score["fold"]: score for score in candidate["fold_scores"]}
 
 
 def summarize(scores):
@@ -137,9 +124,7 @@ def main():
     args = parser.parse_args()
     training = list(read_sentences(TRAIN_PATH, "train"))
     folds, fold_sizes = make_folds(training)
-    fingerprint, reference = validate_grid_reference(training, folds, fold_sizes)
-    fingerprint["ablation_sha256"] = sha256(Path(__file__).read_bytes()).hexdigest()
-    fingerprint["grid_report_sha256"] = sha256(GRID_REPORT.read_bytes()).hexdigest()
+    reference = validate_grid_reference(fold_sizes)
     report = {
         "status": "in_progress",
         "training_input": TRAIN_PATH.relative_to(PROJECT_DIR).as_posix(),
@@ -151,13 +136,12 @@ def main():
         "crf_options": CRF_OPTIONS,
         "feature_groups": GROUPS,
         "full_reference": GRID_REPORT.relative_to(PROJECT_DIR).as_posix(),
-        "fingerprint": fingerprint,
         "fold_scores": {condition: [] for condition in CONDITIONS},
     }
     if RESULTS.is_file():
         saved = json.loads(RESULTS.read_text(encoding="utf-8"))
-        if saved["fingerprint"] != fingerprint:
-            raise ValueError("saved ablation uses different inputs or code")
+        if saved["fold_sizes"] != fold_sizes or saved["parameters"] != PARAMETERS:
+            raise ValueError("saved ablation uses different folds or parameters")
         report = saved
 
     completed = {

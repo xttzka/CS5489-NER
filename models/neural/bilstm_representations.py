@@ -275,7 +275,7 @@ def main():
         labels.extend((f"B-{entity_type}", f"I-{entity_type}"))
     label_to_id = {label: index for index, label in enumerate(labels)}
     inverse = {index: label for label, index in label_to_id.items()}
-    words, vectors, glove_sha256, random_scale = None, None, None, None
+    words, vectors, random_scale = None, None, None
     print(f"Mode: {args.mode}; device: {device}; train={len(train)}; validation={len(dev)}", flush=True)
     if args.mode == "bert":
         features = features_for_sets((("train", train), ("validation", dev)), device,
@@ -284,7 +284,7 @@ def main():
         train = [{**row, "_bert": vector} for row, vector in zip(train, train_features, strict=True)]
         dev = [{**row, "_bert": vector} for row, vector in zip(dev, dev_features, strict=True)]
     else:
-        words, glove, glove_sha256 = load_glove(GLOVE_PATH)
+        words, glove = load_glove(GLOVE_PATH)
         if args.mode == "random":
             # Match GloVe's overall scale, but do not preserve its word semantics.
             generator = torch.Generator().manual_seed(args.seed + 100000)
@@ -304,7 +304,7 @@ def main():
     dev_loader = DataLoader(dev, batch_size=args.batch_size, shuffle=False, collate_fn=list)
     output.mkdir(parents=True)
     config = vars(args).copy()
-    config.update(device=str(device), labels=labels, glove_sha256=glove_sha256,
+    config.update(device=str(device), labels=labels,
                   static_embeddings_frozen=True if args.mode != "bert" else None,
                   bert_frozen=True if args.mode == "bert" else None,
                   bert_model=BERT_NAME if args.mode == "bert" else None,

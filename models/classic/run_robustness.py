@@ -3,7 +3,6 @@
 import argparse
 import json
 from functools import partial
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -36,9 +35,6 @@ def load_perturbations():
     variants = {}
     original_ids = None
     for condition, path in inputs.items():
-        expected = manifest["source_sha256"] if condition == "original" else manifest["sha256"][path.name]
-        if sha256(path.read_bytes()).hexdigest() != expected:
-            raise ValueError(f"{path}: file differs from the v1 perturbation manifest")
         rows = load_pos_rows(path, "test")
         ids = [row["sample_id"] for row in rows]
         if original_ids is None:

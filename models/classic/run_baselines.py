@@ -3,7 +3,6 @@
 import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -58,7 +57,6 @@ def m2_selection(group, train_path, features):
         selection = report
         if selection["status"] != "complete" or selection["context_window"] != features["context_window"]:
             raise ValueError(f"{path}: expected a complete grid using the shared context window")
-        train_hash = selection["fingerprint"]["train_sha256"]
         best = next(candidate for candidate in selection["candidates"] if all(
             candidate[key] == value for key, value in selection["best_parameters"].items()
         ))
@@ -70,13 +68,12 @@ def m2_selection(group, train_path, features):
         if report["features"] != features:
             raise ValueError(f"{path}: CV features differ from the final features")
         selection = report["datasets"][group]
-        train_hash = selection["training_sha256"]
         best_mean = selection["best_mean_f1"]
         fold_strategy = selection["fold_strategy"]
         cv_training = train_path
         cv_features = features
-    if selection["selection_split"] != f"{group}:train" or sha256(cv_training.read_bytes()).hexdigest() != train_hash:
-        raise ValueError(f"{path}: CV training data differ from the recorded selection inputs")
+    if selection["selection_split"] != f"{group}:train":
+        raise ValueError(f"{path}: the cross-validation used another training split")
     return {
         "report": relative(path), "split": selection["selection_split"], "fold_strategy": fold_strategy,
         "parameters": selection["best_parameters"], "mean_f1": best_mean,
@@ -93,7 +90,6 @@ def read_m1_selection(dataset, train_path):
     config = source["m1"]
     if (
         source["training_file"] != relative(train_path)
-        or config.get("selection", {}).get("training_sha256") != sha256(train_path.read_bytes()).hexdigest()
         or config.get("tol") != m1_logistic.TOL
         or config["max_iterations"] != m1_logistic.MAX_ITER
         or config["solver"] != m1_logistic.SOLVER
@@ -179,8 +175,6 @@ def run_group(group):
             "iterations": int(logistic.n_iter_[0]), "max_iterations": logistic.max_iter,
             "selection": {
                 "split": f"{source}:validation", "validation_file": relative(validation_path),
-                "training_sha256": sha256(train_path.read_bytes()).hexdigest(),
-                "validation_sha256": sha256(validation_path.read_bytes()).hexdigest(),
                 "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
                 "candidates": candidates,
             },

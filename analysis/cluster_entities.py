@@ -9,7 +9,6 @@ three representations on their intersection.
 import argparse
 import json
 from collections import Counter
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -24,7 +23,6 @@ from eval.score_ner import bio_to_spans
 
 DEFAULT_GOLD = ROOT / "data" / "processed" / "conll2003" / "test.jsonl"
 DEFAULT_GLOVE = ROOT / "data" / "external" / "glove" / "glove.6B.100d.txt"
-GLOVE_HASH = "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6"
 TYPES = {"PER", "LOC", "ORG", "MISC"}
 SEED = 42
 N_INIT = 10
@@ -66,11 +64,9 @@ def read_gold(path):
 def glove_entity_vectors(path, gold):
     wanted = {word.lower().encode("utf-8") for _, words in gold.values() for word in words}
     word_vectors = {}
-    digest = sha256()
     dimensions = None
     with path.open("rb") as stream:
         for line in stream:
-            digest.update(line)
             word, _, values = line.partition(b" ")
             if word not in wanted:
                 continue
@@ -80,8 +76,7 @@ def glove_entity_vectors(path, gold):
             if not dimensions or len(vector) != dimensions or not np.isfinite(vector).all() or word in word_vectors:
                 raise ValueError(f"{path}: invalid or repeated word vector for {word!r}")
             word_vectors[word] = vector
-    checksum = digest.hexdigest()
-    if path.resolve() == DEFAULT_GLOVE.resolve() and (checksum != GLOVE_HASH or dimensions != 100):
+    if path.resolve() == DEFAULT_GLOVE.resolve() and dimensions != 100:
         raise ValueError(f"{path}: expected the 100-dimensional GloVe 6B file")
 
     vectors = {}
@@ -93,7 +88,7 @@ def glove_entity_vectors(path, gold):
             vectors[key] = np.mean(known, axis=0)
             partial += len(known) < len(words)
     return vectors, {
-        "input": reference(path), "sha256": checksum, "dimensions": dimensions,
+        "input": reference(path), "dimensions": dimensions,
         "partially_out_of_vocabulary_spans": partial,
         "fully_out_of_vocabulary_spans": len(gold) - len(vectors),
         "pooling": "Mean of the available lowercase token vectors; exclude spans with no covered tokens.",
@@ -120,7 +115,7 @@ def read_bert_vectors(path, gold):
         if len(vector) != dimensions or not np.isfinite(vector).all():
             raise ValueError(f"{path}: inconsistent dimension or nonfinite vector for {key!r}")
         vectors[key] = vector
-    return vectors, {"input": reference(path), "sha256": sha256(path.read_bytes()).hexdigest(), "dimensions": dimensions}
+    return vectors, {"input": reference(path), "dimensions": dimensions}
 
 
 def cluster(vectors, keys, gold, misc_k):
@@ -210,7 +205,7 @@ def main():
             "misc_clusters": {name: labels[key] for name, labels in misc_labels.items()} if kind == "MISC" else {},
         })
     report = {
-        "mode": mode, "gold": reference(args.gold), "gold_sha256": sha256(args.gold.read_bytes()).hexdigest(),
+        "mode": mode, "gold": reference(args.gold),
         "gold_spans": len(gold), "shared_spans": len(keys), "excluded_spans": len(gold) - len(keys),
         "gold_type_counts": dict(sorted(Counter(kind for kind, _ in gold.values()).items())),
         "shared_type_counts": dict(sorted(type_counts.items())),

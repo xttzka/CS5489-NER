@@ -141,7 +141,7 @@ python -B -m eval.ensemble_ner --gold data/processed/conll2003/test.jsonl --subs
 python -B -m eval.result_tables export-a             # results/A.csv
 ```
 
-`tune_crf` and `m2_feature_ablation` reuse the cross-validation scores saved in `results/m2_cv*.json` and `results/m2_feature_ablation.json` when the training data, the code and the library versions of `requirements.txt` are unchanged. Delete these files to run the cross-validation again. Logistic regression scores can differ by about 0.1 F1 between platforms.
+`tune_crf` and `m2_feature_ablation` reuse the cross-validation scores saved in `results/m2_cv*.json` and `results/m2_feature_ablation.json`. Delete these files to run the cross-validation again. Logistic regression scores can differ by about 0.1 F1 between platforms.
 
 ## 6. Neural models
 

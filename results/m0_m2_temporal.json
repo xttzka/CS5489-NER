@@ -30,8 +30,6 @@
       "selection": {
         "split": "conll2003:validation",
         "validation_file": "data/processed_pos/conll2003/validation.jsonl",
-        "training_sha256": "7f570ace54979dc8159325586614479202711e101fdc697d6eba942629c42070",
-        "validation_sha256": "79b548a3618a6c57bcb1a26c4adf86d5970cd65b363b48592e130c2cb9a643f4",
         "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
         "candidates": [
           {

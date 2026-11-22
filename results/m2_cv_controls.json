@@ -17,30 +17,6 @@
     "window_2_change": "Add the lowercase token two positions left or right when it exists."
   },
   "grouped_reference": "results/m2_cv_grid.json",
-  "fingerprint": {
-    "train_sha256": "da752fcd635d20566bbd796809cc774b3f0613d78e2a4b83385a93e9a5d7611f",
-    "heldout_sample_ids_sha256": [
-      "7761cc07040c0a595ac8f85e3571f7b011da93931e808f09ca71631834dd8c89",
-      "520fbd343e6a29358868d9369ca304fc4110666a388d626789128fd15ccfe17b",
-      "985d8a1022bb6a04c0b8ef868996d3d3b683bc92b67403f808a7c3fb3b078523",
-      "1bcc24062d90a3eeb6904e0f3a6cb5cd229409eec6b34b22b89f9196ae11c339",
-      "ffd0eacc950165a417ed2935f778d54d352d541e2d6d12dcd0db3e61cf964d87"
-    ],
-    "code_sha256": {
-      "models/classic/features.py": "c4de3753c9e8d95c0eb3d3e39e7c4176b486d61f7c3be7f3f2c729c16c4dc1c9",
-      "models/classic/m0_dictionary.py": "36b588f8fdad0ab9c318a708a5c1776ecab81be8e5cfef53785a9c93197fa221",
-      "models/classic/m2_crf.py": "067d90b5bd8c9a838d493a96c7061acbbecf85100ca78b70698bf7223416fe53",
-      "models/classic/m2_cross_validate.py": "a4d744786f15b5a0865b5a8969cf949a75d8f39a95830c79168bffbb2d6f919b",
-      "models/classic/m2_grid_search.py": "c4725ef36450306f0e09de6d243c9df23f86c33a418b5594af0f14e7ea58f019",
-      "eval/score_ner.py": "1039126583659205a65dbcd7a053cd3bb580fef2c898e2c59a6e020a4694f58a",
-      "models/classic/m1_logistic.py:repair_iob2": "ada4321a82b50d96e164db2ea0bdee193d9ee524696cfcd3f3c5206284c15b55"
-    },
-    "library_versions": {
-      "scikit-learn": "1.9.1",
-      "sklearn-crfsuite": "0.5.0",
-      "python-crfsuite": "0.9.12"
-    }
-  },
   "random_seed": 42,
   "fold_membership": {
     "grouped": [
@@ -52,8 +28,7 @@
         "heldout_documents": 187,
         "overlapping_documents": 0,
         "heldout_sentences_from_overlapping_documents": 0,
-        "heldout_fraction_from_overlapping_documents": 0.0,
-        "heldout_sample_ids_sha256": "7761cc07040c0a595ac8f85e3571f7b011da93931e808f09ca71631834dd8c89"
+        "heldout_fraction_from_overlapping_documents": 0.0
       },
       {
         "fold": 2,
@@ -63,8 +38,7 @@
         "heldout_documents": 189,
         "overlapping_documents": 0,
         "heldout_sentences_from_overlapping_documents": 0,
-        "heldout_fraction_from_overlapping_documents": 0.0,
-        "heldout_sample_ids_sha256": "520fbd343e6a29358868d9369ca304fc4110666a388d626789128fd15ccfe17b"
+        "heldout_fraction_from_overlapping_documents": 0.0
       },
       {
         "fold": 3,
@@ -74,8 +48,7 @@
         "heldout_documents": 190,
         "overlapping_documents": 0,
         "heldout_sentences_from_overlapping_documents": 0,
-        "heldout_fraction_from_overlapping_documents": 0.0,
-        "heldout_sample_ids_sha256": "985d8a1022bb6a04c0b8ef868996d3d3b683bc92b67403f808a7c3fb3b078523"
+        "heldout_fraction_from_overlapping_documents": 0.0
       },
       {
         "fold": 4,
@@ -85,8 +58,7 @@
         "heldout_documents": 190,
         "overlapping_documents": 0,
         "heldout_sentences_from_overlapping_documents": 0,
-        "heldout_fraction_from_overlapping_documents": 0.0,
-        "heldout_sample_ids_sha256": "1bcc24062d90a3eeb6904e0f3a6cb5cd229409eec6b34b22b89f9196ae11c339"
+        "heldout_fraction_from_overlapping_documents": 0.0
       },
       {
         "fold": 5,
@@ -96,8 +68,7 @@
         "heldout_documents": 190,
         "overlapping_documents": 0,
         "heldout_sentences_from_overlapping_documents": 0,
-        "heldout_fraction_from_overlapping_documents": 0.0,
-        "heldout_sample_ids_sha256": "ffd0eacc950165a417ed2935f778d54d352d541e2d6d12dcd0db3e61cf964d87"
+        "heldout_fraction_from_overlapping_documents": 0.0
       }
     ],
     "random": [
@@ -109,8 +80,7 @@
         "heldout_documents": 818,
         "overlapping_documents": 818,
         "heldout_sentences_from_overlapping_documents": 2809,
-        "heldout_fraction_from_overlapping_documents": 1.0,
-        "heldout_sample_ids_sha256": "468e4d983fc4f0651e72d1d77b9d9c218e94016bf4b17db7243c6f84eb2f8e39"
+        "heldout_fraction_from_overlapping_documents": 1.0
       },
       {
         "fold": 2,
@@ -120,8 +90,7 @@
         "heldout_documents": 834,
         "overlapping_documents": 834,
         "heldout_sentences_from_overlapping_documents": 2808,
-        "heldout_fraction_from_overlapping_documents": 1.0,
-        "heldout_sample_ids_sha256": "31f4521c60878cb4305cc4d6e69bf27883cf63117308e2d6751b7273e04173aa"
+        "heldout_fraction_from_overlapping_documents": 1.0
       },
       {
         "fold": 3,
@@ -131,8 +100,7 @@
         "heldout_documents": 824,
         "overlapping_documents": 824,
         "heldout_sentences_from_overlapping_documents": 2808,
-        "heldout_fraction_from_overlapping_documents": 1.0,
-        "heldout_sample_ids_sha256": "bda194b54086cbebc0ca6b7153681c6e4e7333236487f7d56a284f7645cd194f"
+        "heldout_fraction_from_overlapping_documents": 1.0
       },
       {
         "fold": 4,
@@ -142,8 +110,7 @@
         "heldout_documents": 841,
         "overlapping_documents": 841,
         "heldout_sentences_from_overlapping_documents": 2808,
-        "heldout_fraction_from_overlapping_documents": 1.0,
-        "heldout_sample_ids_sha256": "a2dc88de5610f952b1ef1a6fdd9f10a6208c439935740bfdceced23ed15d1c03"
+        "heldout_fraction_from_overlapping_documents": 1.0
       },
       {
         "fold": 5,
@@ -153,8 +120,7 @@
         "heldout_documents": 841,
         "overlapping_documents": 840,
         "heldout_sentences_from_overlapping_documents": 2805,
-        "heldout_fraction_from_overlapping_documents": 0.9989316239316239,
-        "heldout_sample_ids_sha256": "18e3f6eaa2e29eff1d0541558178c430d89f0a541a4232dd6d141ba989a77d22"
+        "heldout_fraction_from_overlapping_documents": 0.9989316239316239
       }
     ],
     "contiguous": [
@@ -166,8 +132,7 @@
         "heldout_documents": 191,
         "overlapping_documents": 1,
         "heldout_sentences_from_overlapping_documents": 1,
-        "heldout_fraction_from_overlapping_documents": 0.000355998576005696,
-        "heldout_sample_ids_sha256": "12e62172ef9a0302344ca1700ae6819ccd25eddcd0d20e016522774593bebd28"
+        "heldout_fraction_from_overlapping_documents": 0.000355998576005696
       },
       {
         "fold": 2,
@@ -177,8 +142,7 @@
         "heldout_documents": 172,
         "overlapping_documents": 2,
         "heldout_sentences_from_overlapping_documents": 16,
-        "heldout_fraction_from_overlapping_documents": 0.005698005698005698,
-        "heldout_sample_ids_sha256": "a3f290f2867ae522e2a4cd2cb2b8912dc4ef26259a46f95232532f75db85930d"
+        "heldout_fraction_from_overlapping_documents": 0.005698005698005698
       },
       {
         "fold": 3,
@@ -188,8 +152,7 @@
         "heldout_documents": 169,
         "overlapping_documents": 2,
         "heldout_sentences_from_overlapping_documents": 20,
-        "heldout_fraction_from_overlapping_documents": 0.007122507122507123,
-        "heldout_sample_ids_sha256": "b45fc0220b9c0b9d2a35ad5983c87e09b02dcc3889e21d2b64496c9ce355dd9b"
+        "heldout_fraction_from_overlapping_documents": 0.007122507122507123
       },
       {
         "fold": 4,
@@ -199,8 +162,7 @@
         "heldout_documents": 192,
         "overlapping_documents": 2,
         "heldout_sentences_from_overlapping_documents": 84,
-        "heldout_fraction_from_overlapping_documents": 0.029914529914529916,
-        "heldout_sample_ids_sha256": "40a1629853c7233dd95586c2c713effb42394168ad698c534d3877c609071488"
+        "heldout_fraction_from_overlapping_documents": 0.029914529914529916
       },
       {
         "fold": 5,
@@ -210,8 +172,7 @@
         "heldout_documents": 226,
         "overlapping_documents": 1,
         "heldout_sentences_from_overlapping_documents": 7,
-        "heldout_fraction_from_overlapping_documents": 0.002492877492877493,
-        "heldout_sample_ids_sha256": "d0e414bf96b5af99636b84e2cad80fa040202953666660e4b6d766163ba71714"
+        "heldout_fraction_from_overlapping_documents": 0.002492877492877493
       }
     ]
   },
@@ -564,7 +525,6 @@
     "datasets": {
       "wnut17": {
         "training_input": "data/processed_pos/wnut17/train.jsonl",
-        "training_sha256": "12b558a6c7e17ad5529446530fd2da6fd2b8b8a789c52c08b55518d84839aa57",
         "training_records": 3394,
         "selection_split": "wnut17:train",
         "fold_strategy": "Five contiguous, nearly equal held-out blocks in original training order.",
@@ -778,7 +738,6 @@
       },
       "mit_restaurant": {
         "training_input": "data/processed_pos/mit_restaurant/train.jsonl",
-        "training_sha256": "2251979379db7a1af3ad5080ccfa9e40076272f28d082b519d6224d51bfc80c6",
         "training_records": 6894,
         "selection_split": "mit_restaurant:train",
         "fold_strategy": "Five contiguous, nearly equal held-out blocks in original training order.",

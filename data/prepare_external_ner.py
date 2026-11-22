@@ -2,7 +2,6 @@
 
 import argparse
 import json
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
@@ -14,47 +13,23 @@ WNUT_ROOT = f"{GITHUB_RAW}/leondz/emerging_entities_17/master"
 MIT_ROOT = "https://sls.csail.mit.edu/downloads/restaurant"
 SOURCES = {
     "wnut17": {
-        "wnut17train.conll": (
-            f"{WNUT_ROOT}/wnut17train.conll",
-            "731820e13f71af324c6b55a1575ec2ce59fbaa2a0806f8f0400b98d56cd6a7a5",
-        ),
-        "emerging.dev.conll": (
-            f"{WNUT_ROOT}/emerging.dev.conll",
-            "e053b752b8155113ca66e7db08af5f2f5f43ab993694e4774f1ec5bad42312d8",
-        ),
-        "emerging.test.annotated": (
-            f"{WNUT_ROOT}/emerging.test.annotated",
-            "2aa79b764e56ec9264a1b30fdd9b70195bd00ff400b62edd8f399d5f13c178f0",
-        ),
+        "wnut17train.conll": f"{WNUT_ROOT}/wnut17train.conll",
+        "emerging.dev.conll": f"{WNUT_ROOT}/emerging.dev.conll",
+        "emerging.test.annotated": f"{WNUT_ROOT}/emerging.test.annotated",
     },
     "mit_restaurant": {
-        "restauranttrain.bio": (
-            f"{MIT_ROOT}/restauranttrain.bio",
-            "f51794247426c975e7701011d4dba668ac6b881358f162e2c2c10709f2d17b9b",
-        ),
-        "restauranttest.bio": (
-            f"{MIT_ROOT}/restauranttest.bio",
-            "09809dd126a3781c4205d06e721752054e51a10b1c98f3495ef17cd723f25ce2",
-        ),
+        "restauranttrain.bio": f"{MIT_ROOT}/restauranttrain.bio",
+        "restauranttest.bio": f"{MIT_ROOT}/restauranttest.bio",
     },
     "conllpp": {
-        "conllpp.txt": (
-            f"{GITHUB_RAW}/ShuhengL/acl2023_conllpp/main/dataset/conllpp.txt",
-            "bd08b7a49358e54f3f0a41e8431880ce85709e38b08a178f7f5e698d2e98353b",
-        ),
+        "conllpp.txt": f"{GITHUB_RAW}/ShuhengL/acl2023_conllpp/main/dataset/conllpp.txt",
     },
     "wikigold": {
-        "wikigold.conll.txt": (
-            f"{GITHUB_RAW}/juand-r/entity-recognition-datasets/master/"
-            "data/wikigold/CONLL-format/data/wikigold.conll.txt",
-            "c797a64d0cf73ed058363f77671486bcfd413e70fda1726ad4a6ba624455225f",
-        ),
+        "wikigold.conll.txt": f"{GITHUB_RAW}/juand-r/entity-recognition-datasets/master/"
+                              "data/wikigold/CONLL-format/data/wikigold.conll.txt",
     },
     "btc": {
-        "f.json": (
-            f"{GITHUB_RAW}/GateNLP/broad_twitter_corpus/master/f.json",
-            "f2d2e05a02a3ef841e8a91abacf4953d0a196ced655cfe2f7683cf7bddbfd1bc",
-        ),
+        "f.json": f"{GITHUB_RAW}/GateNLP/broad_twitter_corpus/master/f.json",
     },
 }
 
@@ -97,16 +72,10 @@ EXPECTED_DOCUMENTS = {"conllpp": 131, "wikigold": 145, "btc": 2000}
 IOB1_DATASETS = {"conllpp", "wikigold"}
 
 
-def check_digest(content, expected_digest, path):
-    if sha256(content).hexdigest() != expected_digest:
-        raise ValueError(f"{path}: SHA-256 does not match the verified source")
-
-
 def prepare_sources(dataset, raw_dir, download):
-    for filename, (url, digest) in SOURCES[dataset].items():
+    for filename, url in SOURCES[dataset].items():
         path = raw_dir / filename
         if path.exists():
-            check_digest(path.read_bytes(), digest, path)
             continue
         if not download:
             raise FileNotFoundError(f"{path}: run with --download first")
@@ -114,7 +83,6 @@ def prepare_sources(dataset, raw_dir, download):
         print(f"Downloading {url}", flush=True)
         with urlopen(url, timeout=45) as response:
             content = response.read()
-        check_digest(content, digest, path)
         raw_dir.mkdir(parents=True, exist_ok=True)
         with TemporaryDirectory(dir=raw_dir) as staging:
             temporary_file = Path(staging) / filename

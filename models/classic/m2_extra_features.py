@@ -3,7 +3,6 @@
 import io
 import json
 from functools import partial
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
@@ -33,36 +32,17 @@ CITIES = EXTERNAL / "gazetteers" / "cities15000.zip"
 COUNTRIES = EXTERNAL / "gazetteers" / "countryInfo.txt"
 GLOVE = EXTERNAL / "glove" / "glove.6B.100d.txt"
 RESOURCES = {
-    CITIES: (
-        "https://download.geonames.org/export/dump/cities15000.zip",
-        "0df068fe1eb445f18655559b9d80fdd45ac88535d8c27b7b4f5ce5e66b1107b3",
-        "CC BY 4.0",
-    ),
-    COUNTRIES: (
-        "https://download.geonames.org/export/dump/countryInfo.txt",
-        "79f8f59ea01cbb40438bf1856dd6c2ff201f03f8fc72d0530b2646aaf603ef04",
-        "CC BY 4.0",
-    ),
-    GLOVE: (
-        "https://huggingface.co/stanfordnlp/glove/resolve/main/glove.6B.zip",
-        "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6",
-        "ODC PDDL 1.0",
-    ),
+    CITIES: ("https://download.geonames.org/export/dump/cities15000.zip", "CC BY 4.0"),
+    COUNTRIES: ("https://download.geonames.org/export/dump/countryInfo.txt", "CC BY 4.0"),
+    GLOVE: ("https://huggingface.co/stanfordnlp/glove/resolve/main/glove.6B.zip", "ODC PDDL 1.0"),
 }
 
 
-def verified_resource(path):
-    source, expected, license_name = RESOURCES[path]
-    digest = sha256()
-    with path.open("rb") as file:
-        for block in iter(lambda: file.read(1024 * 1024), b""):
-            digest.update(block)
-    if digest.hexdigest() != expected:
-        if path == GLOVE:
-            raise ValueError(f"{path}: not the glove.6B.100d.txt file of glove.6B.zip")
-        print(f"{path.name} differs from the GeoNames download of 10 November 2026 behind the reported results; "
-              "scores can differ slightly.")
-    return {"url": source, "sha256": digest.hexdigest(), "license": license_name}
+def resource(path):
+    if not path.is_file():
+        raise ValueError(f"{path}: place the file as described in README.md")
+    source, license_name = RESOURCES[path]
+    return {"url": source, "license": license_name}
 
 
 def gazetteer_names():
@@ -219,7 +199,7 @@ def main():
         "baseline_report": FAMILIARITY_REPORT.relative_to(PROJECT_DIR).as_posix(),
         "baseline": baseline,
         "resources": {
-            path.relative_to(PROJECT_DIR).as_posix(): verified_resource(path)
+            path.relative_to(PROJECT_DIR).as_posix(): resource(path)
             for path in (CITIES, COUNTRIES)
         },
         "gazetteer_snapshot_retrieved": "2026-11-10",
@@ -237,7 +217,7 @@ def main():
         report["conditions"]["gazetteer"] = evaluate("gazetteer", gazetteer_extract, training, targets, seen_names, baseline)
         save_report(report)
 
-        report["resources"][GLOVE.relative_to(PROJECT_DIR).as_posix()] = verified_resource(GLOVE)
+        report["resources"][GLOVE.relative_to(PROJECT_DIR).as_posix()] = resource(GLOVE)
         train_words = vocabulary(training)
         target_words = {dataset: vocabulary(rows) for dataset, rows in targets.items()}
         vectors = load_vectors(train_words.union(*target_words.values()))

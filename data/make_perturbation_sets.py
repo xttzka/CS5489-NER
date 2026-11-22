@@ -3,7 +3,6 @@
 import json
 import random
 from collections import Counter, defaultdict
-from hashlib import sha256
 from pathlib import Path
 from string import ascii_letters, ascii_lowercase, ascii_uppercase
 from tempfile import TemporaryDirectory
@@ -161,7 +160,6 @@ def main():
     }
     manifest = {
         "source": SOURCE.relative_to(DATA_DIR.parent).as_posix(),
-        "source_sha256": sha256(source_bytes).hexdigest(),
         "sentences_per_variant": len(rows),
         "source_tokens": sum(len(row["tokens"]) for row in rows),
         "spelling_noise": {"seed": SEED, "rate": NOISE_RATE, "eligible_ascii_letters": eligible,
@@ -176,7 +174,6 @@ def main():
         work_dir = Path(staging)
         for filename, records in files.items():
             write_jsonl(work_dir / filename, records)
-        manifest["sha256"] = {filename: sha256((work_dir / filename).read_bytes()).hexdigest() for filename in files}
         metadata = "manifest_v1.json"
         (work_dir / metadata).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         for filename in (*files, metadata):

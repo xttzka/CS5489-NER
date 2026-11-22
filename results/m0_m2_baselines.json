@@ -24,8 +24,6 @@
         "selection": {
           "split": "wnut17:validation",
           "validation_file": "data/processed_pos/wnut17/validation.jsonl",
-          "training_sha256": "12b558a6c7e17ad5529446530fd2da6fd2b8b8a789c52c08b55518d84839aa57",
-          "validation_sha256": "2bb771468a4470312dde7f393f21fcbbd486753398787c5451e00fb1d741545d",
           "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
           "candidates": [
             {
@@ -1279,8 +1277,6 @@
         "selection": {
           "split": "mit_restaurant:validation",
           "validation_file": "data/processed_pos/mit_restaurant/validation.jsonl",
-          "training_sha256": "2251979379db7a1af3ad5080ccfa9e40076272f28d082b519d6224d51bfc80c6",
-          "validation_sha256": "add45e256c4022ec04fc813a2d32385a260f2367c21ff6d7e5f0d809ff538130",
           "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
           "candidates": [
             {
@@ -2824,8 +2820,6 @@
         "selection": {
           "split": "conll2003:validation",
           "validation_file": "data/processed_pos/conll2003/validation.jsonl",
-          "training_sha256": "7f570ace54979dc8159325586614479202711e101fdc697d6eba942629c42070",
-          "validation_sha256": "79b548a3618a6c57bcb1a26c4adf86d5970cd65b363b48592e130c2cb9a643f4",
           "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
           "candidates": [
             {
@@ -3789,8 +3783,6 @@
         "selection": {
           "split": "conll2003:validation",
           "validation_file": "data/processed_pos/conll2003/validation.jsonl",
-          "training_sha256": "7f570ace54979dc8159325586614479202711e101fdc697d6eba942629c42070",
-          "validation_sha256": "79b548a3618a6c57bcb1a26c4adf86d5970cd65b363b48592e130c2cb9a643f4",
           "metric": "Exact entity-level micro F1 after BIO repair; ties favor the smaller C.",
           "candidates": [
             {

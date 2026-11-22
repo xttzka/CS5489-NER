@@ -3,7 +3,6 @@
 import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor
-from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -55,7 +54,6 @@ def main():
             "method": "M2 CRF",
             "features": {"pos_model": POS_MODEL, "use_chunk_tags": False, "context_window": 1},
             "training_input": TRAIN_PATH.relative_to(PROJECT_DIR).as_posix(),
-            "training_sha256": sha256(TRAIN_PATH.read_bytes()).hexdigest(),
             "selection_split": f"{DATASET}:train",
             "fold_strategy": "Five held-out folds grouped by doc_id.",
             "fold_sizes": fold_sizes,

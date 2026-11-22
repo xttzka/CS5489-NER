@@ -1,7 +1,6 @@
 """Train BERT taggers for native labels, cross-dataset transfer or pseudo-label distillation."""
 
 import argparse
-import hashlib
 import json
 import random
 from pathlib import Path
@@ -183,11 +182,6 @@ def main():
         "model_name": MODEL_NAME, "device_used": str(device), "source_datasets": datasets,
         "entity_types": entity_types, "labels": labels, "validation_policy": validation_policy,
         "training_sentences": len(train_rows), "validation_sentences": len(dev_rows),
-        "train_ids_sha256": hashlib.sha256("\n".join(train_ids).encode()).hexdigest(),
-        "training_data_sha256": hashlib.sha256(
-            "\n".join(json.dumps([r["sample_id"], r["tokens"], r["tags"]], ensure_ascii=False)
-                      for r in train_rows).encode()
-        ).hexdigest(),
         "selection_metric": "validation_entity_micro_f1",
     })
     (args.output_dir / "run_config.json").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

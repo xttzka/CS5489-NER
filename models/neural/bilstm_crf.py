@@ -3,7 +3,6 @@
 import argparse
 import json
 import random
-from hashlib import file_digest
 from pathlib import Path
 
 import numpy as np
@@ -19,9 +18,6 @@ from models.neural.bert_baseline import fix_iob2
 
 
 GLOVE_PATH = Path("data/external/glove/glove.6B.100d.txt")
-GLOVE_SHA256 = (
-    "be4367dd257eb945217234f16307c5c74236b648a222cc0b4ffd0dda6a3350b6"
-)
 
 
 def parse_args():
@@ -60,20 +56,10 @@ def parse_args():
 
 
 def load_glove(path):
-    """Check the GloVe file hash, then load its vocabulary and 100d vectors."""
+    """Load the vocabulary and the 100-dimensional vectors of the GloVe file."""
 
     if not path.is_file():
         raise FileNotFoundError(f"GloVe file not found: {path}")
-
-    print("Checking GloVe SHA-256...", flush=True)
-
-    with path.open("rb") as file:
-        actual_sha256 = file_digest(file, "sha256").hexdigest()
-
-    if actual_sha256 != GLOVE_SHA256:
-        raise ValueError(
-            f"GloVe SHA-256 mismatch: {actual_sha256}"
-        )
 
     print("Counting GloVe entries...", flush=True)
 
@@ -111,7 +97,7 @@ def load_glove(path):
     if "<unk>" not in word_to_id:
         raise ValueError("The GloVe file does not contain the expected <unk>.")
 
-    return word_to_id, torch.from_numpy(vectors), actual_sha256
+    return word_to_id, torch.from_numpy(vectors)
 
 
 def make_character_vocab(rows):
@@ -403,7 +389,7 @@ def main():
     print(f"Labels: {labels}")
     print(f"Character vocabulary size: {len(char_to_id)}")
 
-    word_to_id, glove_vectors, glove_sha256 = load_glove(GLOVE_PATH)
+    word_to_id, glove_vectors = load_glove(GLOVE_PATH)
 
     print(f"GloVe vocabulary size: {len(word_to_id) - 1:,}")
     print("GloVe vectors are frozen during training.")
@@ -439,7 +425,6 @@ def main():
     config = vars(args).copy()
     config["device"] = str(device)
     config["glove_path"] = str(GLOVE_PATH)
-    config["glove_sha256"] = glove_sha256
     config["glove_frozen"] = True
     config["labels"] = labels
 

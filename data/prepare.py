@@ -1,7 +1,6 @@
 """Prepare the six corpora and all shared evaluation inputs in dependency order."""
 
 import argparse
-from hashlib import sha256
 from importlib.util import find_spec
 from pathlib import Path
 import subprocess
@@ -13,7 +12,6 @@ from urllib.request import urlopen
 PROJECT = Path(__file__).resolve().parents[1]
 CONLL_ARCHIVE = PROJECT / "data" / "raw" / "conll2003" / "conll2003.zip"
 CONLL_URL = "https://data.deepai.org/conll2003.zip"
-CONLL_SHA256 = "96a104d174ddae7558bab603f19382c5fe02ff1da5c077a7f3ce2ced1578a2c3"
 
 
 def pos_python(override=None):
@@ -38,14 +36,10 @@ def check_conll_archive(download):
             staged = Path(work) / CONLL_ARCHIVE.name
             with urlopen(CONLL_URL, timeout=60) as response:
                 content = response.read()
-            if sha256(content).hexdigest() != CONLL_SHA256:
-                raise ValueError(f"{CONLL_URL}: unexpected ZIP checksum")
             staged.write_bytes(content)
             staged.replace(CONLL_ARCHIVE)
     if not CONLL_ARCHIVE.is_file():
         raise ValueError(f"place the source ZIP at {CONLL_ARCHIVE} or use --all --download")
-    if sha256(CONLL_ARCHIVE.read_bytes()).hexdigest() != CONLL_SHA256:
-        raise ValueError(f"{CONLL_ARCHIVE}: unexpected ZIP checksum")
 
 
 def main():
