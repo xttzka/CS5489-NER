@@ -3,7 +3,7 @@
 BERT JSONL rows require sample_id, start, end and a numeric vector. Offsets
 index the original tokens from zero, with end excluded. An optional
 entity_type must match the gold span. Supply both BERT files to compare the
-three representations on their intersection. GloVe alone runs the pilot.
+three representations on their intersection.
 """
 
 import argparse
@@ -82,7 +82,7 @@ def glove_entity_vectors(path, gold):
             word_vectors[word] = vector
     checksum = digest.hexdigest()
     if path.resolve() == DEFAULT_GLOVE.resolve() and (checksum != GLOVE_HASH or dimensions != 100):
-        raise ValueError(f"{path}: expected the verified 100-dimensional GloVe 6B file")
+        raise ValueError(f"{path}: expected the 100-dimensional GloVe 6B file")
 
     vectors = {}
     partial = 0
@@ -148,14 +148,14 @@ def cluster(vectors, keys, gold, misc_k):
 def save(report_path, assignment_path, report, assignments):
     report_path.parent.mkdir(parents=True, exist_ok=True)
     assignment_path.parent.mkdir(parents=True, exist_ok=True)
-    with TemporaryDirectory(dir=report_path.parent) as result_temp, TemporaryDirectory(dir=assignment_path.parent) as review_temp:
+    with TemporaryDirectory(dir=report_path.parent) as result_temp, TemporaryDirectory(dir=assignment_path.parent) as assignment_temp:
         result_stage = Path(result_temp) / report_path.name
-        review_stage = Path(review_temp) / assignment_path.name
+        assignment_stage = Path(assignment_temp) / assignment_path.name
         result_stage.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        with review_stage.open("w", encoding="utf-8", newline="\n") as target:
+        with assignment_stage.open("w", encoding="utf-8", newline="\n") as target:
             for row in assignments:
                 target.write(json.dumps(row, ensure_ascii=False) + "\n")
-        review_stage.replace(assignment_path)
+        assignment_stage.replace(assignment_path)
         result_stage.replace(report_path)
 
 
@@ -217,7 +217,6 @@ def main():
         "matching": "Identical intersection of (sample_id, start, end) gold spans for every representation.",
         "cluster_config": {"algorithm": "K-means (Lloyd)", "k": len(TYPES), "misc_k": args.misc_k,
                            "n_init": N_INIT, "random_state": SEED, "normalization": "none"},
-        "misc_review": "MISC subclusters use cluster sizes and span assignments for manual interpretation.",
         "representations": metrics, "assignments": reference(assignment_path),
     }
     save(report_path, assignment_path, report, assignments)

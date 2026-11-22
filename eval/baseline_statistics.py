@@ -30,11 +30,6 @@ def compare(gold_by_id, pred_by_id):
     return overall, counts_by_id
 
 
-def sentence_counts(gold_by_id, pred_by_id):
-    """Return exact TP, FP and FN for each ID, with sparse per-type counts."""
-    return compare(gold_by_id, pred_by_id)[1]
-
-
 def metric_values(counts):
     tp, fp, fn = np.moveaxis(counts, -1, 0)
 
@@ -61,7 +56,7 @@ def bootstrap_counts(counts, resamples, seed):
 
 def score_baselines(gold_by_id, predictions_by_model, *, resamples=1000, seed=42,
                     token_accuracy=False, entity_types=None):
-    """Score M0–M2 on identical IDs, with paired 95% percentile intervals."""
+    """Score M0 to M2 on identical IDs, with paired 95% percentile intervals."""
     if set(predictions_by_model) != set(MODELS):
         raise ValueError("expected predictions for m0, m1 and m2")
     if not isinstance(resamples, int) or isinstance(resamples, bool) or resamples < 1:

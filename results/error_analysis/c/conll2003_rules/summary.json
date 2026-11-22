@@ -27,24 +27,5 @@
     "boundary_and_type": 12
   },
   "pairing": "Remove exact matches, then maximize one-to-one overlaps within each sentence. Prefer more same-type pairs, then more shared tokens.",
-  "offsets": "Zero-based token offsets; end excluded.",
-  "review_sample": {
-    "categories": [
-      "type",
-      "spurious"
-    ],
-    "seed": 42,
-    "requested": 60,
-    "eligible": 99,
-    "sampled": 60,
-    "sampled_by_category": {
-      "type": 22,
-      "spurious": 38
-    },
-    "judgment_options": [
-      "guideline_difference",
-      "gold_error",
-      "other"
-    ]
-  }
+  "offsets": "Zero-based token offsets; end excluded."
 }

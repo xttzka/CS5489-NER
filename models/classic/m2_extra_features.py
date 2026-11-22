@@ -58,8 +58,11 @@ def verified_resource(path):
         for block in iter(lambda: file.read(1024 * 1024), b""):
             digest.update(block)
     if digest.hexdigest() != expected:
-        raise ValueError(f"{path}: SHA-256 differs from the experiment resource")
-    return {"url": source, "sha256": expected, "license": license_name}
+        if path == GLOVE:
+            raise ValueError(f"{path}: not the glove.6B.100d.txt file of glove.6B.zip")
+        print(f"{path.name} differs from the GeoNames download of 10 November 2026 behind the reported results; "
+              "scores can differ slightly.")
+    return {"url": source, "sha256": digest.hexdigest(), "license": license_name}
 
 
 def gazetteer_names():

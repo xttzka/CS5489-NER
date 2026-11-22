@@ -16,7 +16,6 @@ RESULTS = PROJECT_DIR / "results" / "m2_pos_casing.json"
 
 
 def lowercase_rows(rows):
-    # Keep the original token positions, POS tags, gold tags, and sample IDs.
     return [{**row, "tokens": [token.lower() for token in row["tokens"]]} for row in rows]
 
 

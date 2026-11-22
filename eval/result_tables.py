@@ -1,4 +1,4 @@
-"""Export A's measured results and merge team CSVs with one shared schema."""
+"""Write the results of the classic models to results/A.csv in the schema shared by all result CSVs."""
 
 import argparse
 import csv
@@ -218,7 +218,6 @@ def robustness_rows():
 
 
 def analysis_rows():
-    # Export aggregate sections explicitly. Keep raw entity names and individual answer rows local.
     sections = {
         "m2_feature_ablation.json": ("train_cv", "cv", ("fold_scores", "summary")),
         "m2_transfer_overlap.json": ("test", "full", ("all_non_source_targets", "by_source_non_source_targets", "points")),
@@ -227,7 +226,7 @@ def analysis_rows():
         "m2_extra_features.json": ("test", "full", ("baseline", "conditions", "glove_type_coverage")),
         "m2_pos_validation.json": ("validation", "full", ("old_m2", "uniform_pos_m2", "f1_delta_percentage_points")),
         "m2_pos_casing.json": ("validation", "full", ("conditions", "lowercase_minus_original_pp")),
-        "error_analysis/conll2003_m2/summary.json": ("test", "full", ("exact_match", "categories", "review_sample")),
+        "error_analysis/conll2003_m2/summary.json": ("test", "full", ("exact_match", "categories")),
     }
     for name, (split, scope, keys) in sections.items():
         data = report(name)
@@ -354,30 +353,11 @@ def all_a_rows():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    export = commands.add_parser("export-a", help="Build A's CSV from completed JSON reports")
+    export = commands.add_parser("export-a", help="Write results/A.csv from the result files of the classic models")
     export.add_argument("--output", type=Path, default=RESULTS / "A.csv")
-    template = commands.add_parser("template", help="Print the shared CSV header")
-    template.add_argument("--output", type=Path, help="Create a new UTF-8 CSV for member B or C")
-    merge = commands.add_parser("merge", help="Validate and merge the specified member CSVs")
-    merge.add_argument("--input", type=Path, nargs="+", required=True)
-    merge.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
-        if args.command == "template":
-            header = ",".join(FIELDS) + "\n"
-            if args.output is None:
-                print(header, end="")
-            else:
-                args.output.parent.mkdir(parents=True, exist_ok=True)
-                with args.output.open("x", encoding="utf-8", newline="\n") as output:
-                    output.write(header)
-                print(args.output)
-        elif args.command == "export-a":
-            write_csv(args.output, all_a_rows())
-        else:
-            if args.output.resolve() in {path.resolve() for path in args.input}:
-                raise ValueError("merge output must be a separate file")
-            write_csv(args.output, (row for path in args.input for row in read_csv(path)))
+        write_csv(args.output, all_a_rows())
     except (OSError, ValueError, KeyError, TypeError) as error:
         parser.exit(2, f"Error: {error}\n")
 

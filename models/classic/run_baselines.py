@@ -1,4 +1,4 @@
-"""Train M0–M2 and score the full in-domain tests and the six fixed subsets."""
+"""Train M0 to M2 and score the full in-domain tests and the six fixed subsets."""
 
 import argparse
 import json
@@ -88,7 +88,7 @@ def read_m1_selection(dataset, train_path):
     train_path = Path(train_path).resolve()
     report = json.loads(RESULTS.read_text(encoding="utf-8"))
     if report["status"] != "complete":
-        raise ValueError(f"{RESULTS}: the official baseline run must be complete")
+        raise ValueError(f"{RESULTS}: the baseline run must be complete")
     source = report["groups"][dataset]
     config = source["m1"]
     if (

@@ -9737,12 +9737,6 @@ A,error_analysis,M2,categories,,,test,full,,all,all,,,spurious,192,count,{},resu
 A,error_analysis,M2,categories,,,test,full,,all,all,,,boundary,152,count,{},results/error_analysis/conll2003_m2/summary.json#/categories/boundary
 A,error_analysis,M2,categories,,,test,full,,all,all,,,type,570,count,{},results/error_analysis/conll2003_m2/summary.json#/categories/type
 A,error_analysis,M2,categories,,,test,full,,all,all,,,boundary_and_type,83,count,{},results/error_analysis/conll2003_m2/summary.json#/categories/boundary_and_type
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,seed,42,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/seed
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,requested,60,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/requested
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,eligible,762,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/eligible
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,sampled,60,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/sampled
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,sampled_by_category.spurious,17,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/sampled_by_category/spurious
-A,error_analysis,M2,review_sample,,,test,full,,all,all,,,sampled_by_category.type,43,count,{},results/error_analysis/conll2003_m2/summary.json#/review_sample/sampled_by_category/type
 A,data_exploration,gold,distribution,,conll2003,train,full,LOC+MISC+ORG+PER,all,all,,,sentences,14041,count,{},results/data_exploration.json#/datasets/conll2003/splits/train/sentences
 A,data_exploration,gold,distribution,,conll2003,train,full,LOC+MISC+ORG+PER,all,all,,,tokens,203621,count,{},results/data_exploration.json#/datasets/conll2003/splits/train/tokens
 A,data_exploration,gold,distribution,,conll2003,train,full,LOC+MISC+ORG+PER,all,all,,,entities,23499,count,{},results/data_exploration.json#/datasets/conll2003/splits/train/entities

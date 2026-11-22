@@ -1,4 +1,4 @@
-"""Generate T1 and member A's contributions to T2 and T4 as LaTeX tables."""
+"""Generate the dataset table, the hyperparameter table of the classic models and their voting table."""
 
 import json
 
@@ -52,7 +52,7 @@ def dataset_table(report):
     return table(
         "lrrlrrl",
         ("Dataset / text", "Train/Dev/Test", "Entities", "Native types", "Tok./sent.", "Tok./entity", "Use"),
-        rows, "T1. Entity counts and mean lengths are measured on test splits. Load booktabs.",
+        rows, "Entity counts and mean lengths are measured on test splits.",
     )
 
 
@@ -82,7 +82,7 @@ def parameter_table():
     rows.append(("M2 window", "Three datasets", "Paired train CV", r"$\pm1$ vs. $\pm2$", r"$" + "/".join(rf"\pm{k}" for k in windows) + "$"))
     return table(
         "lllll", ("Method", "Dataset", "Selection", "Candidates", "Selected / higher"), rows,
-        "T2, member A. Five folds for all CV rows. Official test results use +/-1. See the CV reports for every candidate pair. Load booktabs.",
+        "Five folds for all cross-validation rows. The test results use a window of one word on each side.",
     )
 
 
@@ -95,9 +95,9 @@ def ensemble_table():
     change = group["f1_delta_vs_best_pp"]
     low, high = group["paired_f1_delta_ci95_pp"]
     return table("lrrr", ("Method", "P (\\%)", "R (\\%)", "F1 (\\%)"), rows,
-                 f"T4, member A. CoNLL-2003 test subset ({report['scored_records']} sentences). "
+                 f"CoNLL-2003 test subset ({report['scored_records']} sentences). "
                  f"Majority minus {group['best_constituent']['model']}: {change:+.2f} pp "
-                 f"(paired 95% CI: {low:+.2f}, {high:+.2f}). Load booktabs.")
+                 f"(paired 95% CI: {low:+.2f}, {high:+.2f}).")
 
 
 def main():

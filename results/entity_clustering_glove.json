@@ -26,7 +26,6 @@
     "random_state": 42,
     "normalization": "none"
   },
-  "misc_review": "MISC subclusters use cluster sizes and span assignments for manual interpretation.",
   "representations": {
     "glove": {
       "input": "data/external/glove/glove.6B.100d.txt",

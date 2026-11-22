@@ -2,7 +2,6 @@
 
 import argparse
 import json
-from pathlib import Path
 
 import matplotlib
 
@@ -13,13 +12,12 @@ import numpy as np
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
-from analysis.data_exploration import DATASETS, ROOT
+from analysis.data_exploration import ROOT
 from analysis.style import DATASET, ENTITY, METHOD, TEXT_WIDTH, setup
 
 
 RESULTS = ROOT / "results"
 OUTPUT = ROOT / "report" / "figures"
-METHODS = ("m0", "m1", "m2")
 TEAM_METHODS = ("M0", "M1", "M2", "M3", "M4", "Span", "GLiNER", "LLM-zero", "LLM", "LoRA-LLM")
 TEAM_LABELS = {
     "M0": "M0 Dictionary", "M1": "M1 LogReg", "M2": "M2 CRF", "M3": "M3 BiLSTM-CRF",
@@ -45,17 +43,11 @@ def panel(ax, letter):
     ax.text(0, 1.02, f"({letter})", transform=ax.transAxes, ha="left", va="bottom", fontweight="bold")
 
 
-def interval(ax, x, low, high):
-    ax.errorbar(x, (low + high) / 2, yerr=(high - low) / 2, fmt="none",
-                ecolor="#444444", linewidth=0.7, capsize=2, zorder=3)
-
-
 EDGE = {"edgecolor": "#444444", "linewidth": 0.5}
 
 
 def save(figure, name):
-    for extension in ("pdf", "png"):
-        figure.savefig(OUTPUT / f"{name}.{extension}")
+    figure.savefig(OUTPUT / f"{name}.pdf")
     plt.close(figure)
     print(OUTPUT / f"{name}.pdf")
 

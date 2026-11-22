@@ -1,4 +1,4 @@
-"""Compare explicit G2 features on three native tests and CoNLL-to-BTC."""
+"""Remove the word-shape features (group G2) on three in-domain test sets and on CoNLL-2003 to BTC."""
 
 import json
 from functools import partial

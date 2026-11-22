@@ -1,4 +1,4 @@
-"""Run CoNLL-2003 CRF tuning through its final grid search in one command."""
+"""Select the CRF regularization on CoNLL-2003 by 5-fold cross-validation."""
 
 import argparse
 import json
@@ -23,7 +23,7 @@ def run_stage(module, *options):
 
 
 def restore_validation_answer(answer, report_path):
-    """Recreate an omitted answer from its saved tuning result without rerunning CV."""
+    """Write the validation predictions of a saved setting without repeating the cross-validation."""
     if answer.is_file():
         return
     report = json.loads(report_path.read_text(encoding="utf-8"))

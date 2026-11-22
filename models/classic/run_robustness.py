@@ -1,4 +1,4 @@
-"""Compare M0–M2 on fixed paired entity replacements and text perturbations."""
+"""Compare M0 to M2 on fixed paired entity replacements and text perturbations."""
 
 import argparse
 import json

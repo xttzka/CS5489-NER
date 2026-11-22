@@ -1,4 +1,4 @@
-"""Train M0/M1 once and compare M0–M2 on both complete news test splits."""
+"""Train M0/M1 once and compare M0 to M2 on both complete news test splits."""
 
 import json
 from pathlib import Path

@@ -18,7 +18,7 @@ All commands run from the repository root with Python 3.11.
 | `results/` | Scores of every experiment. `A.csv`, `B.csv` and `C.csv` hold all of them in one schema |
 | `report/` | Figures and LaTeX tables generated from `results/` |
 
-Datasets and model weights are created locally under `data/` and `output/`. C's delivered predictions are included under `preds/`. B's delivered predictions are available in the `b-ner-delivery` branch and can be restored by the team analysis command below. Classic predictions are regenerated from the CPU scripts.
+Datasets, model weights and prediction files are not part of the repository. The commands below create them under `data/`, `output/` and `preds/`.
 
 ## 2. Environments
 
@@ -65,8 +65,10 @@ Two experiments need extra resources.
 
 | Resource | Place at | Source |
 |---|---|---|
-| GloVe 6B, 100 dimensions | `data/external/glove/glove.6B.100d.txt` | <https://huggingface.co/stanfordnlp/glove/blob/main/glove.6B.zip> |
+| GloVe 6B, 100 dimensions | `data/external/glove/glove.6B.100d.txt`, extracted from `glove.6B.zip` | <https://huggingface.co/stanfordnlp/glove/blob/main/glove.6B.zip> |
 | GeoNames cities and countries | `data/external/gazetteers/cities15000.zip`, `countryInfo.txt` | <https://download.geonames.org/export/dump/> |
+
+GeoNames updates its files daily. The reported gazetteer results use the download of 10 November 2026, and a later download can change them slightly.
 
 ### What the preparation writes
 
@@ -89,7 +91,7 @@ Every extractor writes `preds/<dataset>/<method>/<seed>.jsonl` with one line per
 {"sample_id": "conll2003:test:0", "tags": ["O", "B-LOC", "O"]}
 ```
 
-An entity counts as correct when its span and its type both match the gold annotation.
+An entity counts as correct when its span and its type both match the gold annotation. The examples below score predictions that section 5 writes.
 
 ```bash
 # Exact-match precision, recall and F1. Add --subset-ids for the fixed 300 sentences.
@@ -98,8 +100,8 @@ python -B -m eval.score_ner --gold data/processed/conll2003/test.jsonl --pred pr
 python -B -m eval.score_transfer --gold data/processed/wnut17/test.jsonl --pred preds/wnut17/m2_pos_transfer/0.jsonl --target-dataset wnut17 --prediction-schema conll2003
 # Seen and unseen entities
 python -B -m eval.score_familiarity --dataset conllpp --pred preds/conllpp/m1_temporal/0.jsonl
-# Error types: missed, spurious, boundary, type
-python -B -m eval.analyze_ner_errors --gold data/processed/conll2003/test.jsonl --pred preds/conll2003/m2_baseline/0.jsonl --output-dir results/error_analysis/conll2003_m2_rerun
+# Error types: missed, spurious, boundary, type, boundary and type
+python -B -m eval.analyze_ner_errors --gold data/processed/conll2003/test.jsonl --pred preds/conll2003/m2_baseline/0.jsonl --output-dir results/error_analysis/conll2003_m2
 ```
 
 ## 5. Classic models
@@ -138,6 +140,8 @@ python -B -m eval.ensemble_ner --gold data/processed/conll2003/test.jsonl --subs
   --group classical=M0,M1,M2 --output results/m0_m2_ensemble.json
 python -B -m eval.result_tables export-a             # results/A.csv
 ```
+
+`tune_crf` and `m2_feature_ablation` reuse the cross-validation scores saved in `results/m2_cv*.json` and `results/m2_feature_ablation.json` when the training data, the code and the library versions of `requirements.txt` are unchanged. Delete these files to run the cross-validation again. Logistic regression scores can differ by about 0.1 F1 between platforms.
 
 ## 6. Neural models
 
@@ -244,55 +248,47 @@ python -B -m models.llm.summarize     # results/C.csv
 
 ## 8. Figures and tables
 
-Environment: `requirements.txt`. The scripts read `results/` and write `report/figures/` and `report/tables/`. The figures use the Times New Roman font.
+Environment: `requirements.txt`. The scripts read `results/` and write `report/figures/` and `report/tables/`. The figures use Times New Roman when it is installed.
 
 ```bash
 python -B -m analysis.data_exploration
 python -B -m analysis.make_figures        # F1, F3a, F5, F6b, F7
 python -B -m analysis.make_figures_c      # F8, F9
-python -B -m analysis.make_tables         # T1, T2, T4 voting
+python -B -m analysis.make_tables         # T1, T2, voting of the classic models
 python -B -m analysis.make_tables_c       # zero-shot, label budget, wording, robustness, LoRA, distillation
-python -B -m analysis.make_tables_team    # T3 for all methods
+python -B -m analysis.make_tables_team    # T3, T4 and T5 for all methods
 # plot_scores and plot_entity need a new output path, so remove the old PDF first
 python -B -m models.neural.plot_scores f2  --csv results/A.csv results/B.csv --output report/figures/f2.pdf
 python -B -m models.neural.plot_scores f3b --csv results/B.csv --output report/figures/f3b.pdf
 python -B -m models.neural.plot_scores f6a --csv results/B.csv --output report/figures/f6a.pdf
 ```
 
-### Voting, error overlap, T5 and all-method F5/F7
+### All extractors together
 
-This integration uses `main` at commit `b74eaa8`, including C's added LoRA replacement and perturbation answers, and B's delivered answers at `dc7c624`. Classic-model configurations are unchanged from `4560650`. The CPU scorer records the paths and SHA-256 hashes it actually reads. Prepare the data as in section 3. If the classic answers are absent, generate them with the existing scripts:
-
-```bash
-python -B -m models.classic.run_baselines --jobs 1
-python -B -m models.classic.m2_pos_transfer
-python -B -m models.classic.run_temporal_baselines
-python -B -m models.classic.run_robustness --replacement-version v2
-python -B -m eval.result_tables export-a
-```
-
-Fetch B's branch once, then run the shared scoring and report steps:
+`analysis.team_results` scores the ten extractors on the same sentences and writes `results/team_analysis.json`, which F5, F7, T4 and T5 read. It runs on CPU from prediction files and loads no model.
 
 ```bash
-git fetch origin
 python -B -m analysis.team_results
-python -B -m analysis.make_figures
-python -B -m analysis.make_tables_team --include-analysis
 ```
 
-`analysis.team_results` restores required missing B answers from the pinned Git revision. The branch must have been fetched before running it. It computes all scores from the gold data and predictions without loading neural or language-model weights. Results are written to `results/team_analysis.json`. T5's measured cells and annotation/adaptation descriptions are also saved in `results/team_method_comparison.json`.
+It reads `preds/<dataset>/<method>_<scope>/0.jsonl`, where the scope is `full`, `lowercase_v1`, `spelling_noise_v1`, `no_punctuation_v1`, `replacement_original_v2` or `replacement_replaced_v2` on `conll2003`, and `test_300` on `conllpp`.
 
-F5(a) uses the full 3,453-sentence CoNLL-2003 test, and F5(b) uses the same 500 replacement pairs for all ten methods, including LoRA. F5(c) restricts every method to the same 300 fixed sentences in each news dataset, because C supplies CoNLL++ at that scope. F5(d) retains the CRF feature experiments. F7 compares all ten methods on the same complete original and perturbed test sets. Seen/unseen refers to names in the labelled CoNLL-2003 training set, including when scoring pretrained models. All drawn intervals use 1,000 sentence-bootstrap resamples and the paired deltas resample the same sentence IDs in both conditions.
+| Extractors | Method names | Written by |
+|---|---|---|
+| Dictionary, logistic regression, CRF | paths recorded in `results/m0_m2_*.json` | `run_baselines`, `run_temporal_baselines` and `run_robustness` of section 5 |
+| BiLSTM-CRF, BERT, span classifier (seed 0) | `bilstm`, `bert`, `span` | `models.neural.predict_neural` of section 6, with `--input` set to the test file or to a file under `data/derived/` |
+| GLiNER, Qwen2.5-7B, LoRA | `gliner`, `qwen7b_k0_plain`, `qwen7b_k10_similar_plain`, `lora1.5b_k0_plain` | `models.llm` of section 7 |
 
-The replacement comparison uses each method's delivered paired-original answer file. In particular, C's new LoRA paired-original file differs from its earlier full-test answer on two of the 500 sentences. The changed IDs are recorded in `replacement.lora_paired_original_vs_full_changed_ids`; the cause is not established by the delivery metadata. The original/replaced pair uses the new paired files consistently. The scorer checks that all five new LoRA reports use the same adapter and extraction settings as the full-original report.
+- **Seen and unseen entities (F5a):** the full CoNLL-2003 test set. An entity is seen when its words occur as a gold entity in the CoNLL-2003 training split.
+- **Entity replacement (F5b):** the 500 sentence pairs of `data/derived/entity_replacement/`.
+- **CoNLL-2003 against CoNLL++ (F5c):** the fixed 300 sentences of each.
+- **Edited test sets (F7):** the full CoNLL-2003 test set and its three edited copies.
+- **Voting (T4):** four groups of three extractors. A vote keeps an entity that at least two members return with the same span and type. The change is measured against the best member.
+- **Error overlap (T4):** the Jaccard index of the missed and spurious entities of every pair of extractors.
 
-The four three-model voting groups are fixed in the scorer. They compare classical, neural and two cross-paradigm combinations using seed 0 for neural methods. Every group is reported. The best observed constituent is a descriptive reference for the group's F1 difference. Error overlap uses exact typed spans keyed by sentence ID and reports missed, spurious and combined Jaccard values for every model pair.
+Intervals use 1,000 sentence-bootstrap resamples, and paired differences resample the same sentences in both conditions.
 
-The full-test M1 answers reconstructed on this machine differ slightly from the older committed score reports despite the same selected settings. The regenerated `A.csv`, team scores and tables use the reconstructed answers consistently, with environment details recorded in `team_analysis.json`. This integration uses `main`'s selected classic configurations.
-
-The table outputs are `report/tables/t4_team.tex` and `report/tables/t5.tex`. T5 records the evaluation scope, label requirements and adaptation needed for new types. Cost measurements and human annotation judgments were removed in the current project scope and are omitted from this matrix.
-
-F4 compares entity vectors of GloVe, pretrained BERT and fine-tuned BERT, and needs a trained BERT tagger.
+The entity vector figure F4 needs the trained BERT tagger:
 
 ```bash
 python -B -m models.neural.export_bert_entities --input data/processed/conll2003/validation.jsonl \
@@ -307,7 +303,9 @@ python -B -m models.neural.plot_entity --gold data/processed/conll2003/validatio
 
 ## 9. Entity extraction from raw text
 
-`scripts/predict.py` returns the entities of a sentence with their type and character span. `m2` is the CRF and is fitted on each call. `m4` is the fine-tuned BERT tagger, the main extractor of the project, and needs one training run first.
+Environment: `requirements.txt`, and `requirements-neural.txt` for `m4`.
+
+`scripts/predict.py` returns the entities of a sentence with their type and character span, where the start is counted from 0 and the end is excluded. `m2` is the CRF and is fitted on each call; `m0` and `m1` select the dictionary and logistic regression. `m4` is the fine-tuned BERT tagger, the main extractor of the project, and needs one training run first. `--checkpoint` points it to another training output directory.
 
 ```bash
 python -B -m scripts.predict --model m2 --text "John Smith visited London." --pos-python $POS
