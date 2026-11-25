@@ -59,27 +59,27 @@ def dataset_table(report):
 def parameter_table():
     conll, native, controls = (read(name) for name in ("m2_cv_grid", "m2_native_cv", "m2_cv_controls"))
     baselines = read("m0_m2_baselines")["groups"]
-    rows = [("M0", "All", "Fixed rule", "Exact, longest match", "--")]
+    rows = [("Dictionary", "All", "Nothing to select", "--", "--")]
     for key, dataset in (("conll2003", "CoNLL-2003"), ("wnut17", "WNUT-17"), ("mit_restaurant", "MIT Restaurant")):
         model = baselines[key]["m1"]
         values = ",".join(f"{candidate['c']:g}" for candidate in model["selection"]["candidates"])
-        rows.append(("M1", dataset, "Source validation F1", rf"$C\in\{{{values}\}}$", rf"$C={model['c']:g}$"))
+        rows.append(("Logistic regression", dataset, "Validation F1", rf"$C\in\{{{values}\}}$", rf"$C={model['c']:g}$"))
     datasets = (
-        ("CoNLL-2003", conll, "Document-grouped CV"),
-        ("WNUT-17", native["datasets"]["wnut17"], "Contiguous block CV"),
-        ("MIT Restaurant", native["datasets"]["mit_restaurant"], "Contiguous block CV"),
+        ("CoNLL-2003", conll, "CV, folds by document"),
+        ("WNUT-17", native["datasets"]["wnut17"], "CV, contiguous folds"),
+        ("MIT Restaurant", native["datasets"]["mit_restaurant"], "CV, contiguous folds"),
     )
     for dataset, report, split in datasets:
         values = report["best_parameters"]
         candidates = report["candidates"] + report.get("historical_outside_grid", [])
         c1, c2 = ([candidate[key] for candidate in candidates] for key in ("c1", "c2"))
         ranges = rf"$c_1\in[{min(c1):g},{max(c1):g}],\ c_2\in[{min(c2):g},{max(c2):g}]$"
-        rows.append(("M2", dataset, split, shortstack(f"{len(candidates)} pairs", ranges), rf"$({values['c1']:g},{values['c2']:g})$"))
+        rows.append(("CRF", dataset, split, shortstack(f"{len(candidates)} pairs", ranges), rf"$({values['c1']:g},{values['c2']:g})$"))
     check = read("m2_pos_cv_check")
-    rows.insert(5, ("M2", "CoNLL-2003", "Same grid, shared POS", f"{len(check['candidates'])} pairs",
+    rows.insert(5, ("CRF", "CoNLL-2003", "Same grid, spaCy tags", f"{len(check['candidates'])} pairs",
                     rf"{100 * check['official_mean_f1']:.2f} vs. best {100 * check['best_mean_f1']:.2f}"))
     windows = [controls["higher_mean_window"], *(row["higher_mean_window"] for row in controls["native_windows"]["datasets"].values())]
-    rows.append(("M2 window", "Three datasets", "Paired train CV", r"$\pm1$ vs. $\pm2$", r"$" + "/".join(rf"\pm{k}" for k in windows) + "$"))
+    rows.append(("CRF window", "Three datasets", "CV on the training split", r"$\pm1$ vs. $\pm2$", r"$" + "/".join(rf"\pm{k}" for k in windows) + "$"))
     return table(
         "lllll", ("Method", "Dataset", "Selection", "Candidates", "Selected / higher"), rows,
         "Five folds for all cross-validation rows. The test results use a window of one word on each side.",
