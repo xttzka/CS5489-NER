@@ -1,6 +1,6 @@
 % Five folds for all cross-validation rows. The test results use a window of one word on each side.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lllll@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
 \toprule
 Method & Dataset & Selection & Candidates & Selected / higher \\
 \midrule
@@ -14,5 +14,5 @@ CRF & WNUT-17 & CV, contiguous folds & \shortstack[l]{5 pairs \\ $c_1\in[0.0001,
 CRF & MIT Restaurant & CV, contiguous folds & \shortstack[l]{5 pairs \\ $c_1\in[0.0001,0.1],\ c_2\in[0.1,0.5]$} & $(0.01,0.5)$ \\
 CRF window & Three datasets & CV on the training split & $\pm1$ vs. $\pm2$ & $\pm2/\pm1/\pm1$ \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup

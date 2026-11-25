@@ -1,6 +1,6 @@
 % Entity precision, recall and F1 (%) of each extractor and of four majority votes on the full CoNLL-03 test set. Neural methods show seed 0. A vote keeps an entity that at least two of its three members return with the same span and type. Change is the F1 difference in points from the best member, with a paired sentence-bootstrap 95% interval.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}llrrrr@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrrrr@{}}
 \toprule
 Method & Members & P & R & F1 & Change [95\% interval] \\
 \midrule
@@ -19,12 +19,12 @@ Neural vote & BiLSTM, BERT, Span & 92.8 & 91.7 & 92.3 & +1.7 [+1.2, +2.1] \\
 CRF + BERT + LLM vote & CRF, BERT, Q10 & 94.4 & 90.5 & 92.4 & +1.8 [+1.3, +2.3] \\
 BiLSTM + BERT + LLM vote & BiLSTM, BERT, Q10 & 94.1 & 92.3 & 93.2 & +2.6 [+2.1, +3.1] \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup
 \par\medskip
 % Overlap of the errors of two extractors on the full CoNLL-03 test set: the Jaccard index of their sets of missed and spurious entities. Q0 is zero-shot Qwen2.5-7B and Q10 with 10 retrieved examples.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrr@{}}
 \toprule
  & Dict. & LR & CRF & BiLSTM & BERT & Span & GLiNER & Q0 & Q10 & LoRA \\
 \midrule
@@ -39,5 +39,5 @@ Q0 & 0.15 & 0.09 & 0.12 & 0.10 & 0.09 & 0.10 & 0.31 &  &  &  \\
 Q10 & 0.11 & 0.11 & 0.16 & 0.20 & 0.20 & 0.21 & 0.16 & 0.19 &  &  \\
 LoRA & 0.11 & 0.12 & 0.19 & 0.25 & 0.26 & 0.27 & 0.14 & 0.16 & 0.25 &  \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup

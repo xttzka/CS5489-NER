@@ -17,13 +17,13 @@ def table(columns, headers, rows, note):
     return "\n".join([
         "% " + note,
         r"\begingroup\small\setlength{\tabcolsep}{3pt}",
-        rf"\begin{{tabular}}{{@{{}}{columns}@{{}}}}",
+        rf"\begin{{tabular*}}{{\linewidth}}{{@{{\extracolsep{{\fill}}}}{columns}@{{}}}}",
         r"\toprule",
         " & ".join(headers) + r" \\",
         r"\midrule",
         *(" & ".join(row) + r" \\" for row in rows),
         r"\bottomrule",
-        r"\end{tabular}",
+        r"\end{tabular*}",
         r"\endgroup",
         "",
     ])

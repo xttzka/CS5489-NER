@@ -1,6 +1,6 @@
 % Entity counts and mean lengths are measured on test splits.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lrrlrrl@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrlrrl@{}}
 \toprule
 Dataset / text & Train/Dev/Test & Entities & Native types & Tok./sent. & Tok./entity & Use \\
 \midrule
@@ -11,5 +11,5 @@ Dataset / text & Train/Dev/Test & Entities & Native types & Tok./sent. & Tok./en
 \shortstack[l]{WikiGold \\ Wikipedia} & --/--/1,696 & 3,558 & \shortstack[l]{LOC, MISC, ORG, PER} & 23.00 & 1.81 & Transfer test \\
 \shortstack[l]{BTC \\ Tweets} & --/--/2,000 & 4,376 & \shortstack[l]{LOC, ORG, PER} & 17.75 & 1.17 & Transfer test \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup

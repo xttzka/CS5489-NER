@@ -1,6 +1,6 @@
 % Entity F1 (%) on the full CoNLL-03 test set and on the fixed 300-sentence subsets of the other datasets. BiLSTM-CRF, BERT and the span classifier show seed 0 on CoNLL-03 and the mean of 3 seeds on the subsets. BTC uses the person, location and organization types and the extractors trained on CoNLL-03. A dash marks a test set the extractor was not evaluated on.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr@{}}
 \toprule
 Method & \shortstack[l]{CoNLL-03 \\ full} & \shortstack[l]{WNUT-17 \\ 300} & \shortstack[l]{MIT \\ 300} & \shortstack[l]{BTC \\ 300} \\
 \midrule
@@ -19,12 +19,12 @@ BERT trained on LLM labels & -- & -- & 33.1 & -- \\
 CRF + BERT + LLM vote & 92.4 & -- & -- & -- \\
 BiLSTM + BERT + LLM vote & 93.2 & -- & -- & -- \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup
 \par\medskip
 % The labelled data each extractor needs and how it decides. Only the extractors that read type descriptions accept a new entity type without new training.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.25\linewidth}p{0.30\linewidth}p{0.38\linewidth}@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.22\linewidth}p{0.27\linewidth}p{0.47\linewidth}@{}}
 \toprule
 Method & Labelled data it needs & How it decides \\
 \midrule
@@ -41,5 +41,5 @@ Qwen2.5-1.5B with LoRA & 10\% of the CoNLL-03 training split & Generates the ent
 BERT trained on LLM labels & 2,000 sentences labelled by the LLM & BERT tagger with the label set of its training data \\
 Voting & The data of its three members & Keeps an entity that at least two members return \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup

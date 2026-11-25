@@ -182,7 +182,7 @@ def method_comparison_table(methods):
         ("Voting", "The data of its three members", "Keeps an entity that at least two members return"),
     )
     return measured + "\\par\\medskip\n" + table(
-        r"p{0.25\linewidth}p{0.30\linewidth}p{0.38\linewidth}",
+        r"p{0.22\linewidth}p{0.27\linewidth}p{0.47\linewidth}",
         ("Method", "Labelled data it needs", "How it decides"), properties,
         "The labelled data each extractor needs and how it decides. Only the extractors that read type "
         "descriptions accept a new entity type without new training.",

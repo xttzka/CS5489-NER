@@ -1,6 +1,6 @@
 % Entity F1 (%) on the fixed 300-sentence test subsets. BiLSTM-CRF, BERT and the span classifier show the mean of 3 seeds. Supervised extractors train on CoNLL-03 for the first four datasets and on each dataset's own training split for the last two. BTC uses the person, location and organization types. A dash marks a test set whose types the extractor was not trained to output.
 \begingroup\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}llrrrrrr@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrrrrrr@{}}
 \toprule
 Method & Labelled sentences & CoNLL-03 & CoNLL++ & WikiGold & BTC & WNUT-17 & MIT Rest. \\
 \midrule
@@ -16,5 +16,5 @@ GLiNER & None & 59.2 & 68.4 & 62.6 & 50.9 & 45.4 & 28.5 \\
 Qwen2.5-1.5B & None & 43.7 & 46.7 & 50.4 & 39.9 & 28.6 & 34.9 \\
 Qwen2.5-7B & None & 64.0 & 74.8 & 71.5 & 47.4 & 51.5 & 39.1 \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \endgroup
