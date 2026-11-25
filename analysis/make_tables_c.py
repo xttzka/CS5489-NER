@@ -57,7 +57,7 @@ def pool_table():
         rows.append((DATASETS[dataset], *cells, llm(BEST, dataset)))
     return table("lrrrrrr", ("Dataset", "0", *(label for _, _, label in sizes), "100\\%"), rows,
                  "Entity F1 (%) of Qwen2.5-7B on the fixed 300-sentence test subsets by the number of "
-                 "labelled training sentences available as examples. Column 0 uses no examples. The other columns "
+                 "labelled training sentences available as examples. Column 0 is zero-shot. The other columns "
                  "retrieve 10 examples per sentence from the pool. 50 and 100 show mean and SD over 3 pools.")
 
 
@@ -77,7 +77,7 @@ def distill_table():
                         .read_text(encoding="utf-8"))["scores"]
     keys = dict(experiment="distill", dataset="mit_restaurant", scope="test_300")
     rows = [
-        ("7B LLM, no examples", "--", llm("qwen7b_k0_plain", "mit_restaurant")),
+        ("7B LLM, zero-shot", "--", llm("qwen7b_k0_plain", "mit_restaurant")),
         ("BERT on the LLM's labels", f"{100 * labels['f1']:.1f}", team_f1(condition="pseudo", **keys)),
         ("BERT on gold labels", "100.0", team_f1(condition="gold", **keys)),
     ]
@@ -89,7 +89,7 @@ def distill_table():
 def lora_table():
     targets = (("conll2003", ""), ("conllpp", ""), ("wikigold", ""), ("btc", "_as_conll2003"), ("wnut17", "_as_conll2003"))
     rows = [
-        ("Qwen2.5-1.5B prompt, no examples", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
+        ("Qwen2.5-1.5B prompt, zero-shot", *(llm(f"qwen1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
         ("Qwen2.5-1.5B LoRA, 10\\% CoNLL-03", *(llm(f"lora1.5b_k0_plain{suffix}", dataset) for dataset, suffix in targets)),
         ("BERT, 10\\% CoNLL-03", *(team_f1(experiment="lora_match", dataset=dataset, scope="test_300")
                                     for dataset, _ in targets)),
@@ -107,7 +107,7 @@ def robustness_table():
     )
     rows = [
         ("GLiNER", *(f1(f"gliner_conll2003_test_{scope}") for scope, _, _ in scopes)),
-        ("Qwen2.5-7B, no examples", *(llm("qwen7b_k0_plain", "conll2003", scope, split) for scope, split, _ in scopes)),
+        ("Qwen2.5-7B, zero-shot", *(llm("qwen7b_k0_plain", "conll2003", scope, split) for scope, split, _ in scopes)),
         ("Qwen2.5-7B, 10 retrieved", *(llm(BEST, "conll2003", scope, split) for scope, split, _ in scopes)),
         ("Qwen2.5-1.5B, LoRA", *(llm("lora1.5b_k0_plain", "conll2003", scope, split) for scope, split, _ in scopes)),
     ]
@@ -119,7 +119,7 @@ def robustness_table():
 def wording_table():
     """Mean and SD of F1 over three equivalent phrasings of the instructions."""
     rows = []
-    for label, method in (("No examples", "qwen7b_k0_plain"), ("10 retrieved examples", BEST)):
+    for label, method in (("Zero-shot", "qwen7b_k0_plain"), ("10 retrieved examples", BEST)):
         cells = []
         for dataset in ("conll2003", "wnut17", "mit_restaurant"):
             values = []

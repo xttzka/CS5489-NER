@@ -122,7 +122,7 @@ COMPARISON_COLUMNS = (
 SHORT_METHOD = {
     "M0": "Dictionary", "M1": "Logistic regression", "M2": "CRF", "M3": "BiLSTM-CRF",
     "M4": "BERT", "Span": "Span classifier", "GLiNER": "GLiNER", "LLM": "Qwen2.5-7B, 10 retrieved",
-    "LLM-zero": "Qwen2.5-7B, no examples", "LoRA-LLM": "Qwen2.5-1.5B with LoRA",
+    "LLM-zero": "Qwen2.5-7B, zero-shot", "LoRA-LLM": "Qwen2.5-1.5B with LoRA",
 }
 SHORT_NAMES = {"M0": "Dict.", "M1": "LR", "M2": "CRF", "M3": "BiLSTM", "M4": "BERT", "Span": "Span",
                "GLiNER": "GLiNER", "LLM-zero": "Q0", "LLM": "Q10", "LoRA-LLM": "LoRA"}
@@ -138,8 +138,8 @@ def comparison_rows(rows, team):
     for _, member, method, condition, _ in METHODS:
         name = SHORT_METHOD.get(method, method)
         if method == "LLM":
-            name = {"standard": "Qwen2.5-7B, 10 retrieved", "1.5b,k0": "Qwen2.5-1.5B, no examples",
-                    "7b,k0": "Qwen2.5-7B, no examples"}[condition]
+            name = {"standard": "Qwen2.5-7B, 10 retrieved", "1.5b,k0": "Qwen2.5-1.5B, zero-shot",
+                    "7b,k0": "Qwen2.5-7B, zero-shot"}[condition]
         cells = []
         for dataset, scope, _ in COMPARISON_COLUMNS:
             # Seed 0 on the full test set, as in the full-test table; the mean of the seeds on the fixed subsets.
@@ -175,7 +175,7 @@ def method_comparison_table(methods):
         ("BERT", "Labelled training split", "Word classification over fine-tuned contextual vectors"),
         ("Span classifier", "Labelled training split", "Classifies whole spans over fine-tuned contextual vectors"),
         ("GLiNER", "Type descriptions", "Scores spans against the type descriptions it is given"),
-        ("Qwen2.5, no examples", "Type descriptions", "Generates a JSON list of entities for the types it is given"),
+        ("Qwen2.5, zero-shot", "Type descriptions", "Generates a JSON list of entities for the types it is given"),
         ("Qwen2.5-7B, 10 retrieved", "Labelled sentences to retrieve from", "Adds 10 retrieved examples to the prompt"),
         ("Qwen2.5-1.5B with LoRA", "10\\% of the CoNLL-03 training split", "Generates the entity list after adapter training"),
         ("BERT trained on LLM labels", "2,000 sentences labelled by the LLM", "BERT tagger with the label set of its training data"),
@@ -198,11 +198,11 @@ def ensemble_table(team):
         low, high = group["paired_f1_delta_ci95_pp"]
         scores = group["scores"]
         label = GROUP_LABELS.get(name, name)
-        rows.append((shortstack(*label.split(" + ")) if " + " in label else label,
+        rows.append((label + " vote",
                      ", ".join(SHORT_NAMES[member] for member in group["members"]), f"{100 * scores['precision']:.1f}",
                      f"{100 * scores['recall']:.1f}", f"{100 * scores['f1']:.1f}",
-                     shortstack(f"{group['f1_delta_vs_best_pp']:+.1f}", f"{{[{low:+.1f}, {high:+.1f}]}}")))
-    result = table("llrrrr", ("Method", "Members", "P", "R", "F1", shortstack("Change", "{[95\\% interval]}")),
+                     f"{group['f1_delta_vs_best_pp']:+.1f} [{low:+.1f}, {high:+.1f}]"))
+    result = table("llrrrr", ("Method", "Members", "P", "R", "F1", "Change [95\\% interval]"),
                    rows, "Entity precision, recall and F1 (%) of each extractor and of four majority votes on the full "
                    "CoNLL-03 test set. Neural methods show seed 0. A vote keeps an entity that at least two of its three "
                    "members return with the same span and type. Change is the F1 difference in points from the best "
@@ -221,7 +221,7 @@ def ensemble_table(team):
     result += "\\par\\medskip\n" + table("l" + "r" * len(methods),
         ("", *(SHORT_NAMES[method] for method in methods)), matrix,
         "Overlap of the errors of two extractors on the full CoNLL-03 test set: the Jaccard index of their sets of "
-        "missed and spurious entities. Q0 is Qwen2.5-7B with no examples and Q10 with 10 retrieved examples.")
+        "missed and spurious entities. Q0 is zero-shot Qwen2.5-7B and Q10 with 10 retrieved examples.")
     return result
 
 

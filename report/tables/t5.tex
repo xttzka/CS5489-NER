@@ -13,8 +13,8 @@ Span classifier & 90.4 & 51.0 & 79.2 & 36.3 \\
 Qwen2.5-1.5B with LoRA & 87.9 & -- & -- & 35.5 \\
 Qwen2.5-7B, 10 retrieved & 86.3 & 54.8 & 71.0 & 55.9 \\
 GLiNER & 62.6 & 45.4 & 28.5 & 50.9 \\
-Qwen2.5-1.5B, no examples & -- & 28.6 & 34.9 & 39.9 \\
-Qwen2.5-7B, no examples & 67.9 & 51.5 & 39.1 & 47.4 \\
+Qwen2.5-1.5B, zero-shot & -- & 28.6 & 34.9 & 39.9 \\
+Qwen2.5-7B, zero-shot & 67.9 & 51.5 & 39.1 & 47.4 \\
 BERT trained on LLM labels & -- & -- & 33.1 & -- \\
 CRF + BERT + LLM vote & 92.4 & -- & -- & -- \\
 BiLSTM + BERT + LLM vote & 93.2 & -- & -- & -- \\
@@ -35,7 +35,7 @@ BiLSTM-CRF & Labelled training split & Sequence decoding over GloVe and characte
 BERT & Labelled training split & Word classification over fine-tuned contextual vectors \\
 Span classifier & Labelled training split & Classifies whole spans over fine-tuned contextual vectors \\
 GLiNER & Type descriptions & Scores spans against the type descriptions it is given \\
-Qwen2.5, no examples & Type descriptions & Generates a JSON list of entities for the types it is given \\
+Qwen2.5, zero-shot & Type descriptions & Generates a JSON list of entities for the types it is given \\
 Qwen2.5-7B, 10 retrieved & Labelled sentences to retrieve from & Adds 10 retrieved examples to the prompt \\
 Qwen2.5-1.5B with LoRA & 10\% of the CoNLL-03 training split & Generates the entity list after adapter training \\
 BERT trained on LLM labels & 2,000 sentences labelled by the LLM & BERT tagger with the label set of its training data \\
